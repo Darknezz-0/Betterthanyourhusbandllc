@@ -1,6 +1,6 @@
-# [Project name]
+# Better Than Your Husband Services
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Premium responsive marketing website for Better Than Your Husband Services LLC, a local handyman and property services company serving the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.
 
 ## Run & Operate
 
@@ -22,23 +22,34 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/better-than-your-husband-services/src/App.tsx` — shared shell, routes, page composition, quote form, and legal page content
+- `artifacts/better-than-your-husband-services/src/lib/business.ts` — centralized business facts and future contact destinations
+- `artifacts/better-than-your-husband-services/src/index.css` — color tokens, typography, and shared visual utilities
+- `artifacts/better-than-your-husband-services/public/assets/logo.svg` — replaceable temporary logo asset
+- `artifacts/better-than-your-husband-services/public/assets/hero-craftsmanship.jpg` — self-contained hero image asset
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The public site is presentation-first and uses Wouter routes with a shared header, footer, metadata helper, and reusable CTA/field primitives.
+- Business information is kept in one module so phone, ownership, service area, payment language, and future email/Facebook values can be updated without hunting through page markup.
+- The quote form intentionally does not claim to submit a request while the business has not provided a receiving email or inbox. It validates the draft, supports multiple photo selection, and gives a clear phone handoff.
+- The logo is a swappable asset with a text fallback so a final brand mark can replace the placeholder without changing header or footer layout.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Multi-page premium marketing site for home repairs, outdoor projects, cleanups, pressure washing, exterior maintenance, installations, flooring/finish work, realtor/property services, and custom projects.
+- Responsive navigation and mobile menu, phone-first contact flow, quote-request form, service-area messaging, and legal-information page layouts.
+- No checkout, deposit collection, or unsupported credentials are presented.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Luxury, high-end visual identity using near-black, deep charcoal, metallic gold, warm ivory, and clean white.
+- Do not invent licenses, certifications, awards, reviews, testimonials, customer counts, years of experience, or contact destinations.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- The artifact build expects `PORT` and `BASE_PATH` from its managed workflow; standalone verification should provide both values.
+- The final email address and Facebook URL are intentionally blank in `src/lib/business.ts` until the business supplies them.
 
 ## Pointers
 

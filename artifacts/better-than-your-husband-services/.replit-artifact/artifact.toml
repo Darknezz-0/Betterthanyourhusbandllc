@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Better Than Your Husband Services"
+description = "A premium, responsive website for Better Than Your Husband Services LLC, a local handyman and property services company serving the Kansas City metropolitan area and surrounding communities in Missouri and Kansas."
+version = "1.0.0"
+id = "artifacts/better-than-your-husband-services"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25056
+
+[services.development]
+run = "pnpm --filter @workspace/better-than-your-husband-services run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/better-than-your-husband-services", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/better-than-your-husband-services/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25056"
+BASE_PATH = "/"
