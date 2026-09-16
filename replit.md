@@ -24,6 +24,8 @@ Premium responsive marketing website for Better Than Your Husband Services LLC, 
 
 - `artifacts/better-than-your-husband-services/src/App.tsx` — shared shell, routes, page composition, quote form, and legal page content
 - `artifacts/better-than-your-husband-services/src/lib/business.ts` — centralized business facts and future contact destinations
+- `artifacts/better-than-your-husband-services/src/lib/pricing.ts` — portable estimator service/question definitions and inactive pricing placeholders
+- `artifacts/better-than-your-husband-services/src/lib/estimatorDraft.ts` — in-session handoff from the estimator into the quote form
 - `artifacts/better-than-your-husband-services/src/index.css` — color tokens, typography, and shared visual utilities
 - `artifacts/better-than-your-husband-services/public/assets/logo.svg` — replaceable temporary logo asset
 - `artifacts/better-than-your-husband-services/public/assets/hero-craftsmanship.jpg` — self-contained hero image asset
@@ -34,11 +36,13 @@ Premium responsive marketing website for Better Than Your Husband Services LLC, 
 - Business information is kept in one module so phone, ownership, service area, payment language, and future email/Facebook values can be updated without hunting through page markup.
 - The quote form intentionally does not claim to submit a request while the business has not provided a receiving email or inbox. It validates the draft, supports multiple photo selection, and gives a clear phone handoff.
 - The logo is a swappable asset with a text fallback so a final brand mark can replace the placeholder without changing header or footer layout.
+- The estimator is intentionally client-only and pricing-inactive. It gathers service-specific inputs, shows manual-review messaging, and hands a structured summary to the existing quote form without introducing a database or hosting-specific service.
 
 ## Product
 
 - Multi-page premium marketing site for home repairs, outdoor projects, cleanups, pressure washing, exterior maintenance, installations, flooring/finish work, realtor/property services, and custom projects.
 - Responsive navigation and mobile menu, phone-first contact flow, quote-request form, service-area messaging, and legal-information page layouts.
+- Customer-facing project estimator with 17 configurable service paths, relevant questions, optional project photos, review step, and quote-form handoff.
 - No checkout, deposit collection, or unsupported credentials are presented.
 
 ## User preferences
@@ -50,6 +54,7 @@ Premium responsive marketing website for Better Than Your Husband Services LLC, 
 
 - The artifact build expects `PORT` and `BASE_PATH` from its managed workflow; standalone verification should provide both values.
 - The final email address and Facebook URL are intentionally blank in `src/lib/business.ts` until the business supplies them.
+- The estimator preserves selected photos during the in-session handoff; a full page refresh cannot retain browser `File` objects, so customers would need to reselect photos after a refresh.
 
 ## Pointers
 

@@ -12,6 +12,7 @@ import {
   ClipboardList,
   Clock3,
   Compass,
+  Calculator,
   FileText,
   Hammer,
   Home,
@@ -27,6 +28,8 @@ import {
 } from 'lucide-react';
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 import { businessInfo } from '@/lib/business';
+import { getEstimatorService, isQuestionVisible, estimatorServices, type EstimatorQuestion } from '@/lib/pricing';
+import { getEstimatorDraft, setEstimatorDraft } from '@/lib/estimatorDraft';
 
 const queryClient = new QueryClient();
 
@@ -84,6 +87,7 @@ function Header() {
   const links = [
     { href: '/', label: 'Home' },
     { href: '/services', label: 'Services' },
+    { href: '/estimate', label: 'Estimate' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ];
@@ -130,6 +134,7 @@ function Footer() {
             <Link href="/services" className="transition-colors hover:text-white" data-testid="link-footer-services">Services</Link>
             <Link href="/about" className="transition-colors hover:text-white" data-testid="link-footer-about">About the company</Link>
             <Link href="/request-a-quote" className="transition-colors hover:text-white" data-testid="link-footer-quote">Request a quote</Link>
+             <Link href="/estimate" className="transition-colors hover:text-white" data-testid="link-footer-estimate">Estimate your project</Link>
             <Link href="/contact" className="transition-colors hover:text-white" data-testid="link-footer-contact">Contact</Link>
           </div>
         </div>
@@ -204,7 +209,7 @@ function HomePage() {
         </div>
       </section>
       <section className="bg-[#25241f] px-5 py-20 text-[#f5f0e6] sm:px-8 lg:px-12 lg:py-28">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]"><div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-white/65">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p><ButtonArrow>Start a quote request</ButtonArrow></div><div className="border-l border-[#d4b879]/40 pl-7 lg:pl-12"><p className="font-mono-brand text-[10px] uppercase tracking-[.18em] text-[#d4b879]">The process</p><ol className="mt-6 space-y-6">{['Submit your request and photos', 'We review the project details', 'We contact you within approximately 24–48 hours', 'Scope, pricing, and scheduling are discussed'].map((step, i) => <li key={step} className="flex gap-4 text-sm text-white/75"><span className="font-mono-brand text-[#d4b879]">0{i + 1}</span>{step}</li>)}</ol></div></div>
+         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]"><div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-white/65">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p><div className="mt-8 flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/estimate">Estimate your project</ButtonArrow><ButtonArrow href="/request-a-quote" secondary>Start a quote request</ButtonArrow></div></div><div className="border-l border-[#d4b879]/40 pl-7 lg:pl-12"><p className="font-mono-brand text-[10px] uppercase tracking-[.18em] text-[#d4b879]">The process</p><ol className="mt-6 space-y-6">{['Submit your request and photos', 'We review the project details', 'We contact you within approximately 24–48 hours', 'Scope, pricing, and scheduling are discussed'].map((step, i) => <li key={step} className="flex gap-4 text-sm text-white/75"><span className="font-mono-brand text-[#d4b879]">0{i + 1}</span>{step}</li>)}</ol></div></div>
       </section>
     </>
   );
@@ -216,7 +221,7 @@ function PageIntro({ eyebrow, title, text }: { eyebrow: string; title: string; t
 
 function ServicesPage() {
   usePageMeta('Services', 'Explore home repairs, outdoor projects, cleanups, installations, and property services from Better Than Your Husband Services LLC.');
-  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="A considered scope of work" title="The jobs that need to get done." text="From the punch list to the property reset, we help make homes and properties feel more cared for. Start with a conversation about your project." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto max-w-7xl"><div className="grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="group bg-card p-8 transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6]" data-testid={`card-service-${index}`}><div className="flex items-start justify-between"><Icon size={25} strokeWidth={1.4} className="text-primary" /><span className="font-mono-brand text-[10px] text-muted-foreground group-hover:text-white/40">0{index + 1}</span></div><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground group-hover:text-white/60">{text}</p></article>)}</div><div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#efe8dc] p-6 text-sm leading-7 text-[#4e4a42]"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div></div></main><section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-center"><div><SectionLabel>Not sure where it fits?</SectionLabel><h2 className="mt-4 font-display text-4xl">That is what a quote request is for.</h2></div><ButtonArrow>Share your project</ButtonArrow></div></section></>;
+  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="A considered scope of work" title="The jobs that need to get done." text="From the punch list to the property reset, we help make homes and properties feel more cared for. Start with a conversation about your project." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto max-w-7xl"><div className="grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="group bg-card p-8 transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6]" data-testid={`card-service-${index}`}><div className="flex items-start justify-between"><Icon size={25} strokeWidth={1.4} className="text-primary" /><span className="font-mono-brand text-[10px] text-muted-foreground group-hover:text-white/40">0{index + 1}</span></div><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground group-hover:text-white/60">{text}</p></article>)}</div><div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#efe8dc] p-6 text-sm leading-7 text-[#4e4a42]"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div></div></main><section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-center"><div><SectionLabel>Not sure where it fits?</SectionLabel><h2 className="mt-4 font-display text-4xl">Start with the details that matter.</h2></div><div className="flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/estimate">Estimate your project</ButtonArrow><ButtonArrow href="/request-a-quote" secondary>Share your project</ButtonArrow></div></div></section></>;
 }
 
 function AboutPage() {
@@ -224,10 +229,177 @@ function AboutPage() {
   return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="The company behind the list" title="Professional help, without the production." text="Better Than Your Husband Services LLC is a local property services company built around practical work, clear expectations, and respect for the places we enter." /><main><section className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.7fr_1.3fr]"><div><SectionLabel>Company notes</SectionLabel><h2 className="mt-5 max-w-sm font-display text-4xl leading-tight">The details matter.</h2></div><div className="max-w-2xl space-y-8 text-base leading-8 text-muted-foreground"><p>Better Than Your Husband Services LLC is legally owned 100% by <strong className="font-semibold text-foreground">Cherylene S. Twillegar</strong>, sole owner. <strong className="font-semibold text-foreground">Jeremy Twillegar</strong> performs handyman and service work; he is not an owner or partner.</p><p>No other employees or subcontractors currently perform work for the company. The LLC is registered in Missouri and is working toward Kansas registration. The company carries general liability insurance.</p><p>Our service area is the Kansas City metropolitan area and surrounding communities in Missouri and Kansas. Availability depends on the project and location.</p></div></div></section><section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto max-w-7xl"><SectionLabel>Our service philosophy</SectionLabel><div className="mt-10 grid gap-12 md:grid-cols-3"><div><p className="font-display text-5xl text-primary">01</p><h3 className="mt-5 font-display text-2xl">Be clear</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">Good work starts with an honest understanding of the request, the property, and the limits of the scope.</p></div><div><p className="font-display text-5xl text-primary">02</p><h3 className="mt-5 font-display text-2xl">Be useful</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">We focus on the work that makes a real difference in how a home or property functions and feels.</p></div><div><p className="font-display text-5xl text-primary">03</p><h3 className="mt-5 font-display text-2xl">Leave it better</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">A thoughtful finish is part of the job: communicating, protecting the space, and respecting the result.</p></div></div></div></section></main></>;
 }
 
+function EstimatorPage() {
+  usePageMeta('Estimate Your Project', 'Choose a project type and share the details that can help Better Than Your Husband Services LLC review your request.');
+  const [, navigate] = useLocation();
+  const [selectedServiceId, setSelectedServiceId] = useState('');
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [files, setFiles] = useState<File[]>([]);
+  const [step, setStep] = useState<'details' | 'review'>('details');
+  const [error, setError] = useState('');
+  const service = getEstimatorService(selectedServiceId);
+  const visibleQuestions = service?.questions.filter((question) => isQuestionVisible(question, answers)) ?? [];
+
+  const selectService = (serviceId: string) => {
+    setSelectedServiceId(serviceId);
+    setAnswers({});
+    setFiles([]);
+    setError('');
+    setStep('details');
+  };
+
+  const updateAnswer = (question: EstimatorQuestion, value: string) => {
+    setAnswers((current) => ({ ...current, [question.id]: value }));
+    setError('');
+  };
+
+  const reviewDetails = () => {
+    const missing = visibleQuestions.find((question) => question.required && !answers[question.id]?.trim());
+    if (missing) {
+      setError(`Please answer “${missing.label}” before reviewing your project.`);
+      return;
+    }
+    setError('');
+    setStep('review');
+  };
+
+  const summary = service
+    ? [
+        `Project type: ${service.label}`,
+        ...visibleQuestions
+          .filter((question) => answers[question.id]?.trim())
+          .map((question) => `${question.label}: ${answers[question.id]}`),
+      ].join('\n')
+    : '';
+
+  const continueToQuote = () => {
+    if (!service) return;
+    setEstimatorDraft({
+      serviceId: service.id,
+      serviceLabel: service.label,
+      summary,
+      photos: files,
+    });
+    navigate('/request-a-quote?from=estimator');
+  };
+
+  return (
+    <>
+      <div className="bg-[#25241f]"><Header /></div>
+      <PageIntro eyebrow="A clearer first step" title="Estimate your project." text="Choose the kind of work you have in mind, answer only the questions that apply, and carry the details into a quote request for review." />
+      <main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-7xl">
+          {!service && (
+            <section aria-labelledby="estimator-services-heading">
+              <div className="flex items-end justify-between gap-6">
+                <div>
+                  <SectionLabel>Choose a project type</SectionLabel>
+                  <h2 id="estimator-services-heading" className="mt-5 max-w-2xl font-display text-4xl leading-tight sm:text-5xl">Start with the work that sounds closest.</h2>
+                </div>
+                <Calculator className="hidden text-primary sm:block" size={34} strokeWidth={1.3} aria-hidden="true" />
+              </div>
+              <div className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+                {estimatorServices.map((option, index) => (
+                  <button key={option.id} type="button" onClick={() => selectService(option.id)} className="group min-h-48 bg-card p-7 text-left transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6]" data-testid={`button-estimator-service-${option.id}`}>
+                    <span className="font-mono-brand text-[10px] text-primary">0{index + 1}</span>
+                    <h3 className="mt-10 font-display text-2xl leading-tight">{option.label}</h3>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground group-hover:text-white/60">{option.summary}</p>
+                  </button>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {service && step === 'details' && (
+            <section aria-labelledby="estimator-details-heading">
+              <button type="button" onClick={() => setSelectedServiceId('')} className="font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary hover:text-foreground" data-testid="button-estimator-change-service">← Change project type</button>
+              <div className="mt-7 grid gap-14 lg:grid-cols-[1.15fr_.65fr]">
+                <div>
+                  <SectionLabel>{service.label}</SectionLabel>
+                  <h2 id="estimator-details-heading" className="mt-5 font-display text-4xl leading-tight sm:text-5xl">A few details help us review the work.</h2>
+                  <p className="mt-5 max-w-2xl text-base leading-8 text-muted-foreground">Only the questions relevant to {service.label.toLowerCase()} are shown. Approximate measurements are welcome when you have them.</p>
+                  <div className="mt-12 space-y-8">
+                    {visibleQuestions.map((question) => (
+                      <div key={question.id}>
+                        <label htmlFor={`estimate-${question.id}`} className="font-mono-brand text-[10px] uppercase tracking-[.14em]">
+                          {question.label} {question.required && <span className="text-primary" aria-hidden="true">*</span>}
+                        </label>
+                        {question.type === 'select' && (
+                          <div className="relative mt-3">
+                            <select id={`estimate-${question.id}`} value={answers[question.id] ?? ''} onChange={(event) => updateAnswer(question, event.target.value)} className="w-full appearance-none border border-input bg-card px-4 py-3 text-sm outline-none focus:border-primary" required={question.required} data-testid={`select-estimator-${question.id}`}>
+                              <option value="" disabled>{question.required ? 'Select one' : 'Select if known'}</option>
+                              {question.options?.map((option) => <option key={option} value={option}>{option}</option>)}
+                            </select>
+                            <ChevronDown size={16} className="pointer-events-none absolute right-4 top-3.5 text-muted-foreground" aria-hidden="true" />
+                          </div>
+                        )}
+                        {question.type === 'number' && (
+                          <input id={`estimate-${question.id}`} type="number" min={question.min} value={answers[question.id] ?? ''} onChange={(event) => updateAnswer(question, event.target.value)} placeholder={question.placeholder} className="mt-3 w-full border border-input bg-card px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/70 focus:border-primary" required={question.required} data-testid={`input-estimator-${question.id}`} />
+                        )}
+                        {question.type === 'text' && (
+                          <input id={`estimate-${question.id}`} type="text" value={answers[question.id] ?? ''} onChange={(event) => updateAnswer(question, event.target.value)} placeholder={question.placeholder} className="mt-3 w-full border border-input bg-card px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/70 focus:border-primary" required={question.required} data-testid={`input-estimator-${question.id}`} />
+                        )}
+                        {question.type === 'textarea' && (
+                          <textarea id={`estimate-${question.id}`} value={answers[question.id] ?? ''} onChange={(event) => updateAnswer(question, event.target.value)} placeholder={question.placeholder} rows={4} className="mt-3 w-full resize-y border border-input bg-card px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/70 focus:border-primary" required={question.required} data-testid={`textarea-estimator-${question.id}`} />
+                        )}
+                        {question.helper && <p className="mt-2 text-xs leading-5 text-muted-foreground">{question.helper}</p>}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-10">
+                    <label htmlFor="estimate-photos" className="font-mono-brand text-[10px] uppercase tracking-[.14em]">Project photos (optional)</label>
+                    <label htmlFor="estimate-photos" className="mt-3 flex cursor-pointer flex-col items-center justify-center border border-dashed border-input bg-card px-5 py-8 text-center transition-colors hover:border-primary" data-testid="label-estimator-upload">
+                      <Upload size={20} className="text-primary" aria-hidden="true" />
+                      <span className="mt-3 text-sm">Add photos that may help with review</span>
+                      <span className="mt-1 text-xs text-muted-foreground">JPG, PNG, or HEIC · Select more than one if helpful</span>
+                      <input id="estimate-photos" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => setFiles(Array.from(event.target.files ?? []))} data-testid="input-estimator-photos" />
+                    </label>
+                    {files.length > 0 && <ul className="mt-3 space-y-2" aria-label="Selected project photos">{files.map((file) => <li key={file.name} className="flex items-center gap-2 text-xs text-muted-foreground"><Check size={14} className="text-primary" aria-hidden="true" /> {file.name}</li>)}</ul>}
+                  </div>
+                  {error && <p role="alert" className="mt-8 border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-estimator-error">{error}</p>}
+                  <button type="button" onClick={reviewDetails} className="mt-10 inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid="button-estimator-review">Review project details <ArrowRight size={16} aria-hidden="true" /></button>
+                </div>
+                <aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7 lg:sticky lg:top-8">
+                  <Calculator size={21} className="text-primary" aria-hidden="true" />
+                  <h2 className="mt-5 font-display text-2xl">Review first, price later.</h2>
+                  <p className="mt-4 text-sm leading-7 text-muted-foreground">This estimator is collecting project information only. Verified business pricing rules have not been added, so no dollar amount is shown.</p>
+                  <p className="mt-5 border-t border-[#d6cdbd] pt-5 text-sm leading-7 text-muted-foreground">After you review your details, they will be carried into the existing Request a Quote process.</p>
+                </aside>
+              </div>
+            </section>
+          )}
+
+          {service && step === 'review' && (
+            <section aria-labelledby="estimator-review-heading">
+              <button type="button" onClick={() => setStep('details')} className="font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary hover:text-foreground" data-testid="button-estimator-edit">← Edit project details</button>
+              <div className="mt-7 grid gap-14 lg:grid-cols-[1fr_.7fr]">
+                <div>
+                  <SectionLabel>Review before continuing</SectionLabel>
+                  <h2 id="estimator-review-heading" className="mt-5 font-display text-4xl leading-tight sm:text-5xl">Here is what you told us.</h2>
+                  <div className="mt-10 whitespace-pre-line border border-border bg-card p-6 text-sm leading-8 text-muted-foreground sm:p-8">{summary}</div>
+                  {files.length > 0 && <p className="mt-4 text-xs text-muted-foreground">{files.length} project photo{files.length === 1 ? '' : 's'} will stay selected for this quote handoff.</p>}
+                  <button type="button" onClick={continueToQuote} className="mt-10 inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid="button-estimator-continue">Continue to Request a Quote <ArrowRight size={16} aria-hidden="true" /></button>
+                </div>
+                <aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7">
+                  <ShieldCheck size={21} className="text-primary" aria-hidden="true" />
+                  <h2 className="mt-5 font-display text-2xl">Manual review is next.</h2>
+                  <p className="mt-4 text-sm leading-7 text-muted-foreground">Based on the information provided, this project requires a review before an estimate can be provided.</p>
+                  <p className="mt-5 border-t border-[#d6cdbd] pt-5 text-sm leading-7 text-muted-foreground">When verified pricing is added later, any automated result will be labeled “Estimated Project Range,” never a guaranteed price or final quote.</p>
+                </aside>
+              </div>
+            </section>
+          )}
+        </div>
+      </main>
+    </>
+  );
+}
+
 function QuotePage() {
   usePageMeta('Request a Quote', 'Share your project details and photos to request a quote from Better Than Your Husband Services LLC.');
+  const draft = getEstimatorDraft();
    const [prepared, setPrepared] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<File[]>(() => draft?.photos ?? []);
   const [error, setError] = useState('');
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -254,7 +426,7 @@ function QuotePage() {
      setPrepared(true);
   };
    if (prepared) return <><div className="bg-[#25241f]"><Header /></div><main className="flex min-h-[650px] items-center bg-background px-5 py-28 sm:px-8 lg:px-12"><div className="mx-auto max-w-xl text-center"><div className="mx-auto flex h-16 w-16 items-center justify-center border border-primary text-primary"><CircleCheck size={30} /></div><SectionLabel>Next step ready</SectionLabel><h1 className="mt-5 font-display text-5xl">Your details are ready.</h1><p className="mt-5 text-base leading-8 text-muted-foreground">No email destination is configured for this site yet, so the request has not been sent online. Please call <a className="whitespace-nowrap text-foreground underline decoration-primary underline-offset-4" href={businessInfo.phoneHref}>{businessInfo.phone}</a> to share the project details and photos. This site does not process payment or create a scheduled appointment.</p><a href={businessInfo.phoneHref} className="mt-8 inline-flex items-center gap-3 bg-primary px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground hover:bg-[#d6bb80]" data-testid="link-call-to-finish">Call {businessInfo.phone} <Phone size={15} /></a><br /><button type="button" onClick={() => setPrepared(false)} className="mt-5 border border-border px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[.14em] hover:bg-muted" data-testid="button-edit-quote">Edit details</button></div></main></>;
-   return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.15fr_.65fr]"><form onSubmit={submit} className="space-y-8" noValidate><div className="grid gap-6 sm:grid-cols-2"><Field label="Your name" name="name" placeholder="Full name" required /><Field label="Phone number" name="phone" type="tel" placeholder="913-000-0000" required /></div><div className="grid gap-6 sm:grid-cols-2"><Field label="Property address" name="address" placeholder="Street, city, state" required /><Field label="Email address (optional)" name="email" type="email" placeholder="You@email.com" /></div><div><label htmlFor="project" className="font-mono-brand text-[10px] uppercase tracking-[.14em]">What needs doing? <span className="text-primary">*</span></label><textarea id="project" name="project" required rows={6} placeholder="Tell us about the project, the property, and anything useful to know." className="mt-3 w-full resize-y border border-input bg-card px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary" data-testid="input-project-details" /></div><div className="grid gap-6 sm:grid-cols-2"><SelectField label="Preferred contact method" name="contact" options={['Phone call', 'Text message', 'Email']} /><SelectField label="Preferred timeframe" name="timeframe" options={['As soon as possible', 'Within the next 2 weeks', 'Within the next month', 'I am planning ahead']} /></div><div><label htmlFor="photos" className="font-mono-brand text-[10px] uppercase tracking-[.14em]">Project photos (optional)</label><label htmlFor="photos" className="mt-3 flex cursor-pointer flex-col items-center justify-center border border-dashed border-input bg-card px-5 py-8 text-center transition-colors hover:border-primary" data-testid="label-upload-photos"><Upload size={20} className="text-primary" /><span className="mt-3 text-sm">Add one or more photos</span><span className="mt-1 text-xs text-muted-foreground">JPG, PNG, or HEIC · Helpful but not required</span><input id="photos" name="photos" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => setFiles(Array.from(event.target.files ?? []))} data-testid="input-project-photos" /></label>{files.length > 0 && <ul className="mt-3 space-y-2">{files.map((file) => <li key={file.name} className="flex items-center gap-2 text-xs text-muted-foreground"><Check size={14} className="text-primary" /> {file.name}</li>)}</ul>}</div>{error && <p role="alert" className="border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-form-error">{error}</p>}<button type="submit" className="inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid="button-submit-quote">Prepare quote request <ArrowRight size={16} /></button></form><aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7 lg:sticky lg:top-8"><Clock3 size={21} className="text-primary" /><h2 className="mt-5 font-display text-2xl">What happens next</h2><ol className="mt-6 space-y-5">{['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>)}</ol><p className="mt-7 border-t border-[#d6cdbd] pt-5 text-xs leading-6 text-muted-foreground">No payment checkout or deposit policy is handled through this site. {businessInfo.paymentNote}</p></aside></div></main></>;
+   return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.15fr_.65fr]"><form onSubmit={submit} className="space-y-8" noValidate>{draft && <div className="border-l-2 border-primary bg-[#efe8dc] px-5 py-4 text-sm leading-7 text-[#4e4a42]" data-testid="estimator-handoff"><strong className="font-semibold">Estimator details added.</strong> Your {draft.serviceLabel.toLowerCase()} notes are included below. You can add or change anything before preparing the request.</div>}<div className="grid gap-6 sm:grid-cols-2"><Field label="Your name" name="name" placeholder="Full name" required /><Field label="Phone number" name="phone" type="tel" placeholder="913-000-0000" required /></div><div className="grid gap-6 sm:grid-cols-2"><Field label="Property address" name="address" placeholder="Street, city, state" required /><Field label="Email address (optional)" name="email" type="email" placeholder="You@email.com" /></div><div><label htmlFor="project" className="font-mono-brand text-[10px] uppercase tracking-[.14em]">What needs doing? <span className="text-primary">*</span></label><textarea id="project" name="project" required rows={6} defaultValue={draft?.summary ?? ''} placeholder="Tell us about the project, the property, and anything useful to know." className="mt-3 w-full resize-y border border-input bg-card px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary" data-testid="input-project-details" /></div><div className="grid gap-6 sm:grid-cols-2"><SelectField label="Preferred contact method" name="contact" options={['Phone call', 'Text message', 'Email']} /><SelectField label="Preferred timeframe" name="timeframe" options={['As soon as possible', 'Within the next 2 weeks', 'Within the next month', 'I am planning ahead']} /></div><div><label htmlFor="photos" className="font-mono-brand text-[10px] uppercase tracking-[.14em]">Project photos (optional)</label><label htmlFor="photos" className="mt-3 flex cursor-pointer flex-col items-center justify-center border border-dashed border-input bg-card px-5 py-8 text-center transition-colors hover:border-primary" data-testid="label-upload-photos"><Upload size={20} className="text-primary" /><span className="mt-3 text-sm">Add one or more photos</span><span className="mt-1 text-xs text-muted-foreground">JPG, PNG, or HEIC · Helpful but not required</span><input id="photos" name="photos" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => setFiles((current) => [...current, ...Array.from(event.target.files ?? [])])} data-testid="input-project-photos" /></label>{files.length > 0 && <ul className="mt-3 space-y-2">{files.map((file) => <li key={file.name} className="flex items-center gap-2 text-xs text-muted-foreground"><Check size={14} className="text-primary" /> {file.name}</li>)}</ul>}</div>{error && <p role="alert" className="border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-form-error">{error}</p>}<button type="submit" className="inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid="button-submit-quote">Prepare quote request <ArrowRight size={16} /></button></form><aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7 lg:sticky lg:top-8"><Clock3 size={21} className="text-primary" /><h2 className="mt-5 font-display text-2xl">What happens next</h2><ol className="mt-6 space-y-5">{['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>)}</ol><p className="mt-7 border-t border-[#d6cdbd] pt-5 text-xs leading-6 text-muted-foreground">No payment checkout or deposit policy is handled through this site. {businessInfo.paymentNote}</p></aside></div></main></>;
 }
 
 function Field({ label, name, placeholder, type = 'text', required = false }: { label: string; name: string; placeholder: string; type?: string; required?: boolean }) {
@@ -289,7 +461,7 @@ function NotFound() {
 
 function Router() {
   const [location] = useLocation();
-  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
+  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={EstimatorPage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
 }
 
 function App() {
