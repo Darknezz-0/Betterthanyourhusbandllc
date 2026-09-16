@@ -1,6 +1,6 @@
-# Better Than Your Husband Services
+# Better Than Your Husband
 
-Premium responsive marketing website for Better Than Your Husband Services LLC, a local handyman and property services company serving the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.
+Premium responsive marketing website for Better Than Your Husband, a local handyman and property services company serving the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.
 
 ## Run & Operate
 
@@ -33,7 +33,7 @@ Premium responsive marketing website for Better Than Your Husband Services LLC, 
 ## Architecture decisions
 
 - The public site is presentation-first and uses Wouter routes with a shared header, footer, metadata helper, and reusable CTA/field primitives.
-- Business information is kept in one module so phone, ownership, service area, payment language, and future email/Facebook values can be updated without hunting through page markup.
+- Business information is kept in one module so phone, legal name, service area, payment language, and future email/Facebook values can be updated without hunting through page markup.
 - The quote form intentionally does not claim to submit a request while the business has not provided a receiving email or inbox. It validates the draft, supports multiple photo selection, and gives a clear phone handoff.
 - The logo is a swappable asset with a text fallback so a final brand mark can replace the placeholder without changing header or footer layout.
 - The estimator is intentionally client-only and pricing-inactive. It gathers service-specific inputs, shows manual-review messaging, and hands a structured summary to the existing quote form without introducing a database or hosting-specific service.

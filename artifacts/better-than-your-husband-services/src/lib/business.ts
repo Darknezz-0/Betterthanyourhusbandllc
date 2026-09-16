@@ -1,15 +1,9 @@
 export const businessInfo = {
-  legalName: 'Better Than Your Husband Services LLC',
+  legalName: 'Better Than Your Husband LLC',
   displayName: 'Better Than Your Husband',
   tagline: 'Small Jobs. Real Relief.',
   description:
     'Professional handyman and property services for the jobs that need to get done.',
-  owner: 'Cherylene S. Twillegar',
-  ownership: 'Cherylene S. Twillegar is the sole 100% owner of the LLC.',
-  operator:
-    'Jeremy Twillegar performs handyman and service work for the business. He is not an owner or partner.',
-  workforce:
-    'The company currently has no other employees or subcontractors performing work.',
   registration:
     'The LLC is registered in Missouri and is working toward registering to legally operate in Kansas.',
   insurance: 'The company currently carries general liability insurance.',
