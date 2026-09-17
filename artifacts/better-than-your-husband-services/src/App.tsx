@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -201,7 +201,7 @@ function HomePage() {
       <section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.25fr] lg:gap-24">
           <div><SectionLabel>The useful middle</SectionLabel><h2 className="mt-5 max-w-sm font-display text-4xl leading-tight tracking-[-.025em] text-[#2b2a25] sm:text-5xl">A good home has a long list.</h2></div>
-           <div><p className="max-w-2xl font-serif text-2xl leading-snug text-[#3c3a34] sm:text-3xl">Not every job needs a crew. Not every fix belongs on your weekend.</p><p className="mt-6 max-w-2xl text-base leading-8 text-[#676259]">{businessInfo.displayName} exists for the practical, visible, quietly important work that keeps a property running well. We bring a steady hand, clear communication, and a finish-minded approach to the list.</p><ButtonArrow href="/about" secondary>Why we work this way</ButtonArrow></div>
+            <div><p className="max-w-2xl font-serif text-2xl leading-snug text-[#3c3a34] sm:text-3xl">Not every job needs a crew. Not every fix belongs on your weekend.</p><p className="mt-6 max-w-2xl text-base leading-8 text-[#676259]">{businessInfo.displayName} exists for the practical, visible, quietly important work that keeps a property running well. We bring a steady hand, clear communication, and a finish-minded approach to the list.</p><ButtonArrow href="/about#service-philosophy" secondary>Why we work this way</ButtonArrow></div>
         </div>
       </section>
       <section className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
@@ -222,12 +222,12 @@ function PageIntro({ eyebrow, title, text }: { eyebrow: string; title: string; t
 
 function ServicesPage() {
   usePageMeta('Services', `Explore home repairs, outdoor projects, cleanups, installations, and property services from ${businessInfo.displayName}.`);
-  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="A considered scope of work" title="The jobs that need to get done." text="From the punch list to the property reset, we help make homes and properties feel more cared for. Start with a conversation about your project." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto max-w-7xl"><div className="grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="service-surface group bg-card p-8 transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6]" data-testid={`card-service-${index}`}><div className="flex items-start justify-between"><Icon size={25} strokeWidth={1.4} className="text-primary" /><span className="font-mono-brand text-[10px] text-muted-foreground group-hover:text-white/40">0{index + 1}</span></div><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground group-hover:text-white/60">{text}</p></article>)}</div><div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#efe8dc] p-6 text-sm leading-7 text-[#4e4a42] shadow-[0_10px_28px_rgba(54,44,26,.06)]"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div></div></main><section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-center"><div><SectionLabel>Not sure where it fits?</SectionLabel><h2 className="mt-4 font-display text-4xl">Start with the details that matter.</h2></div><div className="flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/estimate">Estimate your project</ButtonArrow><ButtonArrow href="/request-a-quote" secondary>Share your project</ButtonArrow></div></div></section></>;
+  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="A considered scope of work" title="The jobs that need to get done." text="From the punch list to the property reset, we help make homes and properties feel more cared for. Start with a conversation about your project." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto max-w-7xl"><div className="grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="service-surface group bg-card p-8 transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6]" data-testid={`card-service-${index}`}><Icon size={25} strokeWidth={1.4} className="text-primary" /><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground group-hover:text-white/60">{text}</p></article>)}</div><div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#efe8dc] p-6 text-sm leading-7 text-[#4e4a42] shadow-[0_10px_28px_rgba(54,44,26,.06)]"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div></div></main><section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-center"><div><SectionLabel>Not sure where it fits?</SectionLabel><h2 className="mt-4 font-display text-4xl">Start with the details that matter.</h2></div><div className="flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/estimate">Estimate your project</ButtonArrow><ButtonArrow href="/request-a-quote" secondary>Share your project</ButtonArrow></div></div></section></>;
 }
 
 function AboutPage() {
   usePageMeta('About', `Learn about the service philosophy of ${businessInfo.displayName}.`);
-  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="The company behind the list" title="Professional help, without the production." text={`${businessInfo.displayName} is a local property services company built around practical work, clear expectations, and respect for the places we enter.`} /><main><section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto max-w-7xl"><SectionLabel>Our service philosophy</SectionLabel><div className="mt-10 grid gap-12 md:grid-cols-3"><div><p className="font-display text-5xl text-primary">01</p><h3 className="mt-5 font-display text-2xl">Be clear</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">Good work starts with an honest understanding of the request, the property, and the limits of the scope.</p></div><div><p className="font-display text-5xl text-primary">02</p><h3 className="mt-5 font-display text-2xl">Be useful</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">We focus on the work that makes a real difference in how a home or property functions and feels.</p></div><div><p className="font-display text-5xl text-primary">03</p><h3 className="mt-5 font-display text-2xl">Leave it better</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">A thoughtful finish is part of the job: communicating, protecting the space, and respecting the result.</p></div></div></div></section></main></>;
+  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="The company behind the list" title="Professional help, without the production." text={`${businessInfo.displayName} is a local property services company built around practical work, clear expectations, and respect for the places we enter.`} /><main><section id="service-philosophy" className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto max-w-7xl"><SectionLabel>Our service philosophy</SectionLabel><div className="mt-10 grid gap-12 md:grid-cols-3"><div><p className="font-display text-5xl text-primary">01</p><h3 className="mt-5 font-display text-2xl">Be clear</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">Good work starts with an honest understanding of the request, the property, and the limits of the scope.</p></div><div><p className="font-display text-5xl text-primary">02</p><h3 className="mt-5 font-display text-2xl">Be useful</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">We focus on the work that makes a real difference in how a home or property functions and feels.</p></div><div><p className="font-display text-5xl text-primary">03</p><h3 className="mt-5 font-display text-2xl">Leave it better</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">A thoughtful finish is part of the job: communicating, protecting the space, and respecting the result.</p></div></div></div></section></main></>;
 }
 
 function EstimatorPage() {
@@ -238,8 +238,17 @@ function EstimatorPage() {
   const [files, setFiles] = useState<File[]>([]);
   const [step, setStep] = useState<'details' | 'review'>('details');
   const [error, setError] = useState('');
+  const detailsSectionRef = useRef<HTMLElement>(null);
   const service = getEstimatorService(selectedServiceId);
   const visibleQuestions = service?.questions.filter((question) => isQuestionVisible(question, answers)) ?? [];
+
+  useEffect(() => {
+    if (!selectedServiceId || step !== 'details') return;
+    const frame = window.requestAnimationFrame(() => {
+      detailsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [selectedServiceId, step]);
 
   const selectService = (serviceId: string) => {
     setSelectedServiceId(serviceId);
@@ -312,7 +321,7 @@ function EstimatorPage() {
           )}
 
           {service && step === 'details' && (
-            <section aria-labelledby="estimator-details-heading">
+            <section ref={detailsSectionRef} aria-labelledby="estimator-details-heading">
               <button type="button" onClick={() => setSelectedServiceId('')} className="font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary hover:text-foreground" data-testid="button-estimator-change-service">← Change project type</button>
               <div className="mt-7 grid gap-14 lg:grid-cols-[1.15fr_.65fr]">
                 <div>
@@ -460,13 +469,31 @@ function NotFound() {
   return <><div className="bg-[#25241f]"><Header /></div><main className="flex min-h-[650px] items-center justify-center bg-background px-5 py-28 text-center"><div><p className="font-mono-brand text-xs tracking-[.18em] text-primary">404 · Not found</p><h1 className="mt-6 font-display text-6xl">That page wandered off.</h1><p className="mx-auto mt-5 max-w-md text-muted-foreground">The page may have moved, but the list is still here.</p><ButtonArrow href="/">Return home</ButtonArrow></div></main></>;
 }
 
+function RouteScrollManager() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    const frame = window.requestAnimationFrame(() => {
+      if (hash) {
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'auto', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [location]);
+
+  return null;
+}
+
 function Router() {
   const [location] = useLocation();
   return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={EstimatorPage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
 }
 
 function App() {
-  return <QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><Layout><Router /></Layout></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider>;
+  return <QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><RouteScrollManager /><Layout><Router /></Layout></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider>;
 }
 
 export default App;
