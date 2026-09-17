@@ -69,11 +69,11 @@ function usePageMeta(title: string, description: string) {
 function Logo({ light = false }: { light?: boolean }) {
   const [assetFailed, setAssetFailed] = useState(false);
   return (
-    <Link href="/" className="group inline-flex items-center gap-3" data-testid="link-logo">
-      <span className={`flex h-10 w-10 shrink-0 items-center justify-center border ${light ? 'border-[#c8a86b] text-[#d8bd86]' : 'border-primary text-primary'}`}>
-        {!assetFailed ? <img src="/assets/logo.svg" alt="" className="h-7 w-7 object-contain" onError={() => setAssetFailed(true)} /> : <span className="font-serif text-xl leading-none">B</span>}
+    <Link href="/" className="group inline-flex items-center gap-3.5" data-testid="link-logo">
+      <span className={`flex h-11 w-11 shrink-0 items-center justify-center border transition-colors ${light ? 'border-[#c8a86b]/80 bg-[#1f1e1a] text-[#d8bd86] group-hover:border-[#e0c894]' : 'border-primary/70 bg-card text-primary group-hover:border-primary'}`}>
+        {!assetFailed ? <img src="/assets/logo.svg" alt="" className="h-8 w-8 object-contain" onError={() => setAssetFailed(true)} /> : <span className="font-serif text-xl leading-none">B</span>}
       </span>
-      <span className={`block max-w-[156px] font-mono-brand text-[9px] font-bold uppercase leading-[1.25] tracking-[0.18em] ${light ? 'text-[#f6f0e5]' : 'text-foreground'}`}>
+      <span className={`block max-w-[156px] font-mono-brand text-[9px] font-bold uppercase leading-[1.35] tracking-[0.18em] ${light ? 'text-[#f6f0e5]' : 'text-foreground'}`}>
         Better Than<br />Your Husband
       </span>
     </Link>
@@ -92,7 +92,7 @@ function Header() {
     { href: '/contact', label: 'Contact' },
   ];
   return (
-    <header className="absolute inset-x-0 top-0 z-40 border-b border-white/15 text-white">
+    <header className="absolute inset-x-0 top-0 z-40 border-b border-white/15 bg-[#201f1b]/20 text-white backdrop-blur-[2px]">
       <div className="mx-auto flex h-[78px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
         <Logo light />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
@@ -101,7 +101,7 @@ function Header() {
               {link.label}
             </Link>
           ))}
-          <Link href="/request-a-quote" className="border border-[#d7bd87] px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[0.14em] text-[#f7f1e7] transition-colors hover:bg-[#d7bd87] hover:text-[#211f1a]" data-testid="link-nav-request-quote">
+          <Link href="/request-a-quote" className="border border-[#d7bd87]/80 px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[0.14em] text-[#f7f1e7] transition-colors hover:bg-[#d7bd87] hover:text-[#211f1a]" data-testid="link-nav-request-quote">
             Request a Quote
           </Link>
         </nav>
@@ -110,7 +110,7 @@ function Header() {
         </button>
       </div>
       {open && (
-        <div className="border-t border-white/15 bg-[#24231f] px-5 pb-6 pt-3 md:hidden">
+        <div className="border-t border-white/15 bg-[#24231f] px-5 pb-6 pt-3 shadow-2xl md:hidden">
           {links.map((link) => <Link key={link.href} href={link.href} className="block border-b border-white/10 py-4 font-mono-brand text-[10px] uppercase tracking-[0.15em] text-white/80" data-testid={`link-mobile-${link.label.toLowerCase()}`}>{link.label}</Link>)}
           <Link href="/request-a-quote" className="mt-5 block bg-primary px-5 py-4 text-center font-mono-brand text-[10px] uppercase tracking-[0.15em] text-primary-foreground" data-testid="link-mobile-request-quote">Request a Quote</Link>
         </div>
@@ -122,7 +122,7 @@ function Header() {
 function Footer() {
   return (
     <footer className="bg-[#25241f] text-[#eee8dc]">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.25fr_.8fr_.8fr] lg:px-12 lg:py-20">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.25fr_.8fr_.8fr] lg:px-12 lg:py-24">
         <div>
           <Logo light />
           <p className="mt-6 max-w-sm font-serif text-2xl leading-snug text-[#e0d1b5]">Small jobs. Real relief.</p>
@@ -164,7 +164,7 @@ function Layout({ children }: { children: ReactNode }) {
 }
 
 function ButtonArrow({ children, href = '/request-a-quote', secondary = false }: { children: ReactNode; href?: string; secondary?: boolean }) {
-  return <Link href={href} className={`group inline-flex items-center gap-4 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[0.14em] transition-all ${secondary ? 'border border-current text-current hover:bg-white/10' : 'bg-primary text-primary-foreground hover:bg-[#d6bb80]'}`} data-testid={`link-cta-${href.replaceAll('/', '') || 'home'}`}>
+  return <Link href={href} className={`group inline-flex min-h-12 items-center gap-4 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[0.14em] transition-all ${secondary ? 'border border-current text-current hover:bg-white/10' : 'bg-primary text-primary-foreground shadow-[0_8px_18px_rgba(39,32,20,.12)] hover:bg-[#d6bb80]'}`} data-testid={`link-cta-${href.replaceAll('/', '') || 'home'}`}>
     {children}<ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
   </Link>;
 }
@@ -179,7 +179,8 @@ function HomePage() {
     <>
       <section className="relative flex min-h-[720px] items-end overflow-hidden bg-[#25241f] text-white lg:min-h-[790px]">
         <img src="/assets/hero-craftsmanship.jpg" alt="Detail of careful home craftsmanship" className="absolute inset-0 h-full w-full object-cover opacity-55" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(24,24,21,.97)_0%,rgba(24,24,21,.72)_45%,rgba(24,24,21,.25)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(24,24,21,.98)_0%,rgba(24,24,21,.76)_45%,rgba(24,24,21,.28)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(24,24,21,.72)_0%,transparent_35%)]" />
         <Header />
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-40 sm:px-8 lg:px-12 lg:pb-28">
           <div className="max-w-3xl animate-rise-in">
@@ -205,7 +206,7 @@ function HomePage() {
       </section>
       <section className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto max-w-7xl"><div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>What we do</SectionLabel><h2 className="mt-5 max-w-xl font-display text-4xl leading-tight sm:text-5xl">The list, handled.</h2></div><Link href="/services" className="group inline-flex items-center gap-2 pb-1 font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary" data-testid="link-home-all-services">View all services <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" /></Link></div>
-          <div className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">{serviceCategories.slice(0, 6).map(({ title, text, icon: Icon }, index) => <Link href="/services" key={title} className={`group bg-card p-7 transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6] ${index === 0 ? 'lg:col-span-2' : ''}`} data-testid={`card-home-service-${index}`}><Icon size={23} strokeWidth={1.4} className="text-primary" /><h3 className="mt-14 max-w-xs font-display text-2xl leading-tight">{title}</h3><p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground group-hover:text-white/60">{text}</p><span className="mt-8 flex items-center gap-2 font-mono-brand text-[9px] uppercase tracking-[.14em] text-primary">Learn more <ArrowRight size={13} /></span></Link>)}</div>
+           <div className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">{serviceCategories.slice(0, 6).map(({ title, text, icon: Icon }, index) => <Link href="/services" key={title} className={`service-surface group bg-card p-7 transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6] ${index === 0 ? 'lg:col-span-2' : ''}`} data-testid={`card-home-service-${index}`}><Icon size={23} strokeWidth={1.4} className="text-primary" /><h3 className="mt-14 max-w-xs font-display text-2xl leading-tight">{title}</h3><p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground group-hover:text-white/60">{text}</p><span className="mt-8 flex items-center gap-2 font-mono-brand text-[9px] uppercase tracking-[.14em] text-primary">Learn more <ArrowRight size={13} /></span></Link>)}</div>
         </div>
       </section>
       <section className="bg-[#25241f] px-5 py-20 text-[#f5f0e6] sm:px-8 lg:px-12 lg:py-28">
@@ -216,12 +217,12 @@ function HomePage() {
 }
 
 function PageIntro({ eyebrow, title, text }: { eyebrow: string; title: string; text: string }) {
-  return <section className="bg-[#25241f] px-5 pb-16 pt-36 text-[#f5f0e6] sm:px-8 lg:px-12 lg:pb-24"><div className="mx-auto max-w-7xl"><SectionLabel light>{eyebrow}</SectionLabel><h1 className="mt-6 max-w-4xl font-display text-5xl leading-[1.02] tracking-[-.03em] sm:text-7xl">{title}</h1><p className="mt-7 max-w-2xl text-lg leading-8 text-white/65">{text}</p></div></section>;
+  return <section className="bg-[linear-gradient(115deg,#25241f_0%,#2d2b25_68%,#353126_100%)] px-5 pb-16 pt-36 text-[#f5f0e6] sm:px-8 lg:px-12 lg:pb-24"><div className="mx-auto max-w-7xl"><SectionLabel light>{eyebrow}</SectionLabel><h1 className="gold-rule mt-6 max-w-4xl font-display text-5xl leading-[1.02] tracking-[-.03em] sm:text-7xl">{title}</h1><p className="mt-7 max-w-2xl text-lg leading-8 text-white/65">{text}</p></div></section>;
 }
 
 function ServicesPage() {
   usePageMeta('Services', `Explore home repairs, outdoor projects, cleanups, installations, and property services from ${businessInfo.displayName}.`);
-  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="A considered scope of work" title="The jobs that need to get done." text="From the punch list to the property reset, we help make homes and properties feel more cared for. Start with a conversation about your project." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto max-w-7xl"><div className="grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="group bg-card p-8 transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6]" data-testid={`card-service-${index}`}><div className="flex items-start justify-between"><Icon size={25} strokeWidth={1.4} className="text-primary" /><span className="font-mono-brand text-[10px] text-muted-foreground group-hover:text-white/40">0{index + 1}</span></div><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground group-hover:text-white/60">{text}</p></article>)}</div><div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#efe8dc] p-6 text-sm leading-7 text-[#4e4a42]"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div></div></main><section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-center"><div><SectionLabel>Not sure where it fits?</SectionLabel><h2 className="mt-4 font-display text-4xl">Start with the details that matter.</h2></div><div className="flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/estimate">Estimate your project</ButtonArrow><ButtonArrow href="/request-a-quote" secondary>Share your project</ButtonArrow></div></div></section></>;
+  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="A considered scope of work" title="The jobs that need to get done." text="From the punch list to the property reset, we help make homes and properties feel more cared for. Start with a conversation about your project." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto max-w-7xl"><div className="grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="service-surface group bg-card p-8 transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6]" data-testid={`card-service-${index}`}><div className="flex items-start justify-between"><Icon size={25} strokeWidth={1.4} className="text-primary" /><span className="font-mono-brand text-[10px] text-muted-foreground group-hover:text-white/40">0{index + 1}</span></div><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground group-hover:text-white/60">{text}</p></article>)}</div><div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#efe8dc] p-6 text-sm leading-7 text-[#4e4a42] shadow-[0_10px_28px_rgba(54,44,26,.06)]"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div></div></main><section className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-center"><div><SectionLabel>Not sure where it fits?</SectionLabel><h2 className="mt-4 font-display text-4xl">Start with the details that matter.</h2></div><div className="flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/estimate">Estimate your project</ButtonArrow><ButtonArrow href="/request-a-quote" secondary>Share your project</ButtonArrow></div></div></section></>;
 }
 
 function AboutPage() {
