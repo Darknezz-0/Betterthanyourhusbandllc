@@ -70,7 +70,7 @@ function Logo({ footer = false }: { footer?: boolean }) {
   return (
     <Link href="/" className="group inline-flex items-center" data-testid="link-logo">
       <img
-        src="/assets/official-logo.png"
+        src={`${import.meta.env.BASE_URL}assets/official-logo.png`}
         alt={businessInfo.legalName}
         className={`object-contain transition-opacity group-hover:opacity-90 ${footer ? 'h-24 w-24' : 'h-16 w-16 sm:h-[68px] sm:w-[68px]'}`}
       />
@@ -146,7 +146,7 @@ function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-5 text-[11px] text-[#8d8981] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
            <p>© {new Date().getFullYear()} {businessInfo.displayName}</p>
-          <div className="flex gap-5">
+           <div className="flex flex-wrap gap-x-5 gap-y-2">
              <Link href="/terms" className="hover:text-white" data-testid="link-footer-terms">Terms of Service</Link>
              <Link href="/privacy-policy" className="hover:text-white" data-testid="link-footer-privacy">Privacy Policy</Link>
              <Link href="/legal-disclaimer" className="hover:text-white" data-testid="link-footer-disclaimer">Legal Disclaimer</Link>
