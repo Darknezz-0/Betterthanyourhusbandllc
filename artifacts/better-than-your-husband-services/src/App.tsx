@@ -456,7 +456,9 @@ type LegalPageContent = {
   eyebrow: string;
   intro: string;
   effectiveDate: string;
-  sections: { heading: string; body: string }[];
+  preamble?: string;
+  sections: { heading: string; body: string | string[]; bullets?: string[] }[];
+  closingLines?: string[];
 };
 
 const legalPages: Record<string, LegalPageContent> = {
@@ -483,18 +485,138 @@ const legalPages: Record<string, LegalPageContent> = {
   '/privacy-policy': {
     title: 'Privacy Policy',
     eyebrow: 'A plain-language policy',
-    intro: `This Privacy Policy explains information that may be submitted through the ${businessInfo.legalName} website and how it may be used for project communication and review.`,
-    effectiveDate: '[Insert effective date]',
+    intro: 'Better Than Your Husband LLC respects your privacy and is committed to handling information submitted through this website responsibly.',
+    effectiveDate: 'September 18, 2026',
+    preamble: 'This Privacy Policy explains what information may be collected through the website, how that information may be used, and the choices available to you.',
     sections: [
-      { heading: 'Information submitted through the website', body: 'When you prepare a quote request or contact the business, you may provide your name, phone number, email address, property address, project details, preferred contact method, preferred timeframe, and customer-uploaded photographs.' },
-      { heading: 'How information is used', body: 'Submitted information may be used to understand a requested project, review scope, communicate about next steps, coordinate an agreed project, and maintain appropriate business records. The site does not use submitted information to create a checkout transaction.' },
-      { heading: 'Website usage information', body: 'This page does not claim that a specific analytics, advertising, tracking, email, or other data-collection service is active. Any future service that materially changes what information is collected should be reviewed and added to this notice before it is enabled.' },
-      { heading: 'How information is protected', body: 'Information should be limited to what is relevant to the project. The business takes reasonable administrative steps appropriate to the information available through this request process, but no website transmission or storage method can be promised to be completely secure.' },
-      { heading: 'When information may be shared', body: 'Information may be shared when needed to respond to the request, support an agreed business process, protect the website or business, or comply with a legal obligation. No specific third-party customer-data integration is represented as active by this page.' },
-      { heading: 'Photographs and sensitive information', body: 'Please upload only photographs relevant to the requested work. Do not include passwords, financial account information, government identification numbers, or other sensitive personal information in a form or photograph.' },
-      { heading: 'Customer choices and rights', body: `You may call ${businessInfo.phone} to ask a privacy question, request clarification about information you submitted, or ask that an inquiry be corrected or no longer used for follow-up, subject to reasonable business recordkeeping needs.` },
-      { heading: 'Privacy questions', body: `Privacy questions may be directed to ${businessInfo.legalName} by phone at ${businessInfo.phone}. No email address is represented here because one has not been configured for this website.` },
+      {
+        heading: 'Information You May Provide',
+        body: [
+          'Depending on how you use the website, you may voluntarily provide information such as:',
+          'You should only provide information that is reasonably necessary for the purpose of your request.',
+        ],
+        bullets: [
+          'Your name',
+          'Phone number',
+          'Email address',
+          'Property or project information',
+          'Descriptions of requested work',
+          'Photographs or other images you submit',
+          'Measurements or other project details',
+          'Information you provide when requesting an estimate or quote',
+          'Other information you voluntarily submit through website forms',
+        ],
+      },
+      {
+        heading: 'How Information Is Used',
+        body: [
+          'Information submitted through the website may be used to:',
+          "Better Than Your Husband LLC does not use submitted information for purposes unrelated to the customer's request unless permitted or required by law.",
+        ],
+        bullets: [
+          'Respond to inquiries',
+          'Review project requests',
+          'Understand the work being requested',
+          'Prepare or review estimates and quotes',
+          'Contact you regarding your request',
+          'Schedule or coordinate services',
+          'Communicate about an existing or potential project',
+          'Improve the website and customer experience',
+          'Protect the website and its users',
+          'Meet applicable legal or business requirements',
+        ],
+      },
+      {
+        heading: 'Project Photographs and Other Uploaded Information',
+        body: [
+          'If you submit photographs, measurements, descriptions, or other project information, that information may be reviewed by Better Than Your Husband LLC in connection with your request.',
+          'Customers are responsible for ensuring that they have the right to submit photographs or other materials they provide.',
+          'Do not submit sensitive personal information that is not reasonably necessary for your project.',
+        ],
+      },
+      {
+        heading: 'Information Collected Automatically',
+        body: [
+          'When you visit a website, certain technical information may potentially be collected by the website or by services used to operate it.',
+          "Depending on the website's current configuration, this may include device or browser information, general technical information, pages visited, basic usage information, and information necessary for website security and operation.",
+          "The specific information collected may change as the website's technology and services change.",
+          'Better Than Your Husband LLC does not represent that the website collects information through a particular analytics, advertising, tracking, or similar service unless that service is actually configured and in use.',
+        ],
+      },
+      {
+        heading: 'Cookies and Similar Technologies',
+        body: [
+          'The website may use cookies or similar technologies when necessary for website functionality, security, preferences, or other legitimate website purposes.',
+          "The use of cookies or similar technologies may depend on the website's current configuration and the services used to operate it.",
+          'You may be able to control certain cookies through your browser or device settings. Disabling certain technologies may affect website functionality.',
+        ],
+      },
+      {
+        heading: 'Sharing of Information',
+        body: [
+          'Better Than Your Husband LLC may share information when reasonably necessary to operate the business, respond to a request, provide requested services, comply with legal requirements, protect the business or others, or perform other legitimate business functions.',
+          'Information may also be processed by service providers or technology platforms used to operate website functionality when applicable.',
+          'Better Than Your Husband LLC does not sell customer information as a general business practice.',
+        ],
+      },
+      {
+        heading: 'Payment Information',
+        body: [
+          'The website does not represent that payment information is collected through the website unless a payment system has actually been configured and made available.',
+          "When payment processing is handled through a third-party payment service, payment information may be subject to that provider's own privacy policy and terms.",
+        ],
+      },
+      {
+        heading: 'Communications',
+        body: 'Information you provide may be used to communicate with you about your inquiry, estimate, quote, scheduling, project, or other matter related to your interaction with Better Than Your Husband LLC.',
+      },
+      {
+        heading: 'Data Security',
+        body: [
+          'Better Than Your Husband LLC takes reasonable measures appropriate to the circumstances to protect information submitted through the website.',
+          'However, no website, electronic transmission, or method of storing information can be guaranteed to be completely secure.',
+        ],
+      },
+      {
+        heading: 'Data Retention',
+        body: 'Information may be retained for as long as reasonably necessary for the purpose for which it was collected, to maintain business records, to address disputes, to comply with legal obligations, or for other legitimate business purposes.',
+      },
+      {
+        heading: 'Third-Party Websites and Services',
+        body: [
+          'The website may contain links to third-party websites or may use third-party services.',
+          'Third-party websites and services operate under their own terms and privacy policies.',
+          'Better Than Your Husband LLC is not responsible for the privacy practices, security practices, or content of third-party websites or services.',
+        ],
+      },
+      {
+        heading: "Children's Privacy",
+        body: [
+          'The website is intended for general use and is not specifically directed toward children.',
+          'Better Than Your Husband LLC does not knowingly request personal information from children for purposes unrelated to the operation of the website or the provision of services.',
+        ],
+      },
+      {
+        heading: 'Your Privacy Choices',
+        body: [
+          'Depending on applicable law, you may have rights concerning personal information associated with you.',
+          'These rights may include requesting information about personal information maintained by the business, requesting correction of inaccurate information, or requesting deletion where legally applicable.',
+          'Requests may be subject to reasonable verification and to exceptions permitted or required by law.',
+        ],
+      },
+      {
+        heading: 'Changes to This Privacy Policy',
+        body: [
+          'Better Than Your Husband LLC may update this Privacy Policy when necessary to reflect changes to the website, business practices, technology, legal requirements, or other circumstances.',
+          'The effective date shown at the beginning of this Privacy Policy identifies the current version.',
+        ],
+      },
+      {
+        heading: 'Contact',
+        body: 'Questions or privacy-related requests may be directed to Better Than Your Husband LLC through the contact information provided on the website.',
+      },
     ],
+    closingLines: ['Better Than Your Husband LLC', 'Effective Date: September 18, 2026'],
   },
   '/legal-disclaimer': {
     title: 'Legal Disclaimer',
@@ -529,7 +651,7 @@ const legalPages: Record<string, LegalPageContent> = {
 function LegalPage({ kind }: { kind: string }) {
   const page = legalPages[kind];
   usePageMeta(page.title, page.intro);
-  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow={page.eyebrow} title={page.title} text={page.intro} /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><article className="mx-auto max-w-3xl"><p className="mb-8 border-l-2 border-primary bg-[#efe8dc] px-5 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-[#4e4a42]">Effective date: {page.effectiveDate}</p>{page.sections.map((section, index) => <section key={section.heading} className="border-b border-border py-8 first:pt-0"><div className="flex gap-6"><span className="font-mono-brand text-xs text-primary">{String(index + 1).padStart(2, '0')}</span><div><h2 className="font-display text-2xl">{section.heading}</h2><p className="mt-4 text-sm leading-8 text-muted-foreground">{section.body}</p></div></div></section>)}</article></main></>;
+  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow={page.eyebrow} title={page.title} text={page.intro} /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><article className="mx-auto max-w-3xl"><p className="mb-8 border-l-2 border-primary bg-[#efe8dc] px-5 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-[#4e4a42]">Effective date: {page.effectiveDate}</p>{page.preamble && <p className="mb-8 text-sm leading-8 text-muted-foreground">{page.preamble}</p>}{page.sections.map((section, index) => { const paragraphs = Array.isArray(section.body) ? section.body : [section.body]; return <section key={section.heading} className="border-b border-border py-8 first:pt-0"><div className="flex gap-6"><span className="font-mono-brand text-xs text-primary">{String(index + 1).padStart(2, '0')}</span><div><h2 className="font-display text-2xl">{section.heading}</h2><div className="mt-4 space-y-4 text-sm leading-8 text-muted-foreground"><p>{paragraphs[0]}</p>{section.bullets && <ul className="list-disc space-y-1 pl-5">{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}{paragraphs.slice(1).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></div></div></section>; })}{page.closingLines && <div className="pt-8 font-serif text-lg leading-8 text-foreground">{page.closingLines.map((line) => <p key={line}>{line}</p>)}</div>}</article></main></>;
 }
 
 function NotFound() {
