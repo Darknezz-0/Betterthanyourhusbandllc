@@ -465,21 +465,142 @@ const legalPages: Record<string, LegalPageContent> = {
   '/terms': {
     title: 'Terms of Service',
     eyebrow: 'Before you request',
-    intro: `These terms explain how the ${businessInfo.legalName} website, quote-request process, and agreed project work are intended to operate.`,
-    effectiveDate: '[Insert effective date]',
+    intro: 'These Terms of Service govern your use of the Better Than Your Husband LLC website and the services and information made available through the website.',
+    effectiveDate: 'September 18, 2026',
+    preamble: 'By using this website, submitting a request for an estimate or quote, or otherwise interacting with the website, you acknowledge that you have read and understood these Terms of Service.',
     sections: [
-      { heading: 'Website use', body: `This website provides general information about ${businessInfo.legalName}, its service categories, and ways to request a conversation about a project. Use the site and its forms only for lawful, accurate, and project-related purposes.` },
-      { heading: 'Quote and estimate requests', body: 'A submitted inquiry is a request for contact and review. It is not automatically an accepted job, final quote, contract, scheduled appointment, or promise that the requested service can be performed.' },
-      { heading: 'Estimates and agreed pricing', body: 'Any estimate or preliminary discussion is subject to review of the actual project, site conditions, materials, and scope. Final pricing is the pricing agreed by both parties for the agreed scope; an estimate is not necessarily a final contract.' },
-      { heading: 'Scope, changes, and customer authorization', body: 'Work is performed only after the customer and business agree on the requested scope and applicable terms. Additions, changes, access issues, or conditions outside the original scope may require a new discussion and authorization before proceeding.' },
-      { heading: 'Scheduling and cancellations', body: 'Scheduling is discussed after project scope and pricing are reviewed. Customers should communicate as soon as possible about access, timing, or a request to change or cancel. No separate cancellation penalty is stated by these website terms.' },
-      { heading: 'Payments and deposits', body: 'Jobs priced at $500 or more require 50% of the job price upfront. Any remaining payment timing is part of the project terms agreed by both parties. No additional fee or payment policy is created by these website terms.' },
-      { heading: 'Customer responsibilities', body: 'Customers are responsible for providing accurate project information, identifying relevant site conditions or restrictions, providing reasonable access when work is agreed, and obtaining any customer-controlled permission that may be needed for the requested work.' },
-      { heading: 'Business responsibilities', body: `${businessInfo.legalName} will review the requested work, communicate about scope and next steps, and perform only work that is agreed, legally permitted, and within the applicable scope of the business.` },
-      { heading: 'Customer information and uploaded photos', body: 'Only provide information and photographs relevant to the project. Do not upload passwords, financial account information, or other sensitive information that is not needed for project review. Submitted information is addressed in the Privacy Policy.' },
-      { heading: 'Work limitations and third-party services', body: `Work remains subject to project scope, applicable licensing requirements, local regulations, and company approval. This website does not represent that a particular third-party service, payment provider, email service, or other integration is active unless separately identified and configured.` },
-      { heading: 'Liability limitations and disclaimers', body: 'Website content is provided for general information and is not a substitute for an inspection or professional advice where one is required. To the extent permitted by law, website information is provided without a guarantee that it is complete, current, or suitable for a particular project, and use of the website does not itself create a business relationship or accepted work.' },
-      { heading: 'General terms', body: `These terms describe the website and request process; an agreed project may include additional terms confirmed by both parties. If a provision is not enforceable, the remaining provisions continue to the extent permitted by law. Questions may be directed to ${businessInfo.phone}.` },
+      {
+        heading: 'About Our Services',
+        body: [
+          'Better Than Your Husband LLC provides handyman, property maintenance, repair, improvement, cleanup, installation, and related services within the scope of work the business is legally permitted and able to perform.',
+          "Information about services shown on this website is provided for general informational purposes. Availability depends on the specific project, site conditions, applicable requirements, and the company's review.",
+        ],
+      },
+      {
+        heading: 'Estimate and Quote Requests',
+        body: [
+          'Customers may submit project information and request an estimate or quote.',
+          'Submitting a request does not automatically create a contract, guarantee acceptance, or establish a final price.',
+          'Website estimates are subject to review and may change after the project, scope, measurements, materials, site conditions, and other relevant factors are evaluated.',
+          'A final price is established only after the project has been reviewed and the scope and pricing have been agreed upon by the customer and Better Than Your Husband LLC.',
+        ],
+      },
+      {
+        heading: 'Project Scope and Changes',
+        body: [
+          'The final scope depends on actual project conditions and the work agreed upon.',
+          'Conditions discovered after an estimate or quote may affect the scope, materials, labor, time required, or final price.',
+          'Additional or changed work should be reviewed and agreed upon before it is performed whenever reasonably possible.',
+        ],
+      },
+      {
+        heading: 'Customer Information and Photographs',
+        body: [
+          'Customers may submit their name, contact information, project details, photographs, measurements, descriptions, and other relevant information.',
+          'Customers are responsible for providing reasonably accurate information and having the right to provide photographs or other materials they upload.',
+          'Submitted information may be used to evaluate requests, communicate with customers, prepare estimates or quotes, and provide requested services.',
+        ],
+      },
+      {
+        heading: 'Customer Responsibilities',
+        body: [
+          'Customers are responsible for providing reasonable access to the property and areas where requested work is performed.',
+          'Customers must provide relevant project information and communicate known hazards, access restrictions, property concerns, or other conditions that could affect the work.',
+        ],
+      },
+      {
+        heading: 'Payments and Deposits',
+        body: [
+          'For jobs priced at $500 or more, 50% of the job price is required upfront.',
+          'Any additional payment requirements will be communicated as part of the agreed project terms.',
+        ],
+      },
+      {
+        heading: 'Service Call and Pricing',
+        body: [
+          'Where applicable, a $79 service-call fee may apply. When applicable to an approved repair, it is credited toward the approved repair.',
+          'Website pricing is provided for convenience. Actual pricing is determined through review of the requested work and agreed scope.',
+        ],
+      },
+      {
+        heading: 'Materials and Project Costs',
+        body: [
+          'Project pricing may include labor, materials, equipment, disposal, delivery, permits, or other project-related costs when applicable.',
+          'Actual costs depend on the specific project.',
+          'Website estimator information does not guarantee final material availability or project pricing.',
+        ],
+      },
+      {
+        heading: 'Scheduling',
+        body: [
+          'Submitting a request does not guarantee a particular appointment or completion date.',
+          'Scheduling is subject to project requirements, availability, scope, site conditions, and agreement between the customer and Better Than Your Husband LLC.',
+        ],
+      },
+      {
+        heading: 'Work Limitations',
+        body: [
+          'Not every requested project or service can necessarily be performed.',
+          'Work is subject to applicable laws, regulations, permit requirements, property conditions, project complexity, and the scope of services Better Than Your Husband LLC is legally permitted and able to provide.',
+          "Projects requiring work outside the company's permitted scope may be declined or limited.",
+        ],
+      },
+      {
+        heading: 'Website Information',
+        body: [
+          'Website information is provided for general informational purposes.',
+          'Although reasonable efforts may be made to keep information accurate, the website does not guarantee that every page, description, price, service, availability statement, or other information is current or applicable to a particular project.',
+          'A website inquiry is not an accepted job, and an estimate is not necessarily a final contract.',
+        ],
+      },
+      {
+        heading: 'Third-Party Services',
+        body: [
+          'The website may contain or use third-party services, tools, platforms, links, or other technology.',
+          'Third-party services may have their own terms and privacy policies. Better Than Your Husband LLC is not responsible for their independent policies or practices.',
+        ],
+      },
+      {
+        heading: 'Website Use',
+        body: 'You agree to use the website lawfully and not to intentionally interfere with its operation, attempt unauthorized access, submit malicious content, or misuse website forms or functionality.',
+      },
+      {
+        heading: 'Intellectual Property',
+        body: [
+          'The website, its original content, branding, graphics, photographs, text, design, and other materials provided by Better Than Your Husband LLC are protected by applicable intellectual property laws.',
+          'You may use the website for legitimate personal purposes related to obtaining information or requesting services. You may not reproduce, distribute, modify, or commercially exploit protected materials without authorization.',
+        ],
+      },
+      {
+        heading: 'Disclaimer of Warranties',
+        body: [
+          'The website and its general information are provided on an "as available" basis.',
+          'Better Than Your Husband LLC does not guarantee that the website will always be available, uninterrupted, error-free, or free of technical issues.',
+          'Website information, automated tools, estimates, and other preliminary information should not substitute for evaluation of the actual project when necessary.',
+        ],
+      },
+      {
+        heading: 'Limitation of Liability',
+        body: [
+          'To the extent permitted by applicable law, Better Than Your Husband LLC will not be responsible for losses resulting solely from reliance on general website information, preliminary estimates, website availability, technical interruptions, or information that was incomplete or inaccurately supplied by a customer.',
+          'Nothing in these Terms excludes or limits responsibility that cannot legally be excluded or limited.',
+        ],
+      },
+      {
+        heading: 'Changes to These Terms',
+        body: 'Better Than Your Husband LLC may update these Terms when necessary. The effective date at the beginning identifies the current version.',
+      },
+      {
+        heading: 'General Terms',
+        body: [
+          'If any provision is unenforceable, the remaining provisions remain in effect to the extent permitted by law.',
+          'These Terms govern website use and do not replace a separate written agreement governing a specific project.',
+        ],
+      },
+      {
+        heading: 'Contact',
+        body: 'Questions regarding these Terms may be directed to Better Than Your Husband LLC through the contact information provided on the website.',
+      },
     ],
   },
   '/privacy-policy': {
