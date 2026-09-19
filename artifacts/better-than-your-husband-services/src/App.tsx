@@ -66,16 +66,14 @@ function usePageMeta(title: string, description: string) {
   }, [title, description]);
 }
 
-function Logo({ light = false }: { light?: boolean }) {
-  const [assetFailed, setAssetFailed] = useState(false);
+function Logo({ footer = false }: { footer?: boolean }) {
   return (
-    <Link href="/" className="group inline-flex items-center gap-3.5" data-testid="link-logo">
-      <span className={`flex h-11 w-11 shrink-0 items-center justify-center border transition-colors ${light ? 'border-[#c8a86b]/80 bg-[#1f1e1a] text-[#d8bd86] group-hover:border-[#e0c894]' : 'border-primary/70 bg-card text-primary group-hover:border-primary'}`}>
-        {!assetFailed ? <img src="/assets/logo.svg" alt="" className="h-8 w-8 object-contain" onError={() => setAssetFailed(true)} /> : <span className="font-serif text-xl leading-none">B</span>}
-      </span>
-      <span className={`block max-w-[156px] font-mono-brand text-[9px] font-bold uppercase leading-[1.35] tracking-[0.18em] ${light ? 'text-[#f6f0e5]' : 'text-foreground'}`}>
-        Better Than<br />Your Husband
-      </span>
+    <Link href="/" className="group inline-flex items-center" data-testid="link-logo">
+      <img
+        src="/assets/official-logo.png"
+        alt={businessInfo.legalName}
+        className={`object-contain transition-opacity group-hover:opacity-90 ${footer ? 'h-24 w-24' : 'h-16 w-16 sm:h-[68px] sm:w-[68px]'}`}
+      />
     </Link>
   );
 }
@@ -94,7 +92,7 @@ function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-40 border-b border-white/15 bg-[#201f1b]/20 text-white backdrop-blur-[2px]">
       <div className="mx-auto flex h-[78px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
-        <Logo light />
+         <Logo />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
           {links.map((link) => (
             <Link key={link.href} href={link.href} className={`font-mono-brand text-[10px] uppercase tracking-[0.15em] transition-colors hover:text-[#d7bd87] ${location === link.href ? 'text-[#d7bd87]' : 'text-white/75'}`} data-testid={`link-nav-${link.label.toLowerCase()}`}>
@@ -124,7 +122,7 @@ function Footer() {
     <footer className="bg-[#25241f] text-[#eee8dc]">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.25fr_.8fr_.8fr] lg:px-12 lg:py-24">
         <div>
-          <Logo light />
+           <Logo footer />
           <p className="mt-6 max-w-sm font-serif text-2xl leading-snug text-[#e0d1b5]">Small jobs. Real relief.</p>
           <p className="mt-4 max-w-sm text-sm leading-7 text-[#aaa59c]">Professional handyman and property services for the jobs that need to get done across the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.</p>
         </div>
@@ -149,8 +147,9 @@ function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-5 text-[11px] text-[#8d8981] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
            <p>© {new Date().getFullYear()} {businessInfo.displayName}</p>
           <div className="flex gap-5">
-            <Link href="/privacy-policy" className="hover:text-white" data-testid="link-footer-privacy">Privacy</Link>
-            <Link href="/terms" className="hover:text-white" data-testid="link-footer-terms">Terms</Link>
+             <Link href="/terms" className="hover:text-white" data-testid="link-footer-terms">Terms of Service</Link>
+             <Link href="/privacy-policy" className="hover:text-white" data-testid="link-footer-privacy">Privacy Policy</Link>
+             <Link href="/legal-disclaimer" className="hover:text-white" data-testid="link-footer-disclaimer">Legal Disclaimer</Link>
             <Link href="/service-agreement" className="hover:text-white" data-testid="link-footer-agreement">Service agreement</Link>
           </div>
         </div>
@@ -452,16 +451,85 @@ function ContactPage() {
    return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="Let’s talk about the list" title="Phone first. People next." text="For the quickest path to a real conversation about your property, call directly. Quote details can also be prepared online for a future email handoff." /><main className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_.8fr]"><div className="border border-border bg-card p-8 sm:p-12"><SectionLabel>Primary contact</SectionLabel><a href={businessInfo.phoneHref} className="mt-7 flex items-center gap-4 font-display text-4xl text-foreground transition-colors hover:text-primary sm:text-6xl" data-testid="link-contact-phone"><Phone size={30} className="text-primary sm:h-10 sm:w-10" />{businessInfo.phone}</a><p className="mt-6 max-w-lg text-base leading-8 text-muted-foreground">Call to discuss a project, ask whether a job may be a fit, or get help deciding where to begin.</p><Link href="/request-a-quote" className="mt-8 inline-flex items-center gap-4 bg-primary px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground hover:bg-[#d6bb80]" data-testid="link-contact-quote">Request a quote <ArrowRight size={16} /></Link></div><div className="space-y-4"><div className="border border-border bg-[#f4efe6] p-7"><Compass size={20} className="text-primary" /><h2 className="mt-5 font-display text-2xl">Service area</h2><p className="mt-3 text-sm leading-7 text-muted-foreground">{businessInfo.serviceArea} Availability depends on project and location.</p></div><div className="border border-border bg-[#f4efe6] p-7"><Mail size={20} className="text-primary" /><h2 className="mt-5 font-display text-2xl">Email & Facebook</h2><p className="mt-3 text-sm leading-7 text-muted-foreground">These contact channels are being prepared. Please use the phone number above or the quote request form for now.</p><p className="mt-4 font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary">Email: {businessInfo.contact.email || 'Not provided'}</p><p className="mt-2 font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary">Facebook: {businessInfo.contact.facebook || 'Not provided'}</p></div></div></div></main></>;
 }
 
-const legalPages: Record<string, { title: string; eyebrow: string; intro: string; sections: { heading: string; body: string }[] }> = {
-  '/privacy-policy': { title: 'Privacy Policy', eyebrow: 'A plain-language policy', intro: `This page explains the information this website may receive when you use it to contact ${businessInfo.legalName}.`, sections: [{ heading: 'Information you choose to provide', body: 'When you prepare a quote request, you may provide your name, phone number, property address, email address, project details, preferred contact method, timeframe, and project photos. This information may be used to review and respond to your request.' }, { heading: 'How information is used', body: 'Information may be used to communicate about a requested project, understand project scope, coordinate next steps, and maintain appropriate business records. The business should review and update this section before publishing a final version of this policy.' }, { heading: 'Photos and sensitive details', body: 'Please share only photos and information relevant to the project. Do not include passwords, financial account information, or other sensitive personal information in a request.' }, { heading: 'Questions', body: 'For questions about this policy or the information you submit, please call 913-346-0205. Email contact details are not currently provided.' }] },
-  '/terms': { title: 'Terms & Conditions', eyebrow: 'Before you request', intro: 'These general website terms describe how this informational site and quote-request process are intended to work.', sections: [{ heading: 'Informational requests', body: 'Submitting a form is a request for contact, not an acceptance of work, a quote, a contract, or a scheduled appointment. Project availability, scope, pricing, and timing are discussed separately.' }, { heading: 'Project scope', body: 'All work is subject to project scope, applicable licensing requirements, local regulations, and company approval. A request may be declined or revised if the work is outside the company’s service capability or requirements.' }, { heading: 'No checkout', body: 'This website does not process payment, collect deposits, or create a checkout transaction. Payment terms can be discussed; payment is generally requested upon completion of agreed work.' }, { heading: 'Contact', body: 'Questions about a project or these terms can be directed to 913-346-0205.' }] },
-  '/service-agreement': { title: 'Service Agreement', eyebrow: 'A framework for agreed work', intro: `Any project performed by ${businessInfo.legalName} is based on the scope and terms discussed and agreed by both parties.`, sections: [{ heading: 'Parties and approval', body: `The customer and ${businessInfo.legalName} agree on the customer’s requested work before scheduling.` }, { heading: 'Scope and changes', body: 'The agreed scope should identify the work to be performed and any material assumptions. Changes, additions, site conditions, or work outside the original scope may require further discussion and approval.' }, { heading: 'Scheduling and access', body: 'Work is scheduled after both parties agree on scope and pricing. The customer is responsible for providing reasonable access to the property and identifying relevant conditions or restrictions.' }, { heading: 'Payment', body: 'Payment terms can be discussed as part of the project conversation. Payment is generally requested upon completion of agreed work. This website does not collect payment or deposits.' }, { heading: 'Project limitations', body: scopeNote }] },
+type LegalPageContent = {
+  title: string;
+  eyebrow: string;
+  intro: string;
+  effectiveDate: string;
+  sections: { heading: string; body: string }[];
+};
+
+const legalPages: Record<string, LegalPageContent> = {
+  '/terms': {
+    title: 'Terms of Service',
+    eyebrow: 'Before you request',
+    intro: `These terms explain how the ${businessInfo.legalName} website, quote-request process, and agreed project work are intended to operate.`,
+    effectiveDate: '[Insert effective date]',
+    sections: [
+      { heading: 'Website use', body: `This website provides general information about ${businessInfo.legalName}, its service categories, and ways to request a conversation about a project. Use the site and its forms only for lawful, accurate, and project-related purposes.` },
+      { heading: 'Quote and estimate requests', body: 'A submitted inquiry is a request for contact and review. It is not automatically an accepted job, final quote, contract, scheduled appointment, or promise that the requested service can be performed.' },
+      { heading: 'Estimates and agreed pricing', body: 'Any estimate or preliminary discussion is subject to review of the actual project, site conditions, materials, and scope. Final pricing is the pricing agreed by both parties for the agreed scope; an estimate is not necessarily a final contract.' },
+      { heading: 'Scope, changes, and customer authorization', body: 'Work is performed only after the customer and business agree on the requested scope and applicable terms. Additions, changes, access issues, or conditions outside the original scope may require a new discussion and authorization before proceeding.' },
+      { heading: 'Scheduling and cancellations', body: 'Scheduling is discussed after project scope and pricing are reviewed. Customers should communicate as soon as possible about access, timing, or a request to change or cancel. No separate cancellation penalty is stated by these website terms.' },
+      { heading: 'Payments and deposits', body: 'Jobs priced at $500 or more require 50% of the job price upfront. Any remaining payment timing is part of the project terms agreed by both parties. No additional fee or payment policy is created by these website terms.' },
+      { heading: 'Customer responsibilities', body: 'Customers are responsible for providing accurate project information, identifying relevant site conditions or restrictions, providing reasonable access when work is agreed, and obtaining any customer-controlled permission that may be needed for the requested work.' },
+      { heading: 'Business responsibilities', body: `${businessInfo.legalName} will review the requested work, communicate about scope and next steps, and perform only work that is agreed, legally permitted, and within the applicable scope of the business.` },
+      { heading: 'Customer information and uploaded photos', body: 'Only provide information and photographs relevant to the project. Do not upload passwords, financial account information, or other sensitive information that is not needed for project review. Submitted information is addressed in the Privacy Policy.' },
+      { heading: 'Work limitations and third-party services', body: `Work remains subject to project scope, applicable licensing requirements, local regulations, and company approval. This website does not represent that a particular third-party service, payment provider, email service, or other integration is active unless separately identified and configured.` },
+      { heading: 'Liability limitations and disclaimers', body: 'Website content is provided for general information and is not a substitute for an inspection or professional advice where one is required. To the extent permitted by law, website information is provided without a guarantee that it is complete, current, or suitable for a particular project, and use of the website does not itself create a business relationship or accepted work.' },
+      { heading: 'General terms', body: `These terms describe the website and request process; an agreed project may include additional terms confirmed by both parties. If a provision is not enforceable, the remaining provisions continue to the extent permitted by law. Questions may be directed to ${businessInfo.phone}.` },
+    ],
+  },
+  '/privacy-policy': {
+    title: 'Privacy Policy',
+    eyebrow: 'A plain-language policy',
+    intro: `This Privacy Policy explains information that may be submitted through the ${businessInfo.legalName} website and how it may be used for project communication and review.`,
+    effectiveDate: '[Insert effective date]',
+    sections: [
+      { heading: 'Information submitted through the website', body: 'When you prepare a quote request or contact the business, you may provide your name, phone number, email address, property address, project details, preferred contact method, preferred timeframe, and customer-uploaded photographs.' },
+      { heading: 'How information is used', body: 'Submitted information may be used to understand a requested project, review scope, communicate about next steps, coordinate an agreed project, and maintain appropriate business records. The site does not use submitted information to create a checkout transaction.' },
+      { heading: 'Website usage information', body: 'This page does not claim that a specific analytics, advertising, tracking, email, or other data-collection service is active. Any future service that materially changes what information is collected should be reviewed and added to this notice before it is enabled.' },
+      { heading: 'How information is protected', body: 'Information should be limited to what is relevant to the project. The business takes reasonable administrative steps appropriate to the information available through this request process, but no website transmission or storage method can be promised to be completely secure.' },
+      { heading: 'When information may be shared', body: 'Information may be shared when needed to respond to the request, support an agreed business process, protect the website or business, or comply with a legal obligation. No specific third-party customer-data integration is represented as active by this page.' },
+      { heading: 'Photographs and sensitive information', body: 'Please upload only photographs relevant to the requested work. Do not include passwords, financial account information, government identification numbers, or other sensitive personal information in a form or photograph.' },
+      { heading: 'Customer choices and rights', body: `You may call ${businessInfo.phone} to ask a privacy question, request clarification about information you submitted, or ask that an inquiry be corrected or no longer used for follow-up, subject to reasonable business recordkeeping needs.` },
+      { heading: 'Privacy questions', body: `Privacy questions may be directed to ${businessInfo.legalName} by phone at ${businessInfo.phone}. No email address is represented here because one has not been configured for this website.` },
+    ],
+  },
+  '/legal-disclaimer': {
+    title: 'Legal Disclaimer',
+    eyebrow: 'Important website information',
+    intro: `This disclaimer explains the limits of information published on the ${businessInfo.legalName} website.`,
+    effectiveDate: '[Insert effective date]',
+    sections: [
+      { heading: 'General information only', body: 'Website pages, service descriptions, estimator questions, and other materials provide general information. They are not a substitute for an inspection, professional advice, or a review of the actual property and project where one is required.' },
+      { heading: 'Inquiries are not accepted jobs', body: 'A website inquiry, uploaded photograph, phone call, or quote request is not automatically an accepted job, final quote, contract, or scheduled appointment.' },
+      { heading: 'Estimates and project review', body: 'An estimate or preliminary response is not necessarily a final contract or final agreed price. Work is subject to review of the actual project, site conditions, applicable requirements, and the scope agreed by both parties.' },
+      { heading: 'Permitted scope and service availability', body: 'Services are performed only when legally permitted and within the applicable scope of the business. The website does not guarantee that every requested service, material, location, or project condition can be accepted or performed.' },
+      { heading: 'No unsupported guarantees', body: `Nothing on this website should be read as a guarantee, warranty, certification, license statement, insurance statement, or promise of a particular result. Project-specific expectations must be discussed and agreed before work begins.` },
+      { heading: 'Third-party information and links', body: 'If the website later references a third-party service or resource, that third party may have its own terms and privacy practices. This page does not claim that an external integration is currently configured or active.' },
+      { heading: 'Questions', body: `Questions about a project or this disclaimer may be directed to ${businessInfo.legalName} by phone at ${businessInfo.phone}.` },
+    ],
+  },
+  '/service-agreement': {
+    title: 'Service Agreement',
+    eyebrow: 'A framework for agreed work',
+    intro: `Any project performed by ${businessInfo.legalName} is based on the scope and terms discussed and agreed by both parties.`,
+    effectiveDate: '[Insert effective date]',
+    sections: [
+      { heading: 'Parties and approval', body: `The customer and ${businessInfo.legalName} agree on the customer’s requested work before scheduling.` },
+      { heading: 'Scope and changes', body: 'The agreed scope should identify the work to be performed and any material assumptions. Changes, additions, site conditions, or work outside the original scope may require further discussion and approval.' },
+      { heading: 'Scheduling and access', body: 'Work is scheduled after both parties agree on scope and pricing. The customer is responsible for providing reasonable access to the property and identifying relevant conditions or restrictions.' },
+      { heading: 'Payment', body: 'Jobs priced at $500 or more require 50% of the job price upfront. Any remaining payment timing is discussed as part of the agreed project terms. This website does not collect payment or deposits.' },
+      { heading: 'Project limitations', body: scopeNote },
+    ],
+  },
 };
 
 function LegalPage({ kind }: { kind: string }) {
   const page = legalPages[kind];
   usePageMeta(page.title, page.intro);
-  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow={page.eyebrow} title={page.title} text={page.intro} /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><article className="mx-auto max-w-3xl">{page.sections.map((section, index) => <section key={section.heading} className="border-b border-border py-8 first:pt-0"><div className="flex gap-6"><span className="font-mono-brand text-xs text-primary">0{index + 1}</span><div><h2 className="font-display text-2xl">{section.heading}</h2><p className="mt-4 text-sm leading-8 text-muted-foreground">{section.body}</p></div></div></section>)}</article></main></>;
+  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow={page.eyebrow} title={page.title} text={page.intro} /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><article className="mx-auto max-w-3xl"><p className="mb-8 border-l-2 border-primary bg-[#efe8dc] px-5 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-[#4e4a42]">Effective date: {page.effectiveDate}</p>{page.sections.map((section, index) => <section key={section.heading} className="border-b border-border py-8 first:pt-0"><div className="flex gap-6"><span className="font-mono-brand text-xs text-primary">{String(index + 1).padStart(2, '0')}</span><div><h2 className="font-display text-2xl">{section.heading}</h2><p className="mt-4 text-sm leading-8 text-muted-foreground">{section.body}</p></div></div></section>)}</article></main></>;
 }
 
 function NotFound() {
@@ -489,7 +557,7 @@ function RouteScrollManager() {
 
 function Router() {
   const [location] = useLocation();
-  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={EstimatorPage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
+  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={EstimatorPage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
 }
 
 function App() {
