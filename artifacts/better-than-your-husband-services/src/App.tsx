@@ -742,17 +742,87 @@ const legalPages: Record<string, LegalPageContent> = {
   '/legal-disclaimer': {
     title: 'Legal Disclaimer',
     eyebrow: 'Important website information',
-    intro: `This disclaimer explains the limits of information published on the ${businessInfo.legalName} website.`,
-    effectiveDate: '[Insert effective date]',
+    intro: 'The information provided on this website is intended for general informational purposes and to help customers understand the types of services that Better Than Your Husband LLC may provide.',
+    effectiveDate: 'September 18, 2026',
+    preamble: 'Nothing on this website should be interpreted as a guarantee that a particular service, project, material, repair, installation, or improvement will be available, appropriate, accepted, or legally permitted for a particular property or situation.',
     sections: [
-      { heading: 'General information only', body: 'Website pages, service descriptions, estimator questions, and other materials provide general information. They are not a substitute for an inspection, professional advice, or a review of the actual property and project where one is required.' },
-      { heading: 'Inquiries are not accepted jobs', body: 'A website inquiry, uploaded photograph, phone call, or quote request is not automatically an accepted job, final quote, contract, or scheduled appointment.' },
-      { heading: 'Estimates and project review', body: 'An estimate or preliminary response is not necessarily a final contract or final agreed price. Work is subject to review of the actual project, site conditions, applicable requirements, and the scope agreed by both parties.' },
-      { heading: 'Permitted scope and service availability', body: 'Services are performed only when legally permitted and within the applicable scope of the business. The website does not guarantee that every requested service, material, location, or project condition can be accepted or performed.' },
-      { heading: 'No unsupported guarantees', body: `Nothing on this website should be read as a guarantee, warranty, certification, license statement, insurance statement, or promise of a particular result. Project-specific expectations must be discussed and agreed before work begins.` },
-      { heading: 'Third-party information and links', body: 'If the website later references a third-party service or resource, that third party may have its own terms and privacy practices. This page does not claim that an external integration is currently configured or active.' },
-      { heading: 'Questions', body: `Questions about a project or this disclaimer may be directed to ${businessInfo.legalName} by phone at ${businessInfo.phone}.` },
+      {
+        heading: 'Estimates Are Not Final Quotes',
+        body: [
+          'Information displayed through the website, including estimated pricing, project information, service descriptions, calculators, examples, or other preliminary information, is provided for convenience and planning purposes.',
+          'An online estimate or preliminary price is not a final quote, contract, or guarantee of the final cost.',
+          "Actual pricing may depend on the project's scope, measurements, materials, labor, access, site conditions, existing damage, required preparation, disposal, permits, code requirements, and other factors.",
+          'A final price is established only after the requested work has been reviewed and the scope and pricing have been agreed upon.',
+        ],
+      },
+      {
+        heading: 'Project Conditions',
+        body: [
+          'Information provided through a website form, photograph, description, measurement, or other remote submission may not reveal all conditions affecting a project.',
+          'Conditions discovered during an in-person evaluation or while work is being performed may require changes to the scope, materials, labor, schedule, or price.',
+          'Additional or changed work should be reviewed and agreed upon before it is performed whenever reasonably possible.',
+        ],
+      },
+      {
+        heading: 'Services and Legal Requirements',
+        body: [
+          'Not every project or requested service can necessarily be performed.',
+          'Work is subject to applicable laws, regulations, permit requirements, property conditions, safety considerations, and the scope of work Better Than Your Husband LLC is legally permitted and able to provide.',
+          "Where a project requires a permit, licensed trade, inspection, specialized professional, or other legal requirement outside the company's permitted scope, the project may be declined, limited, or referred to an appropriately qualified provider.",
+        ],
+      },
+      {
+        heading: 'No Professional Advice',
+        body: [
+          'Information on this website is not legal, engineering, architectural, structural, electrical, plumbing, financial, insurance, or other professional advice.',
+          'Customers should obtain appropriate professional advice when a project requires specialized evaluation or professional services.',
+        ],
+      },
+      {
+        heading: 'Customer Responsibility',
+        body: [
+          'Customers are responsible for providing reasonably accurate information about the requested project and informing Better Than Your Husband LLC of known hazards, property conditions, access restrictions, previous work, or other circumstances that could affect the project.',
+          'Customers are also responsible for obtaining any property-owner, landlord, homeowners association, or other required permission that is their responsibility.',
+        ],
+      },
+      {
+        heading: 'Third-Party Information and Links',
+        body: [
+          'The website may contain information, links, tools, or services provided by third parties.',
+          'Better Than Your Husband LLC does not control third-party websites or services and is not responsible for their independent content, policies, availability, or practices.',
+        ],
+      },
+      {
+        heading: 'No Guarantee of Website Availability',
+        body: 'Reasonable efforts may be made to keep website information accurate and available. However, Better Than Your Husband LLC does not guarantee that the website, forms, calculators, estimates, or other online features will always be available, uninterrupted, error-free, or current.',
+      },
+      {
+        heading: 'No Automatic Contract',
+        body: [
+          'Submitting a website inquiry, requesting an estimate, uploading photographs, receiving preliminary pricing, or communicating through the website does not by itself create a contract or guarantee that Better Than Your Husband LLC will accept or perform the requested work.',
+          'Specific projects may be governed by a separate written agreement, estimate, invoice, work authorization, or other project documentation.',
+        ],
+      },
+      {
+        heading: 'Limitation of Disclaimer',
+        body: [
+          'Nothing in this Legal Disclaimer is intended to waive, limit, or eliminate any right, remedy, warranty, obligation, or responsibility that cannot legally be waived, limited, or excluded under applicable law.',
+          'This disclaimer is intended to clarify the nature and limitations of information provided through the website and does not replace the Terms of Service or any separate agreement governing a specific project.',
+        ],
+      },
+      {
+        heading: 'Changes',
+        body: [
+          'Better Than Your Husband LLC may update this Legal Disclaimer when necessary to reflect changes to the website, services, business practices, technology, or applicable requirements.',
+          'The effective date identifies the current version.',
+        ],
+      },
+      {
+        heading: 'Contact',
+        body: 'Questions regarding this Legal Disclaimer may be directed to Better Than Your Husband LLC through the contact information provided on the website.',
+      },
     ],
+    closingLines: ['Better Than Your Husband LLC', 'Effective Date: September 18, 2026'],
   },
   '/service-agreement': {
     title: 'Service Agreement',
