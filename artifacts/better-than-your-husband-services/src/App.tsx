@@ -150,7 +150,6 @@ function Footer() {
              <Link href="/terms" className="hover:text-white" data-testid="link-footer-terms">Terms of Service</Link>
              <Link href="/privacy-policy" className="hover:text-white" data-testid="link-footer-privacy">Privacy Policy</Link>
              <Link href="/legal-disclaimer" className="hover:text-white" data-testid="link-footer-disclaimer">Legal Disclaimer</Link>
-            <Link href="/service-agreement" className="hover:text-white" data-testid="link-footer-agreement">Service agreement</Link>
           </div>
         </div>
       </div>
