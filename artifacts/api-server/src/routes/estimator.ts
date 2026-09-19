@@ -12,12 +12,13 @@ import {
 const router: IRouter = Router();
 
 const services = [
-  ["installations", "Installations"], ["fixtures", "Fixtures"], ["drywall-trim-caulk", "Drywall, Trim & Caulking"],
-  ["fence-deck-work", "Fence & Deck Work"], ["flooring", "Flooring"], ["mailbox-installation", "Mailbox Installation"],
-  ["gutter-cleaning", "Gutter Cleaning"], ["pressure-washing", "Pressure Washing"], ["yard-tree-cleanup", "Yard & Tree Cleanup"],
-  ["property-cleanouts", "Property Cleanouts"], ["hauling", "Hauling"], ["outdoor-living-curb-appeal", "Outdoor Living & Curb Appeal"],
-  ["realtor-punch-list", "Realtor Punch List"], ["inspection-repairs", "Inspection Repairs"],
-  ["egress-related-work", "Egress-Related Work"], ["custom-projects", "Custom Projects"], ["general-maintenance-punch-list", "General Maintenance & Punch List"],
+  ["maintenance-punch-list", "Maintenance / Punch List"], ["property-cleanup", "Property Cleanup"],
+  ["hauling-cleanout", "Hauling / Cleanout"], ["outdoor-curb-appeal", "Outdoor / Curb Appeal"],
+  ["installation", "Installation"], ["fixtures", "Fixtures"], ["drywall-trim-caulking", "Drywall / Trim / Caulking"],
+  ["fence-deck", "Fence / Deck"], ["flooring", "Flooring"], ["mailbox", "Mailbox"], ["gutters", "Gutters"],
+  ["pressure-washing", "Pressure Washing"], ["yard-tree-cleanup", "Yard / Tree Cleanup"],
+  ["realtor-property-punch-list", "Realtor / Property Punch List"], ["inspection-repairs", "Inspection Repairs"],
+  ["other", "Other / Not Listed"],
 ] as const;
 const option = (id: string, label: string) => ({ id, label, priceAdjustment: null });
 const choice = (id: string, title: string, options: { id: string; label: string }[], required = true, helper = "") => ({
@@ -25,28 +26,29 @@ const choice = (id: string, title: string, options: { id: string; label: string 
   options: options.map((item) => option(item.id, item.label)), condition: null, pricingRule: { perUnitAdjustment: null },
 });
 const defaultConfig = () => ({
-  version: 1,
+  version: 2,
   services: services.map(([id, label]) => ({ id, label, basePrice: null })),
   questions: [
-    choice("project-type", "What type of project are you looking to have done?", services.map(([id, label]) => ({ id, label }))),
-    { id: "project-details", type: "paragraph" as const, title: "Tell us a little about the project.", helper: "A few details help us understand what you have in mind.", placeholder: "Tell us about the project, property, and desired result.", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
-    choice("project-size", "How large is the project?", [{ id: "small", label: "Small" }, { id: "medium", label: "Medium" }, { id: "large", label: "Large" }, { id: "not-sure", label: "Not sure" }]),
-    { id: "quantity", type: "number" as const, title: "How many items, fixtures, or areas are involved?", helper: "", placeholder: "Enter a number, if known", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
-    { id: "needs-removal", type: "yes_no" as const, title: "Are there existing fixtures, materials, or items that need to be removed before the work can be completed?", helper: "", placeholder: "", required: true, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
-    { id: "removal-count", type: "number" as const, title: "How many need to be removed?", helper: "", placeholder: "Enter a number", required: true, enabled: true, options: [], condition: { questionId: "needs-removal", value: "yes" }, pricingRule: { perUnitAdjustment: null } },
-    choice("access", "How easy is the work area to access?", [{ id: "easy", label: "Easy access / open space" }, { id: "normal", label: "Normal access" }, { id: "somewhat-difficult", label: "Somewhat difficult to access" }, { id: "second-story", label: "Second story" }, { id: "tight", label: "Tight or confined space" }, { id: "difficult", label: "Difficult to reach" }, { id: "not-sure", label: "Not sure" }]),
-    choice("difficulty", "How would you describe the overall difficulty of the project?", [{ id: "simple", label: "Simple" }, { id: "moderate", label: "Moderate" }, { id: "difficult", label: "Difficult" }, { id: "not-sure", label: "Not sure" }], true, "Think about the project as a whole, including the amount of work, access, removal, installation, preparation, and anything else that may make the job more difficult."),
-    { id: "additional-services", type: "checkboxes" as const, title: "Are there any additional services you may need?", helper: "Select all that apply.", placeholder: "", required: false, enabled: true, options: ["Materials pickup", "Debris removal", "Light cleanup", "Help selecting materials"].map((label, i) => option(`additional-${i}`, label)), condition: null, pricingRule: { perUnitAdjustment: null } },
-    { id: "other-information", type: "paragraph" as const, title: "Do you have any other information we should know?", helper: "", placeholder: "Anything else that could help us understand the project.", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
-    { id: "project-photos", type: "photo_upload" as const, title: "Project photos", helper: "Optional. Photos can help us understand the work area.", placeholder: "", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
-    { id: "location", type: "short_answer" as const, title: "Where will the work be performed?", helper: "City or area is enough for this estimate.", placeholder: "City or area", required: true, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
+    choice("project-type", "Project Type (Optional)", services.map(([id, label]) => ({ id, label })), false, "Choose the closest option if one fits. You can also skip this question or select Other / Not Listed."),
+    { id: "project-description", type: "paragraph" as const, title: "Describe Your Project", helper: "The more details you provide, the better we can understand your project and prepare an accurate estimate.\n\nHelpful details may include:\n• What needs to be done\n• Approximate dimensions or size\n• Current condition\n• Location of the work on the property\n• Materials involved\n• What you want changed, repaired, installed, removed, or cleaned\n• Any other details you think would be helpful", placeholder: "Describe what you need, where the work is located, and the result you would like.", required: true, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
+    { id: "approximate-size", type: "short_answer" as const, title: "Approximate Size / Dimensions (Optional)", helper: "Share measurements or an approximate size if they are relevant or known.", placeholder: "For example: 12 ft × 16 ft, three rooms, or about 200 sq ft", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
+    { id: "current-condition", type: "paragraph" as const, title: "Current Condition (Optional)", helper: "Describe the current condition, damage, wear, or anything else we should know.", placeholder: "What does the area or item look like now?", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
+    { id: "materials-specifications", type: "paragraph" as const, title: "Preferred Materials, Products, or Specifications (Optional)", helper: "If you already have materials or preferences, share them here. It is fine to leave this blank.", placeholder: "Product names, materials, colors, finishes, or other preferences", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
+    { id: "additional-information", type: "paragraph" as const, title: "Additional Information (Optional)", helper: "Add any timing, access, removal, cleanup, or other details that may help us review the project.", placeholder: "Anything else you would like us to know", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
+    { id: "project-photos", type: "photo_upload" as const, title: "Project Photos (Optional)", helper: "Photos are highly recommended. They can help us better understand the project before preparing your estimate.", placeholder: "", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
   ],
   pricing: { minimumProjectPrice: null, lowRangePercent: 10, highRangePercent: 20 },
 });
 
 async function loadConfig() {
   const [row] = await db.select().from(estimatorConfigTable).where(eq(estimatorConfigTable.id, 1));
-  if (row) return row.config;
+  if (row) {
+    const config = row.config as { version?: number };
+    if ((config.version ?? 0) >= 2) return row.config;
+    const updated = defaultConfig();
+    await db.update(estimatorConfigTable).set({ config: updated, updatedAt: new Date() }).where(eq(estimatorConfigTable.id, 1));
+    return updated;
+  }
   const config = defaultConfig();
   await db.insert(estimatorConfigTable).values({ id: 1, config });
   return config;
