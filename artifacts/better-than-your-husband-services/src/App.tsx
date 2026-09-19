@@ -27,9 +27,13 @@ import {
   X,
 } from 'lucide-react';
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
+import { ClerkProvider } from '@clerk/react';
+import { publishableKeyFromHost } from '@clerk/react/internal';
 import { businessInfo } from '@/lib/business';
 import { getEstimatorService, isQuestionVisible, estimatorServices, type EstimatorQuestion } from '@/lib/pricing';
 import { getEstimatorDraft, setEstimatorDraft } from '@/lib/estimatorDraft';
+import { EstimatorPage as DynamicEstimatorPage, SignInPage, SignUpPage } from '@/pages/EstimatorPage';
+import { AdminEstimatorEditor } from '@/pages/AdminEstimatorEditor';
 
 const queryClient = new QueryClient();
 
@@ -870,11 +874,13 @@ function RouteScrollManager() {
 
 function Router() {
   const [location] = useLocation();
-  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={EstimatorPage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
+  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate">{() => <DynamicEstimatorPage />}</Route><Route path="/admin/estimator" component={AdminEstimatorEditor} /><Route path="/sign-in/*?" component={SignInPage} /><Route path="/sign-up/*?" component={SignUpPage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
 }
 
 function App() {
-  return <QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}><RouteScrollManager /><Layout><Router /></Layout></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider>;
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const clerkPubKey = publishableKeyFromHost(window.location.hostname, import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
+  return <ClerkProvider publishableKey={clerkPubKey} proxyUrl={import.meta.env.VITE_CLERK_PROXY_URL}><QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={basePath}><RouteScrollManager /><Layout><Router /></Layout></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider></ClerkProvider>;
 }
 
 export default App;

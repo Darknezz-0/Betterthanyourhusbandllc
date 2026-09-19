@@ -10,6 +10,10 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: estimator
+    description: Public project estimator
+  - name: admin
+    description: Protected estimator administration
 paths:
   /healthz:
     get:
@@ -24,6 +28,57 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /estimator-config:
+    get:
+      operationId: getEstimatorConfig
+      tags: [estimator]
+      summary: Get the active estimator configuration
+      responses:
+        "200":
+          description: Active estimator configuration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EstimatorConfig"
+  /admin/estimator-config:
+    get:
+      operationId: getAdminEstimatorConfig
+      tags: [admin]
+      summary: Get estimator configuration for an administrator
+      responses:
+        "200":
+          description: Estimator configuration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EstimatorConfig"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+    put:
+      operationId: saveAdminEstimatorConfig
+      tags: [admin]
+      summary: Save estimator configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EstimatorConfig"
+      responses:
+        "200":
+          description: Saved estimator configuration
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EstimatorConfig"
+        "400":
+          description: Invalid estimator configuration
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
 components:
   schemas:
     HealthStatus:
@@ -33,4 +88,69 @@ components:
           type: string
       required:
         - status
+    EstimatorOption:
+      type: object
+      required: [id, label, priceAdjustment]
+      properties:
+        id: { type: string }
+        label: { type: string }
+        priceAdjustment: { type: ["number", "null"] }
+    EstimatorCondition:
+      type: object
+      required: [questionId, value]
+      properties:
+        questionId: { type: string }
+        value: { type: string }
+    EstimatorPricingRule:
+      type: object
+      required: [perUnitAdjustment]
+      properties:
+        perUnitAdjustment: { type: ["number", "null"] }
+    EstimatorQuestion:
+      type: object
+      required: [id, type, title, helper, placeholder, required, enabled, options, condition, pricingRule]
+      properties:
+        id: { type: string }
+        type:
+          type: string
+          enum: [multiple_choice, checkboxes, short_answer, paragraph, yes_no, number, photo_upload]
+        title: { type: string }
+        helper: { type: string }
+        placeholder: { type: string }
+        required: { type: boolean }
+        enabled: { type: boolean }
+        options:
+          type: array
+          items: { $ref: "#/components/schemas/EstimatorOption" }
+        condition:
+          anyOf:
+            - $ref: "#/components/schemas/EstimatorCondition"
+            - type: "null"
+        pricingRule: { $ref: "#/components/schemas/EstimatorPricingRule" }
+    EstimatorService:
+      type: object
+      required: [id, label, basePrice]
+      properties:
+        id: { type: string }
+        label: { type: string }
+        basePrice: { type: ["number", "null"] }
+    EstimatorPricingSettings:
+      type: object
+      required: [minimumProjectPrice, lowRangePercent, highRangePercent]
+      properties:
+        minimumProjectPrice: { type: ["number", "null"] }
+        lowRangePercent: { type: number, minimum: 0 }
+        highRangePercent: { type: number, minimum: 0 }
+    EstimatorConfig:
+      type: object
+      required: [version, services, questions, pricing]
+      properties:
+        version: { type: integer }
+        services:
+          type: array
+          items: { $ref: "#/components/schemas/EstimatorService" }
+        questions:
+          type: array
+          items: { $ref: "#/components/schemas/EstimatorQuestion" }
+        pricing: { $ref: "#/components/schemas/EstimatorPricingSettings" }
 
