@@ -10,7 +10,7 @@ export const businessInfo = {
   phone: '913-346-0205',
   phoneHref: 'tel:+19133460205',
   contact: {
-    email: '',
+    email: 'BetterThanYourHusbandLLC@gmail.com',
     facebook: '',
   },
   serviceArea:
