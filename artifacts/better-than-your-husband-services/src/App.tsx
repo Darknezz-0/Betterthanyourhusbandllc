@@ -410,35 +410,72 @@ function EstimatorPage() {
 function QuotePage() {
   usePageMeta('Request a Quote', `Share your project details and photos to request a quote from ${businessInfo.displayName}.`);
   const draft = getEstimatorDraft();
-   const [prepared, setPrepared] = useState(false);
+  const [prepared, setPrepared] = useState(false);
   const [files, setFiles] = useState<File[]>(() => draft?.photos ?? []);
   const [error, setError] = useState('');
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (!form.checkValidity()) { setError('Please complete the required fields before sending your request.'); form.reportValidity(); return; }
     setError('');
-     if (businessInfo.contact.email) {
-       const values = new FormData(form);
-       const subject = encodeURIComponent(`Quote request from ${values.get('name') || 'website visitor'}`);
-       const body = encodeURIComponent([
-         `Name: ${values.get('name') || ''}`,
-         `Phone: ${values.get('phone') || ''}`,
-         `Email: ${values.get('email') || ''}`,
-         `Property address: ${values.get('address') || ''}`,
-         `Preferred contact method: ${values.get('contact') || ''}`,
-         `Preferred timeframe: ${values.get('timeframe') || ''}`,
-         '',
-         `Project details: ${values.get('project') || ''}`,
-         '',
-         `Project photos selected: ${files.map((file) => file.name).join(', ') || 'None'}`,
-       ].join('\n'));
-       window.location.href = `mailto:${businessInfo.contact.email}?subject=${subject}&body=${body}`;
-       return;
-     }
-     setPrepared(true);
+    const emailjs = (window as Window & {
+      emailjs?: {
+        send: (
+          serviceId: string,
+          templateId: string,
+          templateParams: Record<string, string>,
+          options: { publicKey: string },
+        ) => Promise<{ status: number; text: string }>;
+      };
+    }).emailjs;
+    if (!emailjs) {
+      setError('The email service did not load. Please try again or contact us by phone.');
+      return;
+    }
+    const values = new FormData(form);
+    const name = String(values.get('name') ?? '');
+    const phone = String(values.get('phone') ?? '');
+    const email = String(values.get('email') ?? '');
+    const address = String(values.get('address') ?? '');
+    const contact = String(values.get('contact') ?? '');
+    const timeframe = String(values.get('timeframe') ?? '');
+    const project = String(values.get('project') ?? '');
+    const photos = files.map((file) => file.name).join(', ') || 'None';
+    try {
+      await emailjs.send(
+        'service_xshkw25',
+        'template_tsl7yv4',
+        {
+          name,
+          from_name: name,
+          user_name: name,
+          phone,
+          email,
+          from_email: email,
+          user_email: email,
+          reply_to: email,
+          address,
+          property_address: address,
+          contact,
+          preferred_contact_method: contact,
+          timeframe,
+          preferred_timeframe: timeframe,
+          project,
+          project_details: project,
+          message: project,
+          photos,
+          photo_names: photos,
+          to_email: businessInfo.contact.email,
+        },
+        { publicKey: 's9-H35QlqCJD4_buB' },
+      );
+      setPrepared(true);
+    } catch (emailError) {
+      console.error('EmailJS quote request failed:', emailError);
+      setError('We could not send your request. Please try again or contact us by phone.');
+    }
   };
-   if (prepared) return <><div className="bg-[#25241f]"><Header /></div><main className="flex min-h-[650px] items-center bg-background px-5 py-28 sm:px-8 lg:px-12"><div className="mx-auto max-w-xl text-center"><div className="mx-auto flex h-16 w-16 items-center justify-center border border-primary text-primary"><CircleCheck size={30} /></div><SectionLabel>Next step ready</SectionLabel><h1 className="mt-5 font-display text-5xl">Your details are ready.</h1><p className="mt-5 text-base leading-8 text-muted-foreground">No email destination is configured for this site yet, so the request has not been sent online. Please call <a className="whitespace-nowrap text-foreground underline decoration-primary underline-offset-4" href={businessInfo.phoneHref}>{businessInfo.phone}</a> to share the project details and photos. This site does not process payment or create a scheduled appointment.</p><a href={businessInfo.phoneHref} className="mt-8 inline-flex items-center gap-3 bg-primary px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground hover:bg-[#d6bb80]" data-testid="link-call-to-finish">Call {businessInfo.phone} <Phone size={15} /></a><br /><button type="button" onClick={() => setPrepared(false)} className="mt-5 border border-border px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[.14em] hover:bg-muted" data-testid="button-edit-quote">Edit details</button></div></main></>;
+   if (prepared) return <><div className="bg-[#25241f]"><Header /></div><main className="flex min-h-[650px] items-center bg-background px-5 py-28 sm:px-8 lg:px-12"><div className="mx-auto max-w-xl text-center"><div className="mx-auto flex h-16 w-16 items-center justify-center border border-primary text-primary"><CircleCheck size={30} /></div><SectionLabel>Request sent</SectionLabel><h1 className="mt-5 font-display text-5xl">Thank you. We received your project request.</h1><p className="mt-5 text-base leading-8 text-muted-foreground">We will review the details and contact you within {businessInfo.quoteResponseWindow}. Pricing and scheduling will be determined after the project information has been reviewed.</p><a href={businessInfo.phoneHref} className="mt-8 inline-flex items-center gap-3 bg-primary px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground hover:bg-[#d6bb80]" data-testid="link-call-to-finish">Call {businessInfo.phone} <Phone size={15} /></a></div></main></>;
    return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.15fr_.65fr]"><form onSubmit={submit} className="space-y-8" noValidate>{draft && <div className="border-l-2 border-primary bg-[#efe8dc] px-5 py-4 text-sm leading-7 text-[#4e4a42]" data-testid="estimator-handoff"><strong className="font-semibold">Project details added.</strong> Your notes are included below. You can add or change anything before preparing the request.</div>}<div className="grid gap-6 sm:grid-cols-2"><Field label="Your name" name="name" placeholder="Full name" required /><Field label="Phone number" name="phone" type="tel" placeholder="913-000-0000" required /></div><div className="grid gap-6 sm:grid-cols-2"><Field label="Property address" name="address" placeholder="Street, city, state" required /><Field label="Email address (optional)" name="email" type="email" placeholder="You@email.com" /></div><div><label htmlFor="project" className="font-mono-brand text-[10px] uppercase tracking-[.14em]">What needs doing? <span className="text-primary">*</span></label><textarea id="project" name="project" required rows={6} defaultValue={draft?.summary ?? ''} placeholder="Tell us about the project, the property, and anything useful to know." className="mt-3 w-full resize-y border border-input bg-card px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary" data-testid="input-project-details" /></div><div className="grid gap-6 sm:grid-cols-2"><SelectField label="Preferred contact method" name="contact" options={['Phone call', 'Text message', 'Email']} /><SelectField label="Preferred timeframe" name="timeframe" options={['As soon as possible', 'Within the next 2 weeks', 'Within the next month', 'I am planning ahead']} /></div><div><label htmlFor="photos" className="font-mono-brand text-[10px] uppercase tracking-[.14em]">Project photos (optional)</label><p className="mt-3 text-sm leading-6 text-muted-foreground">Photos are highly recommended. They can help us better understand the project before preparing your estimate.</p><label htmlFor="photos" className="mt-3 flex cursor-pointer flex-col items-center justify-center border border-dashed border-input bg-card px-5 py-8 text-center transition-colors hover:border-primary" data-testid="label-upload-photos"><Upload size={20} className="text-primary" /><span className="mt-3 text-sm">Add one or more photos</span><span className="mt-1 text-xs text-muted-foreground">JPG, PNG, or HEIC · Helpful but not required</span><input id="photos" name="photos" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => setFiles((current) => [...current, ...Array.from(event.target.files ?? [])])} data-testid="input-project-photos" /></label>{files.length > 0 && <ul className="mt-3 space-y-2">{files.map((file) => <li key={file.name} className="flex items-center gap-2 text-xs text-muted-foreground"><Check size={14} className="text-primary" /> {file.name}</li>)}</ul>}</div>{error && <p role="alert" className="border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-form-error">{error}</p>}<div><p className="mb-4 max-w-2xl text-xs leading-6 text-muted-foreground">Submitting this request does not constitute a final estimate or agreement to perform work. The information provided will be reviewed by the business before pricing and scheduling are determined.</p><button type="submit" className="inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid="button-submit-quote">Prepare quote request <ArrowRight size={16} /></button></div></form><aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7 lg:sticky lg:top-8"><Clock3 size={21} className="text-primary" /><h2 className="mt-5 font-display text-2xl">What happens next</h2><ol className="mt-6 space-y-5">{['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>)}</ol><p className="mt-7 border-t border-[#d6cdbd] pt-5 text-xs leading-6 text-muted-foreground">No payment checkout or deposit policy is handled through this site. {businessInfo.paymentNote}</p></aside></div></main></>;
 }
 
