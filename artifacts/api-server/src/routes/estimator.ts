@@ -35,7 +35,6 @@ const defaultConfig = () => ({
     { id: "current-condition", type: "paragraph" as const, title: "Current Condition (Optional)", helper: "Describe the current condition, damage, wear, or anything else we should know.", placeholder: "What does the area or item look like now?", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
     { id: "materials-specifications", type: "paragraph" as const, title: "Preferred Materials, Products, or Specifications (Optional)", helper: "If you already have materials or preferences, share them here. It is fine to leave this blank.", placeholder: "Product names, materials, colors, finishes, or other preferences", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
     { id: "additional-information", type: "paragraph" as const, title: "Additional Information (Optional)", helper: "Add any timing, access, removal, cleanup, or other details that may help us review the project.", placeholder: "Anything else you would like us to know", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
-    { id: "project-photos", type: "photo_upload" as const, title: "Project Photos (Optional)", helper: "Photos are highly recommended. They can help us better understand the project before preparing your estimate.", placeholder: "", required: false, enabled: true, options: [], condition: null, pricingRule: { perUnitAdjustment: null } },
   ],
   pricing: { minimumProjectPrice: null, lowRangePercent: 10, highRangePercent: 20 },
 });
@@ -43,8 +42,16 @@ const defaultConfig = () => ({
 async function loadConfig() {
   const [row] = await db.select().from(estimatorConfigTable).where(eq(estimatorConfigTable.id, 1));
   if (row) {
-    const config = row.config as { version?: number };
-    if ((config.version ?? 0) >= 2) return row.config;
+    const config = row.config as ReturnType<typeof defaultConfig>;
+    if ((config.version ?? 0) >= 2) {
+      const questions = config.questions.filter((question) => (question as { type: string }).type !== "photo_upload");
+      if (questions.length !== config.questions.length) {
+        const updated = { ...config, questions };
+        await db.update(estimatorConfigTable).set({ config: updated, updatedAt: new Date() }).where(eq(estimatorConfigTable.id, 1));
+        return updated;
+      }
+      return config;
+    }
     const updated = defaultConfig();
     await db.update(estimatorConfigTable).set({ config: updated, updatedAt: new Date() }).where(eq(estimatorConfigTable.id, 1));
     return updated;
@@ -80,7 +87,8 @@ router.put("/admin/estimator-config", async (req, res): Promise<void> => {
   if (!(await requireAdmin(req, res))) return;
   const parsed = SaveAdminEstimatorConfigBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
-  const [saved] = await db.insert(estimatorConfigTable).values({ id: 1, config: parsed.data, updatedAt: new Date() }).onConflictDoUpdate({ target: estimatorConfigTable.id, set: { config: parsed.data, updatedAt: new Date() } }).returning();
+  const config = { ...parsed.data, questions: parsed.data.questions.filter((question) => question.type !== "photo_upload") };
+  const [saved] = await db.insert(estimatorConfigTable).values({ id: 1, config, updatedAt: new Date() }).onConflictDoUpdate({ target: estimatorConfigTable.id, set: { config, updatedAt: new Date() } }).returning();
   res.json(SaveAdminEstimatorConfigResponse.parse(saved.config));
 });
 export default router;
