@@ -27,6 +27,9 @@ export function EstimatorPage({ previewConfig }: { previewConfig?: Config } = {}
   const [position, setPosition] = useState(0);
   const [error, setError] = useState("");
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [position]);
+  useEffect(() => {
     if (previewConfig) {
       setConfig(previewConfig);
       return;

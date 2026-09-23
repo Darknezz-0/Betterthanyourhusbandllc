@@ -103,9 +103,9 @@ function Header() {
               {link.label}
             </Link>
           ))}
-          <Link href="/request-a-quote" className="border border-[#d7bd87]/80 px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[0.14em] text-[#f7f1e7] transition-colors hover:bg-[#d7bd87] hover:text-[#211f1a]" data-testid="link-nav-request-quote">
+          {location !== '/' && <Link href="/request-a-quote" className="border border-[#d7bd87]/80 px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[0.14em] text-[#f7f1e7] transition-colors hover:bg-[#d7bd87] hover:text-[#211f1a]" data-testid="link-nav-request-quote">
             Request a Quote
-          </Link>
+          </Link>}
         </nav>
         <button type="button" className="md:hidden" onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} data-testid="button-mobile-menu">
           {open ? <X size={23} /> : <Menu size={23} />}
@@ -114,7 +114,7 @@ function Header() {
       {open && (
         <div className="border-t border-white/15 bg-[#24231f] px-5 pb-6 pt-3 shadow-2xl md:hidden">
           {links.map((link) => <Link key={link.href} href={link.href} className="block border-b border-white/10 py-4 font-mono-brand text-[10px] uppercase tracking-[0.15em] text-white/80" data-testid={`link-mobile-${link.label.toLowerCase()}`}>{link.label}</Link>)}
-          <Link href="/request-a-quote" className="mt-5 block bg-primary px-5 py-4 text-center font-mono-brand text-[10px] uppercase tracking-[0.15em] text-primary-foreground" data-testid="link-mobile-request-quote">Request a Quote</Link>
+          {location !== '/' && <Link href="/request-a-quote" className="mt-5 block bg-primary px-5 py-4 text-center font-mono-brand text-[10px] uppercase tracking-[0.15em] text-primary-foreground" data-testid="link-mobile-request-quote">Request a Quote</Link>}
         </div>
       )}
     </header>
@@ -191,7 +191,6 @@ function HomePage() {
             <p className="mt-7 max-w-md font-serif text-2xl leading-snug text-[#e3d7c4] sm:text-3xl">Small Jobs. Real Relief.</p>
             <p className="mt-5 max-w-lg text-base leading-7 text-white/70">Professional handyman and property services for the jobs that need to get done.</p>
             <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
-              <ButtonArrow>Request a Quote</ButtonArrow>
               <ButtonArrow href="/services" secondary>Explore Our Services</ButtonArrow>
             </div>
           </div>
