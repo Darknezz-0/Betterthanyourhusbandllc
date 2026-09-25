@@ -2,7 +2,8 @@ modules = ["nodejs-24", "postgresql-16"]
 
 [deployment]
 router = "application"
-deploymentTarget = "autoscale"
+deploymentTarget = "static"
+publicDir = "artifacts/better-than-your-husband-services/dist/public"
 
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]

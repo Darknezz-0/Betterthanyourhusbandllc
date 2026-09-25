@@ -1,0 +1,1 @@
+- [Static publishing and API routing](static-publishing.md) — a static publish can build successfully yet omit this site's estimator API; verify target and output path together.
