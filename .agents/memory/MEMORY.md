@@ -1,1 +1,2 @@
 - [Static publishing and API routing](static-publishing.md) — a static publish can build successfully yet omit this site's estimator API; verify target and output path together.
+- [Chatbase launcher and notification](chatbase-ui.md) — keep the launcher; suppress only the separate upper notification bubble when removing duplicate chat UI.
