@@ -1,16 +1,13 @@
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useEffect, useState, type ReactNode } from 'react';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import {
   ArrowRight,
-  ChevronDown,
   ChevronRight,
   ClipboardList,
   Clock3,
   Compass,
-  Calculator,
   FileText,
   Hammer,
   Home,
@@ -24,15 +21,9 @@ import {
   X,
 } from 'lucide-react';
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
-import { ClerkProvider } from '@clerk/react';
-import { publishableKeyFromHost } from '@clerk/react/internal';
 import { businessInfo } from '@/lib/business';
-import { getEstimatorService, isQuestionVisible, estimatorServices, type EstimatorQuestion } from '@/lib/pricing';
-import { getEstimatorDraft, setEstimatorDraft } from '@/lib/estimatorDraft';
-import { EstimatorPage as DynamicEstimatorPage, SignInPage, SignUpPage } from '@/pages/EstimatorPage';
-import { AdminEstimatorEditor } from '@/pages/AdminEstimatorEditor';
+import { QuoteForm } from '@/pages/QuoteForm';
 
-const queryClient = new QueryClient();
 
 const serviceCategories = [
   { title: 'Home Repairs & Maintenance', text: 'The small-to-medium repairs that keep a home feeling cared for: doors, trim, drywall touch-ups, hardware, fixtures, and the list that keeps growing.', icon: Home },
@@ -228,207 +219,9 @@ function AboutPage() {
   return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="The company behind the list" title="Professional help, without the production." text={`${businessInfo.displayName} is a local property services company built around practical work, clear expectations, and respect for the places we enter.`} /><main><section id="service-philosophy" className="bg-[#f4efe6] px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto max-w-7xl"><SectionLabel>Our service philosophy</SectionLabel><div className="mt-10 grid gap-12 md:grid-cols-3"><div><p className="font-display text-5xl text-primary">01</p><h3 className="mt-5 font-display text-2xl">Be clear</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">Good work starts with an honest understanding of the request, the property, and the limits of the scope.</p></div><div><p className="font-display text-5xl text-primary">02</p><h3 className="mt-5 font-display text-2xl">Be useful</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">We focus on the work that makes a real difference in how a home or property functions and feels.</p></div><div><p className="font-display text-5xl text-primary">03</p><h3 className="mt-5 font-display text-2xl">Leave it better</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">A thoughtful finish is part of the job: communicating, protecting the space, and respecting the result.</p></div></div></div></section></main></>;
 }
 
-function EstimatorPage() {
-  usePageMeta('Estimate Your Project', `Choose a project type and share the details that can help ${businessInfo.displayName} review your request.`);
-  const [, navigate] = useLocation();
-  const [selectedServiceId, setSelectedServiceId] = useState('');
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [step, setStep] = useState<'details' | 'review'>('details');
-  const [error, setError] = useState('');
-  const detailsSectionRef = useRef<HTMLElement>(null);
-  const service = getEstimatorService(selectedServiceId);
-  const visibleQuestions = service?.questions.filter((question) => isQuestionVisible(question, answers)) ?? [];
-
-  useEffect(() => {
-    if (!selectedServiceId || step !== 'details') return;
-    const frame = window.requestAnimationFrame(() => {
-      detailsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [selectedServiceId, step]);
-
-  const selectService = (serviceId: string) => {
-    setSelectedServiceId(serviceId);
-    setAnswers({});
-    setError('');
-    setStep('details');
-  };
-
-  const updateAnswer = (question: EstimatorQuestion, value: string) => {
-    setAnswers((current) => ({ ...current, [question.id]: value }));
-    setError('');
-  };
-
-  const reviewDetails = () => {
-    const missing = visibleQuestions.find((question) => question.required && !answers[question.id]?.trim());
-    if (missing) {
-      setError(`Please answer “${missing.label}” before reviewing your project.`);
-      return;
-    }
-    setError('');
-    setStep('review');
-  };
-
-  const summary = service
-    ? [
-        `Project type: ${service.label}`,
-        ...visibleQuestions
-          .filter((question) => answers[question.id]?.trim())
-          .map((question) => `${question.label}: ${answers[question.id]}`),
-      ].join('\n')
-    : '';
-
-  const continueToQuote = () => {
-    if (!service) return;
-    setEstimatorDraft({
-      serviceId: service.id,
-      serviceLabel: service.label,
-      summary,
-    });
-    navigate('/request-a-quote?from=estimator');
-  };
-
-  return (
-    <>
-      <div className="bg-[#25241f]"><Header /></div>
-      <PageIntro eyebrow="A clearer first step" title="Estimate your project." text="Choose the kind of work you have in mind, answer only the questions that apply, and carry the details into a quote request for review." />
-      <main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
-        <div className="mx-auto max-w-7xl">
-          {!service && (
-            <section aria-labelledby="estimator-services-heading">
-              <div className="flex items-end justify-between gap-6">
-                <div>
-                  <SectionLabel>Choose a project type</SectionLabel>
-                  <h2 id="estimator-services-heading" className="mt-5 max-w-2xl font-display text-4xl leading-tight sm:text-5xl">Start with the work that sounds closest.</h2>
-                </div>
-                <Calculator className="hidden text-primary sm:block" size={34} strokeWidth={1.3} aria-hidden="true" />
-              </div>
-              <div className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-                {estimatorServices.map((option, index) => (
-                  <button key={option.id} type="button" onClick={() => selectService(option.id)} className="group min-h-48 bg-card p-7 text-left transition-colors hover:bg-[#2a2924] hover:text-[#f4efe6]" data-testid={`button-estimator-service-${option.id}`}>
-                    <span className="font-mono-brand text-[10px] text-primary">0{index + 1}</span>
-                    <h3 className="mt-10 font-display text-2xl leading-tight">{option.label}</h3>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground group-hover:text-white/60">{option.summary}</p>
-                  </button>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {service && step === 'details' && (
-            <section ref={detailsSectionRef} aria-labelledby="estimator-details-heading">
-              <button type="button" onClick={() => setSelectedServiceId('')} className="font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary hover:text-foreground" data-testid="button-estimator-change-service">← Change project type</button>
-              <div className="mt-7 grid gap-14 lg:grid-cols-[1.15fr_.65fr]">
-                <div>
-                  <SectionLabel>{service.label}</SectionLabel>
-                  <h2 id="estimator-details-heading" className="mt-5 font-display text-4xl leading-tight sm:text-5xl">A few details help us review the work.</h2>
-                  <p className="mt-5 max-w-2xl text-base leading-8 text-muted-foreground">Only the questions relevant to {service.label.toLowerCase()} are shown. Approximate measurements are welcome when you have them.</p>
-                  <div className="mt-12 space-y-8">
-                    {visibleQuestions.map((question) => (
-                      <div key={question.id}>
-                        <label htmlFor={`estimate-${question.id}`} className="font-mono-brand text-[10px] uppercase tracking-[.14em]">
-                          {question.label} {question.required && <span className="text-primary" aria-hidden="true">*</span>}
-                        </label>
-                        {question.type === 'select' && (
-                          <div className="relative mt-3">
-                            <select id={`estimate-${question.id}`} value={answers[question.id] ?? ''} onChange={(event) => updateAnswer(question, event.target.value)} className="w-full appearance-none border border-input bg-card px-4 py-3 text-sm outline-none focus:border-primary" required={question.required} data-testid={`select-estimator-${question.id}`}>
-                              <option value="" disabled>{question.required ? 'Select one' : 'Select if known'}</option>
-                              {question.options?.map((option) => <option key={option} value={option}>{option}</option>)}
-                            </select>
-                            <ChevronDown size={16} className="pointer-events-none absolute right-4 top-3.5 text-muted-foreground" aria-hidden="true" />
-                          </div>
-                        )}
-                        {question.type === 'number' && (
-                          <input id={`estimate-${question.id}`} type="number" min={question.min} value={answers[question.id] ?? ''} onChange={(event) => updateAnswer(question, event.target.value)} placeholder={question.placeholder} className="mt-3 w-full border border-input bg-card px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/70 focus:border-primary" required={question.required} data-testid={`input-estimator-${question.id}`} />
-                        )}
-                        {question.type === 'text' && (
-                          <input id={`estimate-${question.id}`} type="text" value={answers[question.id] ?? ''} onChange={(event) => updateAnswer(question, event.target.value)} placeholder={question.placeholder} className="mt-3 w-full border border-input bg-card px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/70 focus:border-primary" required={question.required} data-testid={`input-estimator-${question.id}`} />
-                        )}
-                        {question.type === 'textarea' && (
-                          <textarea id={`estimate-${question.id}`} value={answers[question.id] ?? ''} onChange={(event) => updateAnswer(question, event.target.value)} placeholder={question.placeholder} rows={4} className="mt-3 w-full resize-y border border-input bg-card px-4 py-3 text-sm outline-none placeholder:text-muted-foreground/70 focus:border-primary" required={question.required} data-testid={`textarea-estimator-${question.id}`} />
-                        )}
-                        {question.helper && <p className="mt-2 text-xs leading-5 text-muted-foreground">{question.helper}</p>}
-                      </div>
-                    ))}
-                  </div>
-                  {error && <p role="alert" className="mt-8 border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-estimator-error">{error}</p>}
-                  <button type="button" onClick={reviewDetails} className="mt-10 inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid="button-estimator-review">Review project details <ArrowRight size={16} aria-hidden="true" /></button>
-                </div>
-                <aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7 lg:sticky lg:top-8">
-                  <Calculator size={21} className="text-primary" aria-hidden="true" />
-                  <h2 className="mt-5 font-display text-2xl">Review first, price later.</h2>
-                  <p className="mt-4 text-sm leading-7 text-muted-foreground">This estimator is collecting project information only. Verified business pricing rules have not been added, so no dollar amount is shown.</p>
-                  <p className="mt-5 border-t border-[#d6cdbd] pt-5 text-sm leading-7 text-muted-foreground">After you review your details, they will be carried into the existing Request a Quote process.</p>
-                </aside>
-              </div>
-            </section>
-          )}
-
-          {service && step === 'review' && (
-            <section aria-labelledby="estimator-review-heading">
-              <button type="button" onClick={() => setStep('details')} className="font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary hover:text-foreground" data-testid="button-estimator-edit">← Edit project details</button>
-              <div className="mt-7 grid gap-14 lg:grid-cols-[1fr_.7fr]">
-                <div>
-                  <SectionLabel>Review before continuing</SectionLabel>
-                  <h2 id="estimator-review-heading" className="mt-5 font-display text-4xl leading-tight sm:text-5xl">Here is what you told us.</h2>
-                  <div className="mt-10 whitespace-pre-line border border-border bg-card p-6 text-sm leading-8 text-muted-foreground sm:p-8">{summary}</div>
-                  <button type="button" onClick={continueToQuote} className="mt-10 inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid="button-estimator-continue">Continue to Request a Quote <ArrowRight size={16} aria-hidden="true" /></button>
-                </div>
-                <aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7">
-                  <ShieldCheck size={21} className="text-primary" aria-hidden="true" />
-                  <h2 className="mt-5 font-display text-2xl">Manual review is next.</h2>
-                  <p className="mt-4 text-sm leading-7 text-muted-foreground">Based on the information provided, this project requires a review before an estimate can be provided.</p>
-                  <p className="mt-5 border-t border-[#d6cdbd] pt-5 text-sm leading-7 text-muted-foreground">When verified pricing is added later, any automated result will be labeled “Estimated Project Range,” never a guaranteed price or final quote.</p>
-                </aside>
-              </div>
-            </section>
-          )}
-        </div>
-      </main>
-    </>
-  );
-}
-
 function QuotePage() {
   usePageMeta('Request a Quote', `Share your project details and photos to request a quote from ${businessInfo.displayName}.`);
-  const draft = getEstimatorDraft();
-  const [error, setError] = useState('');
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = event.currentTarget;
-    if (!form.checkValidity()) { setError('Please complete the required fields before sending your request.'); form.reportValidity(); return; }
-    setError('');
-    const values = new FormData(form);
-    const name = String(values.get('name') ?? '');
-    const phone = String(values.get('phone') ?? '');
-    const email = String(values.get('email') ?? '');
-    const address = String(values.get('address') ?? '');
-    const contact = String(values.get('contact') ?? '');
-    const timeframe = String(values.get('timeframe') ?? '');
-    const project = String(values.get('project') ?? '');
-    const subject = encodeURIComponent(`Project request from ${name || 'website visitor'}`);
-    const body = encodeURIComponent([
-      `Name: ${name}`,
-      `Phone: ${phone}`,
-      `Email: ${email}`,
-      `Property address: ${address}`,
-      `Preferred contact method: ${contact || 'Not specified'}`,
-      `Preferred timeframe: ${timeframe || 'Not specified'}`,
-      '',
-      'Project details:',
-      project,
-    ].filter(Boolean).join('\n'));
-    window.location.href = `mailto:${businessInfo.contact.email}?subject=${subject}&body=${body}`;
-  };
-   return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.15fr_.65fr]"><form onSubmit={submit} className="space-y-8" noValidate>{draft && <div className="border-l-2 border-primary bg-[#efe8dc] px-5 py-4 text-sm leading-7 text-[#4e4a42]" data-testid="estimator-handoff"><strong className="font-semibold">Project details added.</strong> Your notes are included below. You can add or change anything before preparing the request.</div>}<div className="grid gap-6 sm:grid-cols-2"><Field label="Your name" name="name" placeholder="Full name" required /><Field label="Phone number" name="phone" type="tel" placeholder="913-000-0000" required /></div><div className="grid gap-6 sm:grid-cols-2"><Field label="Property address" name="address" placeholder="Street, city, state" required /><Field label="Email address (optional)" name="email" type="email" placeholder="You@email.com" /></div><div><label htmlFor="project" className="font-mono-brand text-[10px] uppercase tracking-[.14em]">What needs doing? <span className="text-primary">*</span></label><textarea id="project" name="project" required rows={6} defaultValue={draft?.summary ?? ''} placeholder="Tell us about the project, the property, and anything useful to know." className="mt-3 w-full resize-y border border-input bg-card px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary" data-testid="input-project-details" /></div><div className="grid gap-6 sm:grid-cols-2"><SelectField label="Preferred contact method" name="contact" options={['Phone call', 'Text message', 'Email']} /><SelectField label="Preferred timeframe" name="timeframe" options={['As soon as possible', 'Within the next 2 weeks', 'Within the next month', 'I am planning ahead']} /></div>{error && <p role="alert" className="border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-form-error">{error}</p>}<div><p className="mb-4 max-w-2xl text-sm font-medium leading-6 text-foreground">After submitting, please attach any photos in your email before sending.</p><p className="mb-4 max-w-2xl text-xs leading-6 text-muted-foreground">Submitting this request does not constitute a final estimate or agreement to perform work. The information provided will be reviewed by the business before pricing and scheduling are determined.</p><button type="submit" className="inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid="button-submit-quote">Prepare quote request <ArrowRight size={16} /></button></div></form><aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7 lg:sticky lg:top-8"><Clock3 size={21} className="text-primary" /><h2 className="mt-5 font-display text-2xl">What happens next</h2><ol className="mt-6 space-y-5">{['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>)}</ol><p className="mt-7 border-t border-[#d6cdbd] pt-5 text-xs leading-6 text-muted-foreground">No payment checkout or deposit policy is handled through this site. {businessInfo.paymentNote}</p></aside></div></main></>;
-}
-
-function Field({ label, name, placeholder, type = 'text', required = false }: { label: string; name: string; placeholder: string; type?: string; required?: boolean }) {
-  return <div><label htmlFor={name} className="font-mono-brand text-[10px] uppercase tracking-[.14em]">{label} {required && <span className="text-primary">*</span>}</label><input id={name} name={name} type={type} required={required} placeholder={placeholder} className="mt-3 w-full border border-input bg-card px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary" data-testid={`input-${name}`} /></div>;
-}
-
-function SelectField({ label, name, options }: { label: string; name: string; options: string[] }) {
-  return <div><label htmlFor={name} className="font-mono-brand text-[10px] uppercase tracking-[.14em]">{label}</label><div className="relative mt-3"><select id={name} name={name} defaultValue="" className="w-full appearance-none border border-input bg-card px-4 py-3 text-sm outline-none focus:border-primary" data-testid={`select-${name}`}><option value="" disabled>Select one</option>{options.map((option) => <option key={option} value={option}>{option}</option>)}</select><ChevronDown size={16} className="pointer-events-none absolute right-4 top-3.5 text-muted-foreground" /></div></div>;
+  return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.15fr_.65fr]"><QuoteForm /><aside className="h-fit border-l-2 border-primary bg-[#efe8dc] p-7 lg:sticky lg:top-8"><Clock3 size={21} className="text-primary" /><h2 className="mt-5 font-display text-2xl">What happens next</h2><ol className="mt-6 space-y-5">{['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>)}</ol><p className="mt-7 border-t border-[#d6cdbd] pt-5 text-xs leading-6 text-muted-foreground">No payment checkout or deposit policy is handled through this site. {businessInfo.paymentNote}</p></aside></div></main></>;
 }
 
 function ContactPage() {
@@ -855,13 +648,12 @@ function RouteScrollManager() {
 
 function Router() {
   const [location] = useLocation();
-  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate">{() => <DynamicEstimatorPage />}</Route><Route path="/admin/estimator" component={AdminEstimatorEditor} /><Route path="/sign-in/*?" component={SignInPage} /><Route path="/sign-up/*?" component={SignUpPage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
+  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={QuotePage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
 }
 
 function App() {
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const clerkPubKey = publishableKeyFromHost(window.location.hostname, import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
-  return <ClerkProvider publishableKey={clerkPubKey} proxyUrl={import.meta.env.VITE_CLERK_PROXY_URL}><QueryClientProvider client={queryClient}><TooltipProvider><WouterRouter base={basePath}><RouteScrollManager /><Layout><Router /></Layout></WouterRouter><Toaster /></TooltipProvider></QueryClientProvider></ClerkProvider>;
+  return <TooltipProvider><WouterRouter base={basePath}><RouteScrollManager /><Layout><Router /></Layout></WouterRouter><Toaster /></TooltipProvider>;
 }
 
 export default App;
