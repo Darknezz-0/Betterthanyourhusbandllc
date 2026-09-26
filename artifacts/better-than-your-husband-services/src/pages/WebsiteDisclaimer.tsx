@@ -117,13 +117,13 @@ Last Updated: September 26, 2026`;
 export function WebsiteDisclaimer() {
   return (
     <main className="bg-background px-5 pb-16 pt-16 sm:px-8 sm:pb-24 lg:px-12">
-      <article className="mx-auto max-w-3xl" data-testid="website-disclaimer">
+      <article className="stationery-corner mx-auto max-w-3xl pl-5 pt-7 sm:pl-7" data-testid="website-disclaimer">
         {disclaimerText.split(/\n\n/).map((block, index) => {
           if (index === 0) {
             return <h1 key={index} className="mb-8 font-display text-4xl leading-tight sm:text-6xl">{block}</h1>;
           }
           if (index === 1) {
-            return <p key={index} className="mb-8 border-l-2 border-primary bg-[#efe8dc] px-5 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-[#4e4a42]">{block}</p>;
+            return <p key={index} className="mb-8 border-l-2 border-primary bg-[#242729] px-5 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-[#c2c5c5]">{block}</p>;
           }
           if (/^\d+\. /.test(block)) {
             return <h2 key={index} className="mb-5 mt-10 border-t border-border pt-8 font-display text-2xl sm:text-3xl">{block}</h2>;

@@ -33,7 +33,7 @@ const projectTypes = [
 ];
 
 const steps = ['Project Information', 'Materials & Additional Details', 'Contact Information'];
-const inputClass = 'mt-3 w-full border border-input bg-card px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-primary';
+const inputClass = 'mt-3 w-full border border-input bg-[#1e2123] px-4 py-3 text-sm text-foreground outline-none transition-colors placeholder:text-[#a2a8aa] focus:border-primary';
 
 type DetailKey = keyof Details;
 
@@ -52,7 +52,7 @@ export function QuoteForm() {
       <label htmlFor={key} className="font-mono-brand text-[10px] uppercase tracking-[.14em]">
         {label} {required && <span className="text-primary">*</span>}
       </label>
-      <input id={key} name={key} type={type} required={required} value={details[key]} onChange={(event) => change(key, event.target.value)} placeholder={placeholder} className={inputClass} data-testid={`input-${key}`} />
+       <input id={key} name={key} type={type} required={required} value={details[key]} onChange={(event) => change(key, event.target.value)} placeholder={placeholder} className={inputClass} data-testid={`input-${key}`} />
     </div>
   );
 
@@ -69,7 +69,7 @@ export function QuoteForm() {
     <div>
       <label htmlFor={key} className="font-mono-brand text-[10px] uppercase tracking-[.14em]">{label}</label>
       <div className="relative mt-3">
-        <select id={key} name={key} value={details[key]} onChange={(event) => change(key, event.target.value)} className="w-full appearance-none border border-input bg-card px-4 py-3 text-sm outline-none focus:border-primary" data-testid={`select-${key}`}>
+         <select id={key} name={key} value={details[key]} onChange={(event) => change(key, event.target.value)} className="w-full appearance-none border border-input bg-[#1e2123] px-4 py-3 text-sm text-foreground outline-none focus:border-primary" data-testid={`select-${key}`}>
           <option value="">Select one</option>
           {options.map((option) => <option key={option} value={option}>{option}</option>)}
         </select>
@@ -121,7 +121,7 @@ export function QuoteForm() {
 
   return (
     <form onSubmit={advance} className="space-y-8" noValidate data-testid="quote-form">
-      <div>
+       <div className="stationery-corner pl-5 pt-7 sm:pl-7">
         <p className="font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary">Page {step + 1} of 3</p>
         <div className="mt-3 h-1 bg-muted"><div className="h-1 bg-primary" style={{ width: `${((step + 1) / 3) * 100}%` }} /></div>
         <h2 className="mt-7 font-display text-3xl sm:text-4xl">{steps[step]}</h2>
@@ -165,8 +165,8 @@ export function QuoteForm() {
       )}
       {error && <p role="alert" className="border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-form-error">{error}</p>}
       <div className="flex flex-wrap gap-3">
-        {step > 0 && <button type="button" onClick={() => { setError(''); setStep(step - 1); window.scrollTo({ top: 0, behavior: 'auto' }); }} className="inline-flex items-center gap-3 border border-border px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em]" data-testid="button-quote-back"><ArrowLeft size={15} /> Back</button>}
-        <button type="submit" className="inline-flex items-center gap-4 bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#d6bb80]" data-testid={step === 2 ? 'button-submit-quote' : 'button-quote-continue'}>{step === 2 ? 'Prepare quote request' : 'Continue'} <ArrowRight size={16} /></button>
+         {step > 0 && <button type="button" onClick={() => { setError(''); setStep(step - 1); window.scrollTo({ top: 0, behavior: 'auto' }); }} className="inline-flex items-center gap-3 border border-[#b39860]/65 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-foreground hover:bg-[#b39860]/10" data-testid="button-quote-back"><ArrowLeft size={15} /> Back</button>}
+         <button type="submit" className="inline-flex items-center gap-4 border border-primary bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#c9af78]" data-testid={step === 2 ? 'button-submit-quote' : 'button-quote-continue'}>{step === 2 ? 'Prepare quote request' : 'Continue'} <ArrowRight size={16} /></button>
       </div>
     </form>
   );
