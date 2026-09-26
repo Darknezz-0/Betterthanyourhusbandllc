@@ -23,6 +23,7 @@ import {
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 import { businessInfo } from '@/lib/business';
 import { QuoteForm } from '@/pages/QuoteForm';
+import { WebsiteDisclaimer } from '@/pages/WebsiteDisclaimer';
 
 
 const serviceCategories = [
@@ -132,16 +133,16 @@ function Footer() {
           <p className="font-mono-brand text-[10px] uppercase tracking-[0.18em] text-[#c8a86b]">Reach us</p>
           <a href={businessInfo.phoneHref} className="mt-5 flex items-center gap-3 text-lg text-white hover:text-[#d7bd87]" data-testid="link-footer-phone"><Phone size={17} /> {businessInfo.phone}</a>
           <a href={`mailto:${businessInfo.contact.email}`} className="mt-3 block break-all text-sm leading-6 text-[#aaa59c] transition-colors hover:text-[#d7bd87]" data-testid="link-footer-email">{businessInfo.contact.email}</a>
-          <p className="mt-1 text-sm leading-6 text-[#aaa59c]">{businessInfo.contact.facebook || 'Facebook details coming soon'}</p>
+          <a href={businessInfo.contact.facebook} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm leading-6 text-[#aaa59c] transition-colors hover:text-[#d7bd87]" data-testid="link-footer-facebook">Better Than Your Husband LLC on Facebook</a>
         </div>
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-5 text-[11px] text-[#8d8981] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
            <p>© {new Date().getFullYear()} {businessInfo.displayName}</p>
            <div className="flex flex-wrap gap-x-5 gap-y-2">
-             <Link href="/terms" className="hover:text-white" data-testid="link-footer-terms">Terms of Service</Link>
+              <Link href="/terms" className="hover:text-white" data-testid="link-footer-terms">Terms &amp; Conditions</Link>
              <Link href="/privacy-policy" className="hover:text-white" data-testid="link-footer-privacy">Privacy Policy</Link>
-             <Link href="/legal-disclaimer" className="hover:text-white" data-testid="link-footer-disclaimer">Legal Disclaimer</Link>
+              <Link href="/disclaimer" className="hover:text-white" data-testid="link-footer-disclaimer">Disclaimer</Link>
           </div>
         </div>
       </div>
@@ -226,7 +227,34 @@ function QuotePage() {
 
 function ContactPage() {
   usePageMeta('Contact', `Contact ${businessInfo.displayName} by phone for handyman and property services in the Kansas City metropolitan area.`);
-   return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow="Let’s talk about the list" title="Phone first. People next." text="For the quickest path to a real conversation about your property, call directly. You can also email us or prepare quote details online." /><main className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_.8fr]"><div className="border border-border bg-card p-8 sm:p-12"><SectionLabel>Primary contact</SectionLabel><a href={businessInfo.phoneHref} className="mt-7 flex items-center gap-4 font-display text-4xl text-foreground transition-colors hover:text-primary sm:text-6xl" data-testid="link-contact-phone"><Phone size={30} className="text-primary sm:h-10 sm:w-10" />{businessInfo.phone}</a><p className="mt-6 max-w-lg text-base leading-8 text-muted-foreground">Call to discuss a project, ask whether a job may be a fit, or get help deciding where to begin.</p><Link href="/request-a-quote" className="mt-8 inline-flex items-center gap-4 bg-primary px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground hover:bg-[#d6bb80]" data-testid="link-contact-quote">Request a quote <ArrowRight size={16} /></Link></div><div className="space-y-4"><div className="border border-border bg-[#f4efe6] p-7"><Compass size={20} className="text-primary" /><h2 className="mt-5 font-display text-2xl">Service area</h2><p className="mt-3 text-sm leading-7 text-muted-foreground">{businessInfo.serviceArea} Availability depends on project and location.</p></div><div className="border border-border bg-[#f4efe6] p-7"><Mail size={20} className="text-primary" /><h2 className="mt-5 font-display text-2xl">Email & Facebook</h2><p className="mt-3 text-sm leading-7 text-muted-foreground">Email us about a project or use the quote request form to prepare the details.</p><a href={`mailto:${businessInfo.contact.email}`} className="mt-4 block break-all font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary hover:text-foreground" data-testid="link-contact-email">Email: {businessInfo.contact.email}</a><p className="mt-2 font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary">Facebook: {businessInfo.contact.facebook || 'Not provided'}</p></div></div></div></main></>;
+  return <>
+    <div className="bg-[#25241f]"><Header /></div>
+    <PageIntro eyebrow="Let’s talk about the list" title="Phone first. People next." text="For the quickest path to a real conversation about your property, call directly. You can also email us or prepare quote details online." />
+    <main className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_.8fr]">
+        <div className="border border-border bg-card p-8 sm:p-12">
+          <SectionLabel>Primary contact</SectionLabel>
+          <a href={businessInfo.phoneHref} className="mt-7 flex items-center gap-4 font-display text-4xl text-foreground transition-colors hover:text-primary sm:text-6xl" data-testid="link-contact-phone"><Phone size={30} className="text-primary sm:h-10 sm:w-10" />{businessInfo.phone}</a>
+          <p className="mt-6 max-w-lg text-base leading-8 text-muted-foreground">Call to discuss a project, ask whether a job may be a fit, or get help deciding where to begin.</p>
+          <Link href="/request-a-quote" className="mt-8 inline-flex items-center gap-4 bg-primary px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground hover:bg-[#d6bb80]" data-testid="link-contact-quote">Request a quote <ArrowRight size={16} /></Link>
+        </div>
+        <div className="space-y-4">
+          <div className="border border-border bg-[#f4efe6] p-7">
+            <Compass size={20} className="text-primary" />
+            <h2 className="mt-5 font-display text-2xl">Service area</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">{businessInfo.serviceArea} Availability depends on project and location.</p>
+          </div>
+          <div className="border border-border bg-[#f4efe6] p-7">
+            <Mail size={20} className="text-primary" />
+            <h2 className="mt-5 font-display text-2xl">Email &amp; Facebook</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">Email us about a project or use the quote request form to prepare the details.</p>
+            <a href={`mailto:${businessInfo.contact.email}`} className="mt-4 block break-all font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary hover:text-foreground" data-testid="link-contact-email">Email: {businessInfo.contact.email}</a>
+            <a href={businessInfo.contact.facebook} target="_blank" rel="noopener noreferrer" className="mt-2 block font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary hover:text-foreground" data-testid="link-contact-facebook">Better Than Your Husband LLC on Facebook</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </>;
 }
 
 type LegalPageContent = {
@@ -623,6 +651,11 @@ function LegalPage({ kind }: { kind: string }) {
   return <><div className="bg-[#25241f]"><Header /></div><PageIntro eyebrow={page.eyebrow} title={page.title} text={page.intro} /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><article className="mx-auto max-w-3xl"><p className="mb-8 border-l-2 border-primary bg-[#efe8dc] px-5 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-[#4e4a42]">Effective date: {page.effectiveDate}</p>{page.preamble && <p className="mb-8 text-sm leading-8 text-muted-foreground">{page.preamble}</p>}{page.sections.map((section, index) => { const paragraphs = Array.isArray(section.body) ? section.body : [section.body]; return <section key={section.heading} className="border-b border-border py-8 first:pt-0"><div className="flex gap-6"><span className="font-mono-brand text-xs text-primary">{String(index + 1).padStart(2, '0')}</span><div><h2 className="font-display text-2xl">{section.heading}</h2><div className="mt-4 space-y-4 text-sm leading-8 text-muted-foreground"><p>{paragraphs[0]}</p>{section.bullets && <ul className="list-disc space-y-1 pl-5">{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}{paragraphs.slice(1).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></div></div></section>; })}{page.closingLines && <div className="pt-8 font-serif text-lg leading-8 text-foreground">{page.closingLines.map((line) => <p key={line}>{line}</p>)}</div>}</article></main></>;
 }
 
+function DisclaimerPage() {
+  usePageMeta('Website Disclaimer', 'Website Disclaimer for Better Than Your Husband Services LLC.');
+  return <><div className="relative h-[78px] bg-[#25241f]"><Header /></div><WebsiteDisclaimer /></>;
+}
+
 function NotFound() {
   usePageMeta('Page Not Found', 'The page you requested could not be found.');
   return <><div className="bg-[#25241f]"><Header /></div><main className="flex min-h-[650px] items-center justify-center bg-background px-5 py-28 text-center"><div><p className="font-mono-brand text-xs tracking-[.18em] text-primary">404 · Not found</p><h1 className="mt-6 font-display text-6xl">That page wandered off.</h1><p className="mx-auto mt-5 max-w-md text-muted-foreground">The page may have moved, but the list is still here.</p><ButtonArrow href="/">Return home</ButtonArrow></div></main></>;
@@ -648,7 +681,7 @@ function RouteScrollManager() {
 
 function Router() {
   const [location] = useLocation();
-  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={QuotePage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
+  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={QuotePage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/disclaimer" component={DisclaimerPage} /><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
 }
 
 function App() {

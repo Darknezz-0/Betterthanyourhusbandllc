@@ -11,7 +11,7 @@ export const businessInfo = {
   phoneHref: 'tel:+19133460205',
   contact: {
     email: 'BetterThanYourHusbandLLC@gmail.com',
-    facebook: '',
+    facebook: 'https://www.facebook.com/share/1BcXJQLhHW/',
   },
   serviceArea:
     'Kansas City metropolitan area and surrounding communities in Missouri and Kansas.',

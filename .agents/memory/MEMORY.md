@@ -1,2 +1,3 @@
 - [Static publishing and API routing](static-publishing.md) — a static publish can build successfully yet omit this site's estimator API; verify target and output path together.
 - [Chatbase launcher and notification](chatbase-ui.md) — keep the launcher; suppress only the separate upper notification bubble when removing duplicate chat UI.
+- [Shell runtime auto-install](shell-runtime-auto-install.md) — invoking Python can silently add a runtime module to .replit; avoid it for throwaway checks.
