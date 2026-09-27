@@ -61,11 +61,11 @@ function usePageMeta(title: string, description: string) {
 
 function Logo({ footer = false }: { footer?: boolean }) {
   return (
-    <Link href="/" className="group inline-flex items-center" data-testid="link-logo">
+    <Link href="/" className="group inline-flex items-center bg-transparent border-0 shadow-none" data-testid="link-logo">
       <img
         src={`${import.meta.env.BASE_URL}assets/official-logo.png`}
         alt={businessInfo.legalName}
-        className={`object-contain transition-opacity group-hover:opacity-90 ${footer ? 'h-24 w-24' : 'h-16 w-16 sm:h-[68px] sm:w-[68px]'}`}
+        className={`site-logo object-contain transition-opacity group-hover:opacity-90 ${footer ? 'h-24 w-24' : 'h-16 w-16 sm:h-[68px] sm:w-[68px]'}`}
       />
     </Link>
   );
@@ -92,7 +92,7 @@ function Header() {
               {link.label}
             </Link>
           ))}
-           {location !== '/' && <Link href="/request-a-quote" className="border border-[#b39860]/70 px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[0.14em] text-[#eeeae0] transition-colors hover:bg-[#b39860] hover:text-[#121416]" data-testid="link-nav-request-quote">
+           {location !== '/' && <Link href="/request-a-quote" className="secondary-cta px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[0.14em]" data-testid="link-nav-request-quote">
             Request a Quote
           </Link>}
         </nav>
@@ -117,7 +117,7 @@ function Footer() {
         <div>
            <Logo footer />
            <p className="mt-6 max-w-sm font-serif text-2xl leading-snug text-[#e8e3d8]">Small jobs. Real relief.</p>
-           <p className="mt-4 max-w-sm text-sm leading-7 text-[#b4b8b9]">Professional handyman and property services for the jobs that need to get done across the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.</p>
+            <p className="mt-4 max-w-sm text-sm leading-7 text-[#c6c9c8]">Professional handyman and property services for the jobs that need to get done across the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.</p>
         </div>
         <div>
            <p className="font-mono-brand text-[10px] uppercase tracking-[0.18em] text-[#bba16a]">Explore</p>
@@ -132,12 +132,12 @@ function Footer() {
         <div>
            <p className="font-mono-brand text-[10px] uppercase tracking-[0.18em] text-[#bba16a]">Reach us</p>
            <a href={businessInfo.phoneHref} className="mt-5 flex items-center gap-3 text-lg text-[#eeeae0] hover:text-[#c2a76d]" data-testid="link-footer-phone"><Phone size={17} /> {businessInfo.phone}</a>
-           <a href={`mailto:${businessInfo.contact.email}`} className="mt-3 block break-all text-sm leading-6 text-[#b4b8b9] transition-colors hover:text-[#c2a76d]" data-testid="link-footer-email">{businessInfo.contact.email}</a>
-           <a href={businessInfo.contact.facebook} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm leading-6 text-[#b4b8b9] transition-colors hover:text-[#c2a76d]" data-testid="link-footer-facebook">Better Than Your Husband LLC on Facebook</a>
+            <a href={`mailto:${businessInfo.contact.email}`} className="mt-3 block break-all text-sm leading-6 text-[#c6c9c8] transition-colors hover:text-[#c2a76d]" data-testid="link-footer-email">{businessInfo.contact.email}</a>
+            <a href={businessInfo.contact.facebook} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm leading-6 text-[#c6c9c8] transition-colors hover:text-[#c2a76d]" data-testid="link-footer-facebook">Better Than Your Husband LLC on Facebook</a>
         </div>
       </div>
       <div className="border-t border-white/10">
-         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-5 text-[11px] text-[#a5aaac] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
+          <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-5 text-xs text-[#c2c5c5] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
            <p>© {new Date().getFullYear()} {businessInfo.displayName}</p>
            <div className="flex flex-wrap gap-x-5 gap-y-2">
               <Link href="/terms" className="hover:text-white" data-testid="link-footer-terms">Terms &amp; Conditions</Link>
@@ -155,7 +155,7 @@ function Layout({ children }: { children: ReactNode }) {
 }
 
 function ButtonArrow({ children, href = '/request-a-quote', secondary = false }: { children: ReactNode; href?: string; secondary?: boolean }) {
-   return <Link href={href} className={`group inline-flex min-h-12 items-center gap-4 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[0.14em] transition-colors ${secondary ? 'border border-[#b39860]/65 text-[#e9e5db] hover:border-[#d1bb88] hover:bg-[#b39860]/10' : 'border border-primary bg-primary text-primary-foreground hover:bg-[#c9af78]'}`} data-testid={`link-cta-${href.replaceAll('/', '') || 'home'}`}>
+    return <Link href={href} className={`group inline-flex min-h-12 items-center gap-4 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[0.14em] transition-colors ${secondary ? 'secondary-cta' : 'border border-primary bg-primary text-primary-foreground hover:bg-[#c9af78]'}`} data-testid={`link-cta-${href.replaceAll('/', '') || 'home'}`}>
     {children}<ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
   </Link>;
 }
@@ -178,12 +178,12 @@ function HomePage() {
             <SectionLabel light>Kansas City metropolitan area · Missouri + Kansas</SectionLabel>
              <h1 className="mt-7 max-w-4xl font-display text-5xl leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]">BETTER<br /><span className="text-[#c2a76d]">THAN</span> YOUR<br />HUSBAND</h1>
              <p className="mt-7 max-w-md font-serif text-2xl leading-snug text-[#e1dfd8] sm:text-3xl">Small Jobs. Real Relief.</p>
-             <p className="mt-5 max-w-lg text-base leading-7 text-[#b8bdbe]">Professional handyman and property services for the jobs that need to get done.</p>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#c7cac9]">Professional handyman and property services for the jobs that need to get done.</p>
             <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
               <ButtonArrow href="/services" secondary>Explore Our Services</ButtonArrow>
             </div>
           </div>
-           <div className="mt-20 flex items-center gap-4 border-t border-[#bfc4c5]/20 pt-5 text-[10px] uppercase tracking-[0.16em] text-[#b0b5b6]">
+            <div className="mt-20 flex items-center gap-4 border-t border-[#bfc4c5]/20 pt-5 text-[10px] uppercase tracking-[0.16em] text-[#c3c7c7]">
              <span className="h-px w-10 shrink-0 bg-[#b39860]" /> Thoughtful work for the places you live and work
           </div>
         </div>
@@ -222,7 +222,7 @@ function AboutPage() {
 
 function QuotePage() {
   usePageMeta('Request a Quote', `Share your project details and photos to request a quote from ${businessInfo.displayName}.`);
-   return <><div className="bg-[#141618]"><Header /></div><PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.15fr_.65fr]"><QuoteForm /><aside className="h-fit border-l-2 border-primary bg-[#242729] p-7 lg:sticky lg:top-8"><Clock3 size={21} className="text-primary" /><h2 className="mt-5 font-display text-2xl">What happens next</h2><ol className="mt-6 space-y-5">{['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>)}</ol><p className="mt-7 border-t border-[#555a5c] pt-5 text-xs leading-6 text-muted-foreground">No payment checkout or deposit policy is handled through this site. {businessInfo.paymentNote}</p></aside></div></main></>;
+    return <><div className="bg-[#141618]"><Header /></div><PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.15fr_.65fr]"><QuoteForm /><aside className="h-fit border-l-2 border-primary bg-[#242729] p-7 lg:sticky lg:top-8"><Clock3 size={21} className="text-primary" /><h2 className="mt-5 font-display text-2xl">What happens next</h2><ol className="mt-6 space-y-5">{['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>)}</ol><p className="mt-7 border-t border-[#555a5c] pt-5 font-mono-brand text-xs uppercase tracking-[.12em] text-primary">Ask us about financing</p><p className="mt-6 text-xs leading-6 text-muted-foreground">No payment checkout or deposit policy is handled through this site. {businessInfo.paymentNote}</p></aside></div></main></>;
 }
 
 function ContactPage() {

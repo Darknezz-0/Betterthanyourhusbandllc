@@ -57,7 +57,7 @@
   --secondary: 216 7% 21%;
   --secondary-foreground: 42 17% 91%;
   --muted: 220 6% 18%;
-  --muted-foreground: 218 8% 72%;
+  --muted-foreground: 218 8% 79%;
   --accent: 216 7% 23%;
   --accent-foreground: 42 17% 91%;
   --destructive: 3 57% 67%;
@@ -96,7 +96,7 @@
   --secondary: 216 7% 21%;
   --secondary-foreground: 42 17% 91%;
   --muted: 220 6% 18%;
-  --muted-foreground: 218 8% 72%;
+  --muted-foreground: 218 8% 79%;
   --accent: 216 7% 23%;
   --accent-foreground: 42 17% 91%;
   --destructive: 3 57% 67%;
@@ -129,6 +129,22 @@
 }
 
 @layer utilities {
+  .site-logo { mix-blend-mode: screen; background: transparent; border: 0; box-shadow: none; }
+  .secondary-cta {
+    border: 1px solid rgb(195 168 111 / .88);
+    color: #eeeae0;
+    background: rgb(195 168 111 / .08);
+    box-shadow: 0 2px 8px rgb(0 0 0 / .2);
+  }
+  .secondary-cta:hover, .secondary-cta:focus-visible {
+    border-color: #d4be8e;
+    background: rgb(195 168 111 / .14);
+    box-shadow: 0 3px 12px rgb(0 0 0 / .24), 0 0 0 2px rgb(195 168 111 / .1);
+  }
+  .photo-instruction {
+    border-left: 2px solid hsl(var(--primary));
+    background: hsl(var(--primary) / .09);
+  }
   .font-display { font-family: var(--app-font-serif); }
   .font-mono-brand { font-family: var(--app-font-mono); }
   .tracking-caps { letter-spacing: .16em; }
@@ -168,6 +184,7 @@
 }
 
 @media (max-width: 640px) {
+  p.text-muted-foreground, li.text-muted-foreground { font-weight: 500; }
   .stationery-corner::before { width: 34px; height: 34px; }
   .stationery-corner::after { width: 16px; height: 16px; }
   .stationery-arc::after { width: 62px; height: 62px; right: 4px; top: 4px; }

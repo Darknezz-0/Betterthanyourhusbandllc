@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Camera, ChevronDown } from 'lucide-react';
 import { businessInfo } from '@/lib/business';
 
 type Details = {
@@ -16,12 +16,14 @@ type Details = {
   email: string;
   contact: string;
   timeframe: string;
+  referralSource: string;
+  otherReferral: string;
 };
 
 const initialDetails: Details = {
   projectType: '', otherProjectType: '', project: '', size: '', condition: '',
   materials: '', additional: '', name: '', phone: '', address: '', email: '',
-  contact: '', timeframe: '',
+  contact: '', timeframe: '', referralSource: '', otherReferral: '',
 };
 
 const projectTypes = [
@@ -30,6 +32,12 @@ const projectTypes = [
   'Fence / Deck', 'Flooring', 'Mailbox', 'Gutters', 'Pressure Washing',
   'Yard / Tree Cleanup', 'Realtor / Property Punch List', 'Inspection Repairs',
   'Other / Not Listed',
+];
+
+const referralSources = [
+  'Google Search', 'Google Maps', 'Facebook', 'Nextdoor',
+  'Referral from a friend or family member', 'Realtor', 'Repeat customer',
+  'Saw our vehicle or sign', 'Other',
 ];
 
 const steps = ['Project Information', 'Materials & Additional Details', 'Contact Information'];
@@ -78,6 +86,15 @@ export function QuoteForm() {
     </div>
   );
 
+  const photoInstruction = (testId: string) => (
+    <div role="note" className="photo-instruction flex items-start gap-3 px-4 py-4 sm:px-5" data-testid={testId}>
+      <Camera size={20} aria-hidden="true" className="mt-0.5 shrink-0 text-primary" />
+      <p className="text-sm font-medium leading-6 text-foreground">
+        <strong className="text-primary">IMPORTANT:</strong> After submitting your request, please attach any project photos to the email before sending it.
+      </p>
+    </div>
+  );
+
   const advance = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -106,6 +123,7 @@ export function QuoteForm() {
       `Property address: ${details.address}`,
       `Preferred contact method: ${details.contact || 'Not specified'}`,
       `Preferred timeframe: ${details.timeframe || 'Not specified'}`,
+      `How did you hear about us?: ${details.referralSource || 'Not specified'}${details.referralSource === 'Other' && details.otherReferral.trim() ? ` — ${details.otherReferral.trim()}` : ''}`,
       '',
       'Project details:',
       `Project Type: ${details.projectType || 'Not specified'}`,
@@ -140,7 +158,7 @@ export function QuoteForm() {
         <>
           {textArea('materials', 'Materials / Specifications', 'Product names, materials, colors, finishes, or other preferences')}
           {textArea('additional', 'Additional Information', 'Anything else you would like us to know')}
-          <p className="text-sm leading-7 text-muted-foreground">After submitting, please attach any photos in your email before sending.</p>
+          {photoInstruction('photo-instruction-details')}
         </>
       )}
       {step === 2 && (
@@ -157,15 +175,17 @@ export function QuoteForm() {
             {select('contact', 'Preferred contact method', ['Phone call', 'Text message', 'Email'])}
             {select('timeframe', 'Preferred timeframe', ['As soon as possible', 'Within the next 2 weeks', 'Within the next month', 'I am planning ahead'])}
           </div>
+          {select('referralSource', 'How did you hear about us?', referralSources)}
+          {details.referralSource === 'Other' && field('otherReferral', 'Other (optional details)', 'Tell us where you heard about us')}
           <div>
-            <p className="mb-4 max-w-2xl text-sm font-medium leading-6 text-foreground">After submitting, please attach any photos in your email before sending.</p>
             <p className="mb-4 max-w-2xl text-xs leading-6 text-muted-foreground">Submitting this request does not constitute a final estimate or agreement to perform work. The information provided will be reviewed by the business before pricing and scheduling are determined.</p>
           </div>
         </>
       )}
       {error && <p role="alert" className="border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-form-error">{error}</p>}
+      {step === 2 && photoInstruction('photo-instruction-final')}
       <div className="flex flex-wrap gap-3">
-         {step > 0 && <button type="button" onClick={() => { setError(''); setStep(step - 1); window.scrollTo({ top: 0, behavior: 'auto' }); }} className="inline-flex items-center gap-3 border border-[#b39860]/65 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-foreground hover:bg-[#b39860]/10" data-testid="button-quote-back"><ArrowLeft size={15} /> Back</button>}
+          {step > 0 && <button type="button" onClick={() => { setError(''); setStep(step - 1); window.scrollTo({ top: 0, behavior: 'auto' }); }} className="secondary-cta inline-flex items-center gap-3 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em]" data-testid="button-quote-back"><ArrowLeft size={15} /> Back</button>}
          <button type="submit" className="inline-flex items-center gap-4 border border-primary bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#c9af78]" data-testid={step === 2 ? 'button-submit-quote' : 'button-quote-continue'}>{step === 2 ? 'Prepare quote request' : 'Continue'} <ArrowRight size={16} /></button>
       </div>
     </form>
