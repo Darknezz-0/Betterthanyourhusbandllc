@@ -145,6 +145,13 @@
     border-left: 2px solid hsl(var(--primary));
     background: hsl(var(--primary) / .09);
   }
+  .project-before-after {
+    display: block;
+    width: 100%;
+    height: auto;
+    opacity: .86;
+    mask-image: linear-gradient(to bottom, transparent, black 6%, black 91%, transparent);
+  }
   .font-display { font-family: var(--app-font-serif); }
   .font-mono-brand { font-family: var(--app-font-mono); }
   .tracking-caps { letter-spacing: .16em; }

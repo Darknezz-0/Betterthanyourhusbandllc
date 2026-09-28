@@ -16,6 +16,4 @@ export const businessInfo = {
   serviceArea:
     'Kansas City metropolitan area and surrounding communities in Missouri and Kansas.',
   quoteResponseWindow: 'approximately 24–48 hours',
-  paymentNote:
-    'Payment terms can be discussed; payment is generally requested upon completion of agreed work.',
 } as const;

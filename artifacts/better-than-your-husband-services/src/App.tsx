@@ -23,6 +23,7 @@ import {
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 import { businessInfo } from '@/lib/business';
 import { QuoteForm } from '@/pages/QuoteForm';
+import { CustomerReviews } from '@/components/CustomerReviews';
 import { WebsiteDisclaimer } from '@/pages/WebsiteDisclaimer';
 
 
@@ -199,6 +200,7 @@ function HomePage() {
             <div className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">{serviceCategories.slice(0, 6).map(({ title, text, icon: Icon }, index) => <Link href="/services" key={title} className={`service-surface group bg-card p-7 transition-colors hover:bg-[#262a2c] ${index === 0 ? 'lg:col-span-2' : ''}`} data-testid={`card-home-service-${index}`}><Icon size={23} strokeWidth={1.4} className="text-primary" /><h3 className="mt-14 max-w-xs font-display text-2xl leading-tight">{title}</h3><p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">{text}</p><span className="mt-8 flex items-center gap-2 font-mono-brand text-[9px] uppercase tracking-[.14em] text-primary">Learn more <ArrowRight size={13} /></span></Link>)}</div>
         </div>
       </section>
+       <CustomerReviews />
        <section className="bg-[#1b1e20] px-5 py-20 text-foreground sm:px-8 lg:px-12 lg:py-28">
            <div className="stationery-arc mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]"><div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p><div className="mt-8 flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/request-a-quote" secondary>Start a quote request</ButtonArrow></div></div><div className="border-l border-primary/40 pl-7 lg:pl-12"><p className="font-mono-brand text-[10px] uppercase tracking-[.18em] text-primary">The process</p><ol className="mt-6 space-y-6">{['Submit your request and photos', 'We review the project details', 'We contact you within approximately 24–48 hours', 'Scope, pricing, and scheduling are discussed'].map((step, i) => <li key={step} className="flex gap-4 text-sm text-muted-foreground"><span className="font-mono-brand text-primary">0{i + 1}</span>{step}</li>)}</ol></div></div>
       </section>
@@ -222,7 +224,31 @@ function AboutPage() {
 
 function QuotePage() {
   usePageMeta('Request a Quote', `Share your project details and photos to request a quote from ${businessInfo.displayName}.`);
-    return <><div className="bg-[#141618]"><Header /></div><PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.15fr_.65fr]"><QuoteForm /><aside className="h-fit border-l-2 border-primary bg-[#242729] p-7 lg:sticky lg:top-8"><Clock3 size={21} className="text-primary" /><h2 className="mt-5 font-display text-2xl">What happens next</h2><ol className="mt-6 space-y-5">{['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>)}</ol><p className="mt-7 border-t border-[#555a5c] pt-5 font-mono-brand text-xs uppercase tracking-[.12em] text-primary">Ask us about financing</p><p className="mt-6 text-xs leading-6 text-muted-foreground">No payment checkout or deposit policy is handled through this site. {businessInfo.paymentNote}</p></aside></div></main></>;
+  const [step, setStep] = useState(0);
+  return (
+    <>
+      <div className="bg-[#141618]"><Header /></div>
+      <PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." />
+      <main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+        <div className={`mx-auto grid gap-14 ${step === 0 ? 'max-w-7xl lg:grid-cols-[1.15fr_.65fr]' : 'max-w-3xl'}`}>
+          <QuoteForm step={step} onStepChange={setStep} />
+          {step === 0 && (
+            <aside className="h-fit border-l-2 border-primary bg-[#242729] p-7 lg:sticky lg:top-8" data-testid="quote-next-steps">
+              <Clock3 size={21} className="text-primary" />
+              <h2 className="mt-5 font-display text-2xl">What happens next</h2>
+              <ol className="mt-6 space-y-5">
+                {['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => (
+                  <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>
+                ))}
+              </ol>
+              <p className="mt-7 border-t border-[#555a5c] pt-5 font-mono-brand text-xs uppercase tracking-[.12em] text-primary">Ask us about financing</p>
+              <img src={`${import.meta.env.BASE_URL}assets/before-and-after-kitchen.png`} alt="Before and after photos of a kitchen project" className="project-before-after mt-6" />
+            </aside>
+          )}
+        </div>
+      </main>
+    </>
+  );
 }
 
 function ContactPage() {

@@ -45,8 +45,7 @@ const inputClass = 'mt-3 w-full border border-input bg-[#1e2123] px-4 py-3 text-
 
 type DetailKey = keyof Details;
 
-export function QuoteForm() {
-  const [step, setStep] = useState(0);
+export function QuoteForm({ step, onStepChange }: { step: number; onStepChange: (step: number) => void }) {
   const [details, setDetails] = useState<Details>(initialDetails);
   const [error, setError] = useState('');
 
@@ -109,7 +108,7 @@ export function QuoteForm() {
     }
     setError('');
     if (step < 2) {
-      setStep(step + 1);
+      onStepChange(step + 1);
       window.scrollTo({ top: 0, behavior: 'auto' });
       return;
     }
@@ -185,7 +184,7 @@ export function QuoteForm() {
       {error && <p role="alert" className="border-l-2 border-destructive bg-destructive/10 px-4 py-3 text-sm text-destructive" data-testid="text-form-error">{error}</p>}
       {step === 2 && photoInstruction('photo-instruction-final')}
       <div className="flex flex-wrap gap-3">
-          {step > 0 && <button type="button" onClick={() => { setError(''); setStep(step - 1); window.scrollTo({ top: 0, behavior: 'auto' }); }} className="secondary-cta inline-flex items-center gap-3 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em]" data-testid="button-quote-back"><ArrowLeft size={15} /> Back</button>}
+           {step > 0 && <button type="button" onClick={() => { setError(''); onStepChange(step - 1); window.scrollTo({ top: 0, behavior: 'auto' }); }} className="secondary-cta inline-flex items-center gap-3 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em]" data-testid="button-quote-back"><ArrowLeft size={15} /> Back</button>}
          <button type="submit" className="inline-flex items-center gap-4 border border-primary bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#c9af78]" data-testid={step === 2 ? 'button-submit-quote' : 'button-quote-continue'}>{step === 2 ? 'Prepare quote request' : 'Continue'} <ArrowRight size={16} /></button>
       </div>
     </form>
