@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: reviews
+    description: Private customer review submissions
 paths:
   /healthz:
     get:
@@ -24,6 +26,32 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /reviews:
+    post:
+      operationId: submitReview
+      tags: [reviews]
+      summary: Email a customer review to the owner for manual approval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewSubmission"
+      responses:
+        "200":
+          description: Review email accepted for delivery
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewSubmissionResult"
+        "400":
+          description: Invalid review
+        "429":
+          description: Too many review submissions
+        "502":
+          description: Email delivery failed
+        "503":
+          description: Email service is not configured
 components:
   schemas:
     HealthStatus:
@@ -33,4 +61,31 @@ components:
           type: string
       required:
         - status
+    ReviewSubmission:
+      type: object
+      additionalProperties: false
+      required: [name, rating, review]
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 100
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        review:
+          type: string
+          minLength: 15
+          maxLength: 2000
+        email:
+          type: string
+          format: email
+          maxLength: 254
+    ReviewSubmissionResult:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
 

@@ -9,3 +9,27 @@ export interface HealthStatus {
   status: string;
 }
 
+export interface ReviewSubmission {
+  /**
+     * @minLength 2
+     * @maxLength 100
+     */
+  name: string;
+  /**
+     * @minimum 1
+     * @maximum 5
+     */
+  rating: number;
+  /**
+     * @minLength 15
+     * @maxLength 2000
+     */
+  review: string;
+  /** @maxLength 254 */
+  email?: string;
+}
+
+export interface ReviewSubmissionResult {
+  message: string;
+}
+

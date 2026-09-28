@@ -17,3 +17,30 @@ export const HealthCheckResponse = zod.object({
 })
 
 
+/**
+ * @summary Email a customer review to the owner for manual approval
+ */
+export const submitReviewBodyNameMin = 2;
+export const submitReviewBodyNameMax = 100;
+
+export const submitReviewBodyRatingMax = 5;
+
+export const submitReviewBodyReviewMin = 15;
+export const submitReviewBodyReviewMax = 2000;
+
+export const submitReviewBodyEmailMax = 254;
+
+
+
+export const SubmitReviewBody = zod.object({
+  "name": zod.string().min(submitReviewBodyNameMin).max(submitReviewBodyNameMax),
+  "rating": zod.number().int().min(1).max(submitReviewBodyRatingMax),
+  "review": zod.string().min(submitReviewBodyReviewMin).max(submitReviewBodyReviewMax),
+  "email": zod.string().email().max(submitReviewBodyEmailMax).optional()
+})
+
+export const SubmitReviewResponse = zod.object({
+  "message": zod.string()
+})
+
+
