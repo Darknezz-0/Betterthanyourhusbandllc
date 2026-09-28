@@ -71,7 +71,21 @@ router.post("/reviews", async (req, res): Promise<void> => {
     });
 
     if (!response.ok) {
-      req.log.error({ status: response.status }, "Resend rejected review email");
+      let providerReason = "unknown";
+      try {
+        const detail: unknown = await response.json();
+        if (detail && typeof detail === "object" && "message" in detail && typeof detail.message === "string") {
+          const message = detail.message.toLowerCase();
+          if (/test.*email|test.*domain|onboarding@resend\.dev|own email address/.test(message)) providerReason = "test_sender_recipient_restriction";
+          else if (/domain.*verif|verif.*domain/.test(message)) providerReason = "sender_domain_not_verified";
+          else if (/api.key|permission|access/.test(message)) providerReason = "api_key_permission";
+          else if (/rate.limit/.test(message)) providerReason = "provider_rate_limit";
+          else providerReason = "other_provider_rejection";
+        }
+      } catch {
+        // Provider error body may not be JSON. Do not log the raw body or review contents.
+      }
+      req.log.error({ status: response.status, providerReason }, "Resend rejected review email");
       res.status(502).json({ error: "Your review could not be submitted. Please try again." });
       return;
     }
