@@ -24,6 +24,7 @@ import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter
 import { businessInfo } from '@/lib/business';
 import { QuoteForm } from '@/pages/QuoteForm';
 import { CustomerReviews } from '@/components/CustomerReviews';
+import { BeforeAfterProjects } from '@/components/BeforeAfterProjects';
 import { WebsiteDisclaimer } from '@/pages/WebsiteDisclaimer';
 
 
@@ -200,6 +201,7 @@ function HomePage() {
             <div className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">{serviceCategories.slice(0, 6).map(({ title, text, icon: Icon }, index) => <Link href="/services" key={title} className={`service-surface group bg-card p-7 transition-colors hover:bg-[#262a2c] ${index === 0 ? 'lg:col-span-2' : ''}`} data-testid={`card-home-service-${index}`}><Icon size={23} strokeWidth={1.4} className="text-primary" /><h3 className="mt-14 max-w-xs font-display text-2xl leading-tight">{title}</h3><p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">{text}</p><span className="mt-8 flex items-center gap-2 font-mono-brand text-[9px] uppercase tracking-[.14em] text-primary">Learn more <ArrowRight size={13} /></span></Link>)}</div>
         </div>
       </section>
+       <BeforeAfterProjects />
        <CustomerReviews />
        <section className="bg-[#1b1e20] px-5 py-20 text-foreground sm:px-8 lg:px-12 lg:py-28">
            <div className="stationery-arc mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]"><div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p><div className="mt-8 flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/request-a-quote" secondary>Start a quote request</ButtonArrow></div></div><div className="border-l border-primary/40 pl-7 lg:pl-12"><p className="font-mono-brand text-[10px] uppercase tracking-[.18em] text-primary">The process</p><ol className="mt-6 space-y-6">{['Submit your request and photos', 'We review the project details', 'We contact you within approximately 24–48 hours', 'Scope, pricing, and scheduling are discussed'].map((step, i) => <li key={step} className="flex gap-4 text-sm text-muted-foreground"><span className="font-mono-brand text-primary">0{i + 1}</span>{step}</li>)}</ol></div></div>

@@ -5,13 +5,34 @@ import { submitReview } from '@workspace/api-client-react';
 type CustomerReview = {
   text: string;
   customerName: string;
+  customerRole: string;
   rating?: 1 | 2 | 3 | 4 | 5;
 };
 
-// Add only customer-provided reviews here, with a rating only when supplied.
-const customerReviews: CustomerReview[] = [];
+// Add only owner-approved, customer-provided reviews here.
+const customerReviews: CustomerReview[] = [
+  {
+    text: '"I had a punch list a mile long. He knocked it out in one day and the place looks amazing. Highly recommend!"',
+    customerName: 'SARAH T.',
+    customerRole: 'REAL ESTATE AGENT',
+    rating: 5,
+  },
+  {
+    text: '"Finally found someone reliable who actually cares about the details. Top-notch work and a great attitude."',
+    customerName: 'MIKE R.',
+    customerRole: 'HOMEOWNER',
+    rating: 5,
+  },
+  {
+    text: '"He mounted my TV perfectly and even hid the wires. Fast, clean, and super professional. I\'ll never DIY again."',
+    customerName: 'JASON M.',
+    customerRole: 'HOMEOWNER',
+    rating: 5,
+  },
+];
 
 export function CustomerReviews() {
+  const [formOpen, setFormOpen] = useState(false);
   const [name, setName] = useState('');
   const [rating, setRating] = useState<number | null>(null);
   const [review, setReview] = useState('');
@@ -66,15 +87,28 @@ export function CustomerReviews() {
                   </div>
                 )}
                 <blockquote className="text-base leading-8 text-foreground"><p>{review.text}</p></blockquote>
-                <figcaption className="mt-7 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary">{review.customerName}</figcaption>
+                 <figcaption className="mt-7 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary">
+                   <span className="block">{review.customerName}</span>
+                   <span className="mt-2 block text-muted-foreground">{review.customerRole}</span>
+                 </figcaption>
               </figure>
             ))}
           </div>
         )}
-        <div className="mt-12 max-w-2xl border-t border-border pt-10">
-          <h3 className="font-display text-2xl sm:text-3xl">Submit a Review</h3>
+        <div className="mt-14 max-w-2xl border-t border-border pt-10">
+          <h3 className="font-display text-2xl sm:text-3xl">Share your experience</h3>
           <p className="mt-3 text-sm leading-7 text-muted-foreground">Share your experience with us. Reviews are sent privately for approval and are not posted automatically.</p>
-          {submitted ? (
+          <button
+            type="button"
+            aria-expanded={formOpen}
+            aria-controls="review-form-panel"
+            onClick={() => setFormOpen((open) => !open)}
+            className="mt-7 inline-flex min-h-12 items-center border border-primary bg-primary px-7 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-primary-foreground transition-colors hover:bg-[#c9af78]"
+            data-testid="review-open-button"
+          >
+            {formOpen ? 'Close Review Form' : 'Submit a Review'}
+          </button>
+          {formOpen && <div id="review-form-panel">{submitted ? (
             <p role="status" className="mt-7 border-l-2 border-primary bg-[#242729] px-5 py-4 text-sm leading-7 text-foreground" data-testid="review-success">
               Thank you! Your review has been submitted for approval.
             </p>
@@ -109,7 +143,7 @@ export function CustomerReviews() {
                 {pending ? 'Submitting…' : 'Submit Review'}
               </button>
             </form>
-          )}
+          )}</div>}
         </div>
       </div>
     </section>
