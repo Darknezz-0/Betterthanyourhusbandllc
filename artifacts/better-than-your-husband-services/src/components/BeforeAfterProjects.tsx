@@ -11,6 +11,7 @@ const photoPairs: PhotoPair[] = [
   { before: 'cabinets-before.webp', after: 'cabinets-after.webp' },
   { before: 'garden-before.webp', after: 'garden-after.webp' },
   { before: 'yard-before.webp', after: 'yard-after.webp' },
+  { before: 'patio-before.webp', after: 'patio-after.webp' },
 ];
 
 const asset = (filename: string) => `${import.meta.env.BASE_URL}assets/projects/${filename}`;
@@ -65,12 +66,12 @@ function ComparisonSlider({ before, after }: PhotoPair) {
       onPointerCancel={handlePointerEnd}
       onKeyDown={handleKeyDown}
       style={{ touchAction: 'pan-y' }}
-      className="relative aspect-[4/3] w-full cursor-ew-resize select-none overflow-hidden bg-[#101214] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:aspect-[3/2]"
+      className="relative aspect-[543/243] w-full cursor-ew-resize select-none overflow-hidden bg-[#101214] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       data-testid="before-after-slider"
     >
-      <img src={asset(after)} alt="After project photo" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+      <img src={asset(after)} alt="After project photo" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-contain" />
       <div className="pointer-events-none absolute inset-0" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
-        <img src={asset(before)} alt="Before project photo" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
+        <img src={asset(before)} alt="Before project photo" draggable={false} className="absolute inset-0 h-full w-full object-contain" />
       </div>
       <span className="pointer-events-none absolute left-4 top-4 z-10 bg-[#141618]/90 px-3 py-2 font-mono-brand text-[10px] uppercase tracking-[.16em] text-[#eeeae0] sm:left-6 sm:top-6">Before</span>
       <span className="pointer-events-none absolute right-4 top-4 z-10 bg-[#141618]/90 px-3 py-2 font-mono-brand text-[10px] uppercase tracking-[.16em] text-[#eeeae0] sm:right-6 sm:top-6">After</span>
@@ -90,7 +91,7 @@ export function BeforeAfterProjects() {
         <p className="mt-5 max-w-xl text-sm leading-7 text-muted-foreground">Drag the divider to compare, or use the arrow keys when the image is selected.</p>
 
         <div className="mt-10 max-w-4xl border border-border bg-card p-3 sm:p-5">
-          <ComparisonSlider before="patio-before.webp" after="patio-after.webp" />
+          <ComparisonSlider before="house-before.jpg" after="house-after.jpg" />
           <p className="px-1 pt-4 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Drag to compare · Before / After</p>
         </div>
 
