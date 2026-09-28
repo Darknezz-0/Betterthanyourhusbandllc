@@ -7,5 +7,3 @@
  */
 
 export * from './healthStatus';
-export * from './reviewSubmission';
-export * from './reviewSubmissionResult';
