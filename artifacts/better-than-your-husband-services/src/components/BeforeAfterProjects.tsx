@@ -71,12 +71,14 @@ function ComparisonSlider({ before, after }: PhotoPair) {
       className="relative aspect-square w-full cursor-ew-resize select-none overflow-hidden bg-[#101214] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       data-testid="before-after-slider"
     >
-      <img src={asset(after)} alt="After project photo" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-contain" />
+      <div className="pointer-events-none absolute inset-0" style={{ clipPath: `inset(0 0 0 ${position}%)` }}>
+        <img src={asset(after)} alt="After project photo" draggable={false} className="absolute inset-0 h-full w-full object-contain" />
+        <span className="absolute right-4 top-4 z-10 bg-[#141618]/90 px-3 py-2 font-mono-brand text-[10px] uppercase tracking-[.16em] text-[#eeeae0] sm:right-6 sm:top-6">After</span>
+      </div>
       <div className="pointer-events-none absolute inset-0" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
         <img src={asset(before)} alt="Before project photo" draggable={false} className="absolute inset-0 h-full w-full object-contain" />
+        <span className="absolute left-4 top-4 z-10 bg-[#141618]/90 px-3 py-2 font-mono-brand text-[10px] uppercase tracking-[.16em] text-[#eeeae0] sm:left-6 sm:top-6">Before</span>
       </div>
-      <span className="pointer-events-none absolute left-4 top-4 z-10 bg-[#141618]/90 px-3 py-2 font-mono-brand text-[10px] uppercase tracking-[.16em] text-[#eeeae0] sm:left-6 sm:top-6">Before</span>
-      <span className="pointer-events-none absolute right-4 top-4 z-10 bg-[#141618]/90 px-3 py-2 font-mono-brand text-[10px] uppercase tracking-[.16em] text-[#eeeae0] sm:right-6 sm:top-6">After</span>
       <span className="pointer-events-none absolute inset-y-0 z-10 w-0.5 bg-[#eeeae0] shadow-lg" style={{ left: `${position}%` }} aria-hidden="true">
         <span className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-[#eeeae0] bg-[#141618] text-sm text-[#eeeae0] shadow-xl">‹ ›</span>
       </span>
@@ -93,14 +95,12 @@ export function BeforeAfterProjects() {
         <p className="mt-5 max-w-xl text-sm leading-7 text-muted-foreground">Drag the divider to compare, or use the arrow keys when the image is selected.</p>
 
         <div className="mt-10 border border-primary/40 bg-card p-3 sm:p-6 lg:p-8" data-testid="featured-project">
-          <p className="mb-5 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Featured · Before &amp; After</p>
           <div className="grid gap-7 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,.65fr)] lg:items-start">
             <div className="min-w-0">
               <ComparisonSlider before="deck-before.webp" after="deck-after.webp" />
               <p className="px-1 pt-4 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Drag to compare · Before / After</p>
             </div>
             <figure className="min-w-0 border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
-              <figcaption className="mb-4 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Additional views</figcaption>
               <img src={asset('deck-views.jpg')} alt="Additional views of the featured project" loading="lazy" className="block h-auto w-full border border-border" />
             </figure>
           </div>
@@ -109,7 +109,6 @@ export function BeforeAfterProjects() {
         <div className="mt-12 space-y-6" aria-label="Before and after project photos">
           {photoPairs.map((pair, index) => (
             <figure key={pair.before} className="border border-border bg-card p-4 sm:p-6" data-testid={`project-pair-${index + 1}`}>
-              <figcaption className="mb-5 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Before &amp; After · {String(index + 1).padStart(2, '0')}</figcaption>
               <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
                 <div>
                   <p className="mb-3 font-mono-brand text-[10px] uppercase tracking-[.16em] text-muted-foreground">Before</p>
@@ -124,7 +123,6 @@ export function BeforeAfterProjects() {
           ))}
         </div>
         <figure className="mt-6 border border-border bg-card p-4 sm:p-6" data-testid="additional-project-photo">
-          <figcaption className="mb-5 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Additional project photo</figcaption>
           <img src={asset('shed-project.webp')} alt="Completed project photo" loading="lazy" className="block h-auto w-full max-w-5xl border border-border" />
         </figure>
       </div>
