@@ -7,6 +7,8 @@ type PhotoPair = {
 
 // Add future approved project photos as another pair here. Images live in public/assets/projects.
 const photoPairs: PhotoPair[] = [
+  { before: 'covered-area-before.webp', after: 'covered-area-after.webp' },
+  { before: 'house-before.jpg', after: 'house-after.jpg' },
   { before: 'kitchen-before.webp', after: 'kitchen-after.webp' },
   { before: 'cabinets-before.webp', after: 'cabinets-after.webp' },
   { before: 'garden-before.webp', after: 'garden-after.webp' },
@@ -66,7 +68,7 @@ function ComparisonSlider({ before, after }: PhotoPair) {
       onPointerCancel={handlePointerEnd}
       onKeyDown={handleKeyDown}
       style={{ touchAction: 'pan-y' }}
-      className="relative aspect-[543/243] w-full cursor-ew-resize select-none overflow-hidden bg-[#101214] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+      className="relative aspect-square w-full cursor-ew-resize select-none overflow-hidden bg-[#101214] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       data-testid="before-after-slider"
     >
       <img src={asset(after)} alt="After project photo" draggable={false} className="pointer-events-none absolute inset-0 h-full w-full object-contain" />
@@ -86,16 +88,25 @@ export function BeforeAfterProjects() {
   return (
     <section aria-labelledby="before-after-heading" className="border-t border-[#b39860]/20 bg-[#151719] px-5 py-20 sm:px-8 lg:px-12 lg:py-28" data-testid="before-after-projects">
       <div className="mx-auto max-w-7xl">
-        <p className="font-mono-brand text-[10px] uppercase tracking-[.2em] text-primary">Project photos</p>
+        <p className="font-mono-brand text-[10px] uppercase tracking-[.2em] text-primary">Recent Work</p>
         <h2 id="before-after-heading" className="mt-5 font-display text-4xl leading-tight sm:text-5xl">Before &amp; After</h2>
         <p className="mt-5 max-w-xl text-sm leading-7 text-muted-foreground">Drag the divider to compare, or use the arrow keys when the image is selected.</p>
 
-        <div className="mt-10 max-w-4xl border border-border bg-card p-3 sm:p-5">
-          <ComparisonSlider before="house-before.jpg" after="house-after.jpg" />
-          <p className="px-1 pt-4 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Drag to compare · Before / After</p>
+        <div className="mt-10 border border-primary/40 bg-card p-3 sm:p-6 lg:p-8" data-testid="featured-project">
+          <p className="mb-5 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Featured · Before &amp; After</p>
+          <div className="grid gap-7 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,.65fr)] lg:items-start">
+            <div className="min-w-0">
+              <ComparisonSlider before="deck-before.webp" after="deck-after.webp" />
+              <p className="px-1 pt-4 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Drag to compare · Before / After</p>
+            </div>
+            <figure className="min-w-0 border-t border-border pt-5 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
+              <figcaption className="mb-4 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Additional views</figcaption>
+              <img src={asset('deck-views.jpg')} alt="Additional views of the featured project" loading="lazy" className="block h-auto w-full border border-border" />
+            </figure>
+          </div>
         </div>
 
-        <div className="mt-12 space-y-6">
+        <div className="mt-12 space-y-6" aria-label="Before and after project photos">
           {photoPairs.map((pair, index) => (
             <figure key={pair.before} className="border border-border bg-card p-4 sm:p-6" data-testid={`project-pair-${index + 1}`}>
               <figcaption className="mb-5 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Before &amp; After · {String(index + 1).padStart(2, '0')}</figcaption>
@@ -112,6 +123,10 @@ export function BeforeAfterProjects() {
             </figure>
           ))}
         </div>
+        <figure className="mt-6 border border-border bg-card p-4 sm:p-6" data-testid="additional-project-photo">
+          <figcaption className="mb-5 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Additional project photo</figcaption>
+          <img src={asset('shed-project.webp')} alt="Completed project photo" loading="lazy" className="block h-auto w-full max-w-5xl border border-border" />
+        </figure>
       </div>
     </section>
   );

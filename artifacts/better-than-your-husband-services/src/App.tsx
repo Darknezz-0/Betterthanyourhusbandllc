@@ -224,6 +224,29 @@ function AboutPage() {
    return <><div className="bg-[#141618]"><Header /></div><PageIntro eyebrow="The company behind the list" title="Professional help, without the production." text={`${businessInfo.displayName} is a local property services company built around practical work, clear expectations, and respect for the places we enter.`} /><main><section id="service-philosophy" className="bg-[#1d2022] px-5 py-20 sm:px-8 lg:px-12 lg:py-28"><div className="mx-auto max-w-7xl"><SectionLabel>Our service philosophy</SectionLabel><div className="mt-10 grid gap-12 md:grid-cols-3"><div><p className="font-display text-5xl text-primary">01</p><h3 className="mt-5 font-display text-2xl">Be clear</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">Good work starts with an honest understanding of the request, the property, and the limits of the scope.</p></div><div><p className="font-display text-5xl text-primary">02</p><h3 className="mt-5 font-display text-2xl">Be useful</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">We focus on the work that makes a real difference in how a home or property functions and feels.</p></div><div><p className="font-display text-5xl text-primary">03</p><h3 className="mt-5 font-display text-2xl">Leave it better</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">A thoughtful finish is part of the job: communicating, protecting the space, and respecting the result.</p></div></div></div></section></main></>;
 }
 
+const quoteNextSteps = [
+  {
+    title: 'We Review Your Request',
+    text: "Once you submit your project information, we'll review the details you've provided.",
+  },
+  {
+    title: "We'll Contact You",
+    text: "We'll reach out to discuss your project, answer any questions, and determine what is needed.",
+  },
+  {
+    title: "We'll Discuss the Estimate",
+    text: 'Depending on the project, we may need additional information, photos, measurements, or an in person look at the work before providing an estimate.',
+  },
+  {
+    title: 'Approve the Work',
+    text: "Once you've reviewed and agreed to the scope of work and price, we'll work with you to schedule the job.",
+  },
+  {
+    title: 'We Get the Job Done',
+    text: "We'll complete the agreed upon work and collect payment according to the payment terms for your project.",
+  },
+];
+
 function QuotePage() {
   usePageMeta('Request a Quote', `Share your project details and photos to request a quote from ${businessInfo.displayName}.`);
   const [step, setStep] = useState(0);
@@ -232,15 +255,21 @@ function QuotePage() {
       <div className="bg-[#141618]"><Header /></div>
       <PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." />
       <main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
-        <div className={`mx-auto grid gap-14 ${step === 0 ? 'max-w-7xl lg:grid-cols-[1.15fr_.65fr]' : 'max-w-3xl'}`}>
+         <div className={`mx-auto grid gap-14 ${step === 0 ? 'max-w-7xl lg:grid-cols-[1.05fr_.95fr]' : 'max-w-3xl'}`}>
           <QuoteForm step={step} onStepChange={setStep} />
           {step === 0 && (
-            <aside className="h-fit border-l-2 border-primary bg-[#242729] p-7 lg:sticky lg:top-8" data-testid="quote-next-steps">
+             <aside className="h-fit border-l-2 border-primary bg-[#242729] p-7" data-testid="quote-next-steps">
               <Clock3 size={21} className="text-primary" />
-              <h2 className="mt-5 font-display text-2xl">What happens next</h2>
-              <ol className="mt-6 space-y-5">
-                {['You prepare the request and any helpful photos.', 'We review the project details after you contact us.', `We contact you within ${businessInfo.quoteResponseWindow}.`, 'We discuss scope, pricing, and scheduling.', 'Work is scheduled after both parties agree.'].map((item, i) => (
-                  <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground"><span className="font-mono-brand text-xs text-primary">0{i + 1}</span>{item}</li>
+               <h2 className="mt-5 font-display text-2xl">What Happens Next</h2>
+               <ol className="mt-6 space-y-6">
+                 {quoteNextSteps.map((item, i) => (
+                   <li key={item.title} className="flex items-start gap-4">
+                     <span className="pt-0.5 font-mono-brand text-xs text-primary">0{i + 1}</span>
+                     <div>
+                       <h3 className="text-sm font-semibold leading-6 text-foreground">{item.title}</h3>
+                       <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.text}</p>
+                     </div>
+                   </li>
                 ))}
               </ol>
               <p className="mt-7 border-t border-[#555a5c] pt-5 font-mono-brand text-xs uppercase tracking-[.12em] text-primary">Ask us about financing</p>
