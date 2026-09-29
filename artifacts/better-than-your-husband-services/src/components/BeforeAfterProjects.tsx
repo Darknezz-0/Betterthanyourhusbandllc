@@ -5,14 +5,15 @@ type PhotoPair = {
   after: string;
 };
 
+type ProjectPhoto = PhotoPair | { image: string };
+
 // Add future approved project photos as another pair here. Images live in public/assets/projects.
-const photoPairs: PhotoPair[] = [
+const photoPairs: ProjectPhoto[] = [
   { before: 'covered-area-before.webp', after: 'covered-area-after.webp' },
-  { before: 'house-before.jpg', after: 'house-after.jpg' },
+  { image: 'house-corrected.jpg' },
   { before: 'kitchen-before.webp', after: 'kitchen-after.webp' },
   { before: 'cabinets-before.webp', after: 'cabinets-after.webp' },
   { before: 'garden-before.webp', after: 'garden-after.webp' },
-  { before: 'yard-before.webp', after: 'yard-after.webp' },
   { before: 'patio-before.webp', after: 'patio-after.webp' },
 ];
 
@@ -108,17 +109,21 @@ export function BeforeAfterProjects() {
 
         <div className="mt-12 space-y-6" aria-label="Before and after project photos">
           {photoPairs.map((pair, index) => (
-            <figure key={pair.before} className="border border-border bg-card p-4 sm:p-6" data-testid={`project-pair-${index + 1}`}>
-              <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-                <div>
-                  <p className="mb-3 font-mono-brand text-[10px] uppercase tracking-[.16em] text-muted-foreground">Before</p>
-                  <img src={asset(pair.before)} alt={`Before photo ${index + 1}`} loading="lazy" className="h-auto w-full border border-border" />
+            <figure key={'image' in pair ? pair.image : pair.before} className="border border-border bg-card p-4 sm:p-6" data-testid={`project-pair-${index + 1}`}>
+              {'image' in pair ? (
+                <img src={asset(pair.image)} alt="House before and after photos" loading="lazy" className="mx-auto block h-auto w-full max-w-[645px]" />
+              ) : (
+                <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+                  <div>
+                    <p className="mb-3 font-mono-brand text-[10px] uppercase tracking-[.16em] text-muted-foreground">Before</p>
+                    <img src={asset(pair.before)} alt={`Before photo ${index + 1}`} loading="lazy" className="h-auto w-full border border-border" />
+                  </div>
+                  <div>
+                    <p className="mb-3 font-mono-brand text-[10px] uppercase tracking-[.16em] text-muted-foreground">After</p>
+                    <img src={asset(pair.after)} alt={`After photo ${index + 1}`} loading="lazy" className="h-auto w-full border border-border" />
+                  </div>
                 </div>
-                <div>
-                  <p className="mb-3 font-mono-brand text-[10px] uppercase tracking-[.16em] text-muted-foreground">After</p>
-                  <img src={asset(pair.after)} alt={`After photo ${index + 1}`} loading="lazy" className="h-auto w-full border border-border" />
-                </div>
-              </div>
+              )}
             </figure>
           ))}
         </div>
