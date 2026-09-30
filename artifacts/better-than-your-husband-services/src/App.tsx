@@ -208,7 +208,7 @@ function HomePage() {
        <CustomerReviews />
        <section className="bg-[#1b1e20] px-5 py-20 text-foreground sm:px-8 lg:px-12 lg:py-28">
             <div className="stationery-arc mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
-              <div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p></div>
+              <div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs done.</h2><p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p></div>
               <aside className="h-fit border-l-2 border-primary bg-[#242729] p-7" data-testid="home-next-steps">
                 <Clock3 size={21} className="text-primary" />
                 <h2 className="mt-5 font-display text-2xl">What Happens Next</h2>
