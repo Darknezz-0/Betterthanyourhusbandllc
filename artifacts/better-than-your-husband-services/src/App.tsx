@@ -269,7 +269,7 @@ function QuotePage() {
   return (
     <>
       <div className="bg-[#141618]"><Header /></div>
-      <PageIntro eyebrow="Start with the details" title="Tell us what needs doing." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." />
+      <PageIntro eyebrow="Start with the details" title="Tell us what needs done." text="A few specifics and photos help us understand the project before we speak. There is no checkout here—just a clear first step." />
       <main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
          <div className={`mx-auto grid gap-14 ${step === 0 ? 'max-w-7xl lg:grid-cols-[1.05fr_.95fr]' : 'max-w-3xl'}`}>
           <QuoteForm step={step} onStepChange={setStep} />

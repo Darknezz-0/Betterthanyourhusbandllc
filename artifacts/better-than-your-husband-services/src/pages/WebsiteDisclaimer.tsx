@@ -110,7 +110,7 @@ Cookie & Tracking Disclosure
 
 Better Than Your Husband Services LLC
 Phone: 913-346-0205
-Email: BetterThanYourHusbandLLC@gmail.com
+Email: support@betterthanyourhusbandllc.com
 
 Last Updated: September 26, 2026`;
 
