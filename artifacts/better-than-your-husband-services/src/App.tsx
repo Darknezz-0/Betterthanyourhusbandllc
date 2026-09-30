@@ -224,7 +224,7 @@ function HomePage() {
                   ))}
                 </ol>
               </aside>
-              <div className="flex flex-col items-start gap-3 sm:flex-row lg:col-span-2"><ButtonArrow href="/request-a-quote" secondary>Start a quote request</ButtonArrow></div>
+              <div className="flex flex-col items-start gap-3 sm:flex-row lg:col-span-2"><ButtonArrow href="/request-a-quote">Start a quote request</ButtonArrow></div>
             </div>
       </section>
     </>
