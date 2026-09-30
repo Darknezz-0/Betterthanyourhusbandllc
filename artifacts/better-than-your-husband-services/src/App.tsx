@@ -4,7 +4,6 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import {
   ArrowRight,
-  ChevronRight,
   ClipboardList,
   Clock3,
   Compass,
@@ -186,9 +185,6 @@ function HomePage() {
              <h1 className="mt-7 max-w-4xl font-display text-5xl leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]">BETTER<br /><span className="text-[#c2a76d]">THAN</span> YOUR<br />HUSBAND</h1>
              <p className="mt-7 max-w-md font-serif text-2xl leading-snug text-[#e1dfd8] sm:text-3xl">Small Jobs. Real Relief.</p>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#c7cac9]">Professional handyman and property services for the jobs that need to get done.</p>
-            <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
-              <a href={servicesHref} className="group secondary-cta inline-flex min-h-12 items-center gap-4 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[0.14em] transition-colors" data-testid="link-cta-services">Explore Our Services <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></a>
-            </div>
           </div>
             <div className="mt-20 flex items-center gap-4 border-t border-[#bfc4c5]/20 pt-5 text-[10px] uppercase tracking-[0.16em] text-[#c3c7c7]">
              <span className="h-px w-10 shrink-0 bg-[#b39860]" /> Thoughtful work for the places you live and work
@@ -203,7 +199,7 @@ function HomePage() {
       </section>
        <section id="services" className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
          <div className="mx-auto max-w-7xl">
-           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>What we do</SectionLabel><h2 className="mt-5 max-w-xl font-display text-4xl leading-tight sm:text-5xl">The list, handled.</h2></div><a href="#services" className="group inline-flex items-center gap-2 pb-1 font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary" data-testid="link-home-all-services">View all services <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" /></a></div>
+           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>What we do</SectionLabel><h2 className="mt-5 max-w-xl font-display text-4xl leading-tight sm:text-5xl">The list, handled.</h2></div></div>
            <div className="mt-12 grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="service-surface group bg-card p-8 transition-colors hover:bg-[#262a2c]" data-testid={`card-service-${index}`}><Icon size={25} strokeWidth={1.4} className="text-primary" /><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground">{text}</p></article>)}</div>
            <div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#242729] p-6 text-sm leading-7 text-muted-foreground"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div>
         </div>
@@ -212,7 +208,7 @@ function HomePage() {
        <CustomerReviews />
        <section className="bg-[#1b1e20] px-5 py-20 text-foreground sm:px-8 lg:px-12 lg:py-28">
             <div className="stationery-arc mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
-              <div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p><div className="mt-8 flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/request-a-quote" secondary>Start a quote request</ButtonArrow></div></div>
+              <div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p></div>
               <aside className="h-fit border-l-2 border-primary bg-[#242729] p-7" data-testid="home-next-steps">
                 <Clock3 size={21} className="text-primary" />
                 <h2 className="mt-5 font-display text-2xl">What Happens Next</h2>
@@ -228,6 +224,7 @@ function HomePage() {
                   ))}
                 </ol>
               </aside>
+              <div className="flex flex-col items-start gap-3 sm:flex-row lg:col-span-2"><ButtonArrow href="/request-a-quote" secondary>Start a quote request</ButtonArrow></div>
             </div>
       </section>
     </>
