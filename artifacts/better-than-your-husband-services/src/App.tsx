@@ -20,7 +20,7 @@ import {
   Sparkles,
   X,
 } from 'lucide-react';
-import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
+import { Link, Redirect, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 import { businessInfo } from '@/lib/business';
 import { QuoteForm } from '@/pages/QuoteForm';
 import { CustomerReviews } from '@/components/CustomerReviews';
@@ -41,6 +41,7 @@ const serviceCategories = [
 ];
 
 const scopeNote = 'All work is subject to project scope, applicable licensing requirements, local regulations, and company approval.';
+const servicesHref = `${import.meta.env.BASE_URL}#services`;
 
 function usePageMeta(title: string, description: string) {
   useEffect(() => {
@@ -79,7 +80,7 @@ function Header() {
   useEffect(() => setOpen(false), [location]);
   const links = [
     { href: '/', label: 'Home' },
-    { href: '/services', label: 'Services' },
+    { href: servicesHref, label: 'Services' },
     { href: '/estimate', label: 'Estimate' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
@@ -89,11 +90,12 @@ function Header() {
       <div className="mx-auto flex h-[78px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
          <Logo />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
-          {links.map((link) => (
-             <Link key={link.href} href={link.href} className={`font-mono-brand text-[10px] uppercase tracking-[0.15em] transition-colors hover:text-[#c2a76d] ${location === link.href ? 'text-[#c2a76d]' : 'text-[#c3c5c6]'}`} data-testid={`link-nav-${link.label.toLowerCase()}`}>
+          {links.map((link) => {
+            const NavLink = link.label === 'Services' ? 'a' : Link;
+            return <NavLink key={link.href} href={link.href} className={`font-mono-brand text-[10px] uppercase tracking-[0.15em] transition-colors hover:text-[#c2a76d] ${location === link.href ? 'text-[#c2a76d]' : 'text-[#c3c5c6]'}`} data-testid={`link-nav-${link.label.toLowerCase()}`}>
               {link.label}
-            </Link>
-          ))}
+            </NavLink>;
+          })}
            {location !== '/' && <Link href="/request-a-quote" className="secondary-cta px-5 py-3 font-mono-brand text-[10px] uppercase tracking-[0.14em]" data-testid="link-nav-request-quote">
             Request a Quote
           </Link>}
@@ -104,7 +106,10 @@ function Header() {
       </div>
       {open && (
          <div className="border-t border-[#b39860]/25 bg-[#181a1c] px-5 pb-6 pt-3 shadow-2xl md:hidden">
-           {links.map((link) => <Link key={link.href} href={link.href} className="block border-b border-[#bfc4c5]/15 py-4 font-mono-brand text-[10px] uppercase tracking-[0.15em] text-[#c7c9c9]" data-testid={`link-mobile-${link.label.toLowerCase()}`}>{link.label}</Link>)}
+            {links.map((link) => {
+              const NavLink = link.label === 'Services' ? 'a' : Link;
+              return <NavLink key={link.href} href={link.href} className="block border-b border-[#bfc4c5]/15 py-4 font-mono-brand text-[10px] uppercase tracking-[0.15em] text-[#c7c9c9]" data-testid={`link-mobile-${link.label.toLowerCase()}`}>{link.label}</NavLink>;
+            })}
           {location !== '/' && <Link href="/request-a-quote" className="mt-5 block bg-primary px-5 py-4 text-center font-mono-brand text-[10px] uppercase tracking-[0.15em] text-primary-foreground" data-testid="link-mobile-request-quote">Request a Quote</Link>}
         </div>
       )}
@@ -124,7 +129,7 @@ function Footer() {
         <div>
            <p className="font-mono-brand text-[10px] uppercase tracking-[0.18em] text-[#bba16a]">Explore</p>
            <div className="mt-5 flex flex-col items-start gap-3 text-sm text-[#c1c4c4]">
-            <Link href="/services" className="transition-colors hover:text-white" data-testid="link-footer-services">Services</Link>
+             <a href={servicesHref} className="transition-colors hover:text-white" data-testid="link-footer-services">Services</a>
             <Link href="/about" className="transition-colors hover:text-white" data-testid="link-footer-about">About the company</Link>
             <Link href="/request-a-quote" className="transition-colors hover:text-white" data-testid="link-footer-quote">Request a quote</Link>
              <Link href="/estimate" className="transition-colors hover:text-white" data-testid="link-footer-estimate">Estimate your project</Link>
@@ -182,7 +187,7 @@ function HomePage() {
              <p className="mt-7 max-w-md font-serif text-2xl leading-snug text-[#e1dfd8] sm:text-3xl">Small Jobs. Real Relief.</p>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#c7cac9]">Professional handyman and property services for the jobs that need to get done.</p>
             <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
-              <ButtonArrow href="/services" secondary>Explore Our Services</ButtonArrow>
+              <a href={servicesHref} className="group secondary-cta inline-flex min-h-12 items-center gap-4 px-6 py-4 font-mono-brand text-[10px] uppercase tracking-[0.14em] transition-colors" data-testid="link-cta-services">Explore Our Services <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" /></a>
             </div>
           </div>
             <div className="mt-20 flex items-center gap-4 border-t border-[#bfc4c5]/20 pt-5 text-[10px] uppercase tracking-[0.16em] text-[#c3c7c7]">
@@ -196,15 +201,34 @@ function HomePage() {
              <div><p className="max-w-2xl font-serif text-2xl leading-snug text-[#e0ddd4] sm:text-3xl">Not every job needs a crew. Not every fix belongs on your weekend.</p><p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground">{businessInfo.displayName} exists for the practical, visible, quietly important work that keeps a property running well. We bring a steady hand, clear communication, and a finish-minded approach to the list.</p><ButtonArrow href="/about#service-philosophy" secondary>Why we work this way</ButtonArrow></div>
         </div>
       </section>
-      <section className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
-        <div className="mx-auto max-w-7xl"><div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>What we do</SectionLabel><h2 className="mt-5 max-w-xl font-display text-4xl leading-tight sm:text-5xl">The list, handled.</h2></div><Link href="/services" className="group inline-flex items-center gap-2 pb-1 font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary" data-testid="link-home-all-services">View all services <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" /></Link></div>
-            <div className="mt-12 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">{serviceCategories.slice(0, 6).map(({ title, text, icon: Icon }, index) => <Link href="/services" key={title} className={`service-surface bg-card p-7 transition-colors hover:bg-[#262a2c] ${index === 0 ? 'lg:col-span-2' : ''}`} data-testid={`card-home-service-${index}`}><Icon size={23} strokeWidth={1.4} className="text-primary" /><h3 className="mt-14 max-w-xs font-display text-2xl leading-tight">{title}</h3><p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">{text}</p></Link>)}</div>
+       <section id="services" className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+         <div className="mx-auto max-w-7xl">
+           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>What we do</SectionLabel><h2 className="mt-5 max-w-xl font-display text-4xl leading-tight sm:text-5xl">The list, handled.</h2></div><a href="#services" className="group inline-flex items-center gap-2 pb-1 font-mono-brand text-[10px] uppercase tracking-[.15em] text-primary" data-testid="link-home-all-services">View all services <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" /></a></div>
+           <div className="mt-12 grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="service-surface group bg-card p-8 transition-colors hover:bg-[#262a2c]" data-testid={`card-service-${index}`}><Icon size={25} strokeWidth={1.4} className="text-primary" /><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground">{text}</p></article>)}</div>
+           <div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#242729] p-6 text-sm leading-7 text-muted-foreground"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div>
         </div>
       </section>
        <BeforeAfterProjects />
        <CustomerReviews />
        <section className="bg-[#1b1e20] px-5 py-20 text-foreground sm:px-8 lg:px-12 lg:py-28">
-           <div className="stationery-arc mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]"><div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p><div className="mt-8 flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/request-a-quote" secondary>Start a quote request</ButtonArrow></div></div><div className="border-l border-primary/40 pl-7 lg:pl-12"><p className="font-mono-brand text-[10px] uppercase tracking-[.18em] text-primary">The process</p><ol className="mt-6 space-y-6">{['Submit your request and photos', 'We review the project details', 'We contact you within approximately 24–48 hours', 'Scope, pricing, and scheduling are discussed'].map((step, i) => <li key={step} className="flex gap-4 text-sm text-muted-foreground"><span className="font-mono-brand text-primary">0{i + 1}</span>{step}</li>)}</ol></div></div>
+            <div className="stationery-arc mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_.9fr]">
+              <div><SectionLabel light>A clear next step</SectionLabel><h2 className="mt-5 max-w-2xl font-display text-4xl leading-[1.06] sm:text-6xl">Tell us what needs doing.</h2><p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground">Send a few details and photos. We will review the request, then contact you within approximately 24–48 hours to discuss scope and pricing.</p><div className="mt-8 flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/request-a-quote" secondary>Start a quote request</ButtonArrow></div></div>
+              <aside className="h-fit border-l-2 border-primary bg-[#242729] p-7" data-testid="home-next-steps">
+                <Clock3 size={21} className="text-primary" />
+                <h2 className="mt-5 font-display text-2xl">What Happens Next</h2>
+                <ol className="mt-6 space-y-6">
+                  {quoteNextSteps.map((item, i) => (
+                    <li key={item.title} className="flex items-start gap-4">
+                      <span className="pt-0.5 font-mono-brand text-xs text-primary">0{i + 1}</span>
+                      <div>
+                        <h3 className="text-sm font-semibold leading-6 text-foreground">{item.title}</h3>
+                        <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.text}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </aside>
+            </div>
       </section>
     </>
   );
@@ -212,11 +236,6 @@ function HomePage() {
 
 function PageIntro({ eyebrow, title, text }: { eyebrow: string; title: string; text: string }) {
    return <section className="overflow-hidden bg-[linear-gradient(115deg,#141618_0%,#1c1f21_68%,#25292b_100%)] px-5 pb-16 pt-36 text-foreground sm:px-8 lg:px-12 lg:pb-24"><div className="stationery-arc mx-auto max-w-7xl"><SectionLabel light>{eyebrow}</SectionLabel><h1 className="gold-rule mt-6 max-w-4xl font-display text-5xl leading-[1.02] tracking-[-.03em] sm:text-7xl">{title}</h1><p className="mt-7 max-w-2xl text-lg leading-8 text-muted-foreground">{text}</p></div></section>;
-}
-
-function ServicesPage() {
-  usePageMeta('Services', `Explore home repairs, outdoor projects, cleanups, installations, and property services from ${businessInfo.displayName}.`);
-   return <><div className="bg-[#141618]"><Header /></div><PageIntro eyebrow="A considered scope of work" title="The jobs that need to get done." text="From the punch list to the property reset, we help make homes and properties feel more cared for. Start with a conversation about your project." /><main className="bg-background px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto max-w-7xl"><div className="grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="service-surface group bg-card p-8 transition-colors hover:bg-[#262a2c]" data-testid={`card-service-${index}`}><Icon size={25} strokeWidth={1.4} className="text-primary" /><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground">{text}</p></article>)}</div><div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#242729] p-6 text-sm leading-7 text-muted-foreground"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div></div></main><section className="bg-[#1d2022] px-5 py-20 sm:px-8 lg:px-12"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 lg:flex-row lg:items-center"><div><SectionLabel>Not sure where it fits?</SectionLabel><h2 className="mt-4 font-display text-4xl">Start with the details that matter.</h2></div><div className="flex flex-col items-start gap-3 sm:flex-row"><ButtonArrow href="/estimate">Estimate your project</ButtonArrow><ButtonArrow href="/request-a-quote" secondary>Share your project</ButtonArrow></div></div></section></>;
 }
 
 function AboutPage() {
@@ -738,7 +757,7 @@ function RouteScrollManager() {
 
 function Router() {
   const [location] = useLocation();
-  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services" component={ServicesPage} /><Route path="/estimate" component={QuotePage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/disclaimer" component={DisclaimerPage} /><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
+  return <ErrorBoundary resetKey={location}><Switch><Route path="/" component={HomePage} /><Route path="/services">{() => <Redirect to="/#services" replace />}</Route><Route path="/estimate" component={QuotePage} /><Route path="/about" component={AboutPage} /><Route path="/request-a-quote" component={QuotePage} /><Route path="/contact" component={ContactPage} /><Route path="/privacy-policy">{() => <LegalPage kind="/privacy-policy" />}</Route><Route path="/terms">{() => <LegalPage kind="/terms" />}</Route><Route path="/disclaimer" component={DisclaimerPage} /><Route path="/legal-disclaimer">{() => <LegalPage kind="/legal-disclaimer" />}</Route><Route path="/service-agreement">{() => <LegalPage kind="/service-agreement" />}</Route><Route component={NotFound} /></Switch></ErrorBoundary>;
 }
 
 function App() {
