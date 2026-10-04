@@ -1,3 +1,4 @@
 - [Static publishing and reviews](static-publishing.md) — owner chose static hosting to avoid usage-based server charges; do not restore live review submissions without consent.
 - [Shell runtime auto-install](shell-runtime-auto-install.md) — invoking Python can silently add a runtime module to .replit; avoid it for throwaway checks.
 - [AskMeevo CORS redirect](askmeevo-cors.md) — a visible chat launcher does not prove chat works; verify the provider's config request in the browser.
+- [Preview SEO verification](preview-seo-verification.md) — count actual head elements, not tag-shaped strings inside injected development scripts.

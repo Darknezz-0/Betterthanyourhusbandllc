@@ -42,23 +42,28 @@ const serviceCategories = [
 const scopeNote = 'All work is subject to project scope, applicable licensing requirements, local regulations, and company approval.';
 const servicesHref = `${import.meta.env.BASE_URL}#services`;
 
-function usePageMeta(title: string, description: string) {
+function usePageMeta(title: string, description: string, exactTitle = false) {
   useEffect(() => {
-    document.title = `${title} | ${businessInfo.displayName}`;
+    const pageTitle = exactTitle ? title : `${title} | ${businessInfo.displayName}`;
+    document.title = pageTitle;
     const setMeta = (name: string, content: string) => {
-      let element = document.querySelector(`meta[name="${name}"]`);
+      let element = document.querySelector(`meta[name="${name}"], meta[property="${name}"]`);
       if (!element) {
         element = document.createElement('meta');
-        element.setAttribute('name', name);
+        element.setAttribute(name.startsWith('og:') ? 'property' : 'name', name);
         document.head.appendChild(element);
       }
       element.setAttribute('content', content);
     };
     setMeta('description', description);
-    setMeta('og:title', `${title} | ${businessInfo.displayName}`);
+    setMeta('og:title', pageTitle);
     setMeta('og:description', description);
     setMeta('og:type', 'website');
-  }, [title, description]);
+    if (exactTitle) {
+      setMeta('twitter:title', pageTitle);
+      setMeta('twitter:description', description);
+    }
+  }, [title, description, exactTitle]);
 }
 
 function Logo({ footer = false }: { footer?: boolean }) {
@@ -171,7 +176,7 @@ function SectionLabel({ children, light = false }: { children: ReactNode; light?
 }
 
 function HomePage() {
-  usePageMeta('Small Jobs. Real Relief.', 'Professional handyman and property services for the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.');
+  usePageMeta('Better Than Your Husband LLC | Home Repairs & Property Services', 'Better Than Your Husband LLC provides home repairs, maintenance, outdoor projects, pressure washing, property cleanups, and other property services throughout the Kansas City metro area.', true);
   return (
     <>
        <section className="relative flex min-h-[720px] items-end overflow-hidden bg-[#111315] text-[#eeeae0] lg:min-h-[790px]">
@@ -182,7 +187,7 @@ function HomePage() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-40 sm:px-8 lg:px-12 lg:pb-28">
            <div className="stationery-corner max-w-3xl pt-8 pl-5 animate-rise-in sm:pl-8">
             <SectionLabel light>Kansas City metropolitan area · Missouri + Kansas</SectionLabel>
-             <h1 className="mt-7 max-w-4xl font-display text-5xl leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]">BETTER<br /><span className="text-[#c2a76d]">THAN</span> YOUR<br />HUSBAND</h1>
+              <h1 className="mt-7 max-w-4xl font-display text-5xl uppercase leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]">Better{' '}<br /><span className="text-[#c2a76d]">Than</span> Your{' '}<br />Husband <span className="text-[.35em]">LLC</span></h1>
              <p className="mt-7 max-w-md font-serif text-2xl leading-snug text-[#e1dfd8] sm:text-3xl">Small Jobs. Real Relief.</p>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#c7cac9]">Professional handyman and property services for the jobs that need to get done.</p>
           </div>
