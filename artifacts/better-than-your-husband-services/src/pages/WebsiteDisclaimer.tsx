@@ -1,3 +1,5 @@
+import { businessInfo } from '@/lib/business';
+
 const disclaimerText = `Website Disclaimer
 
 Effective Date: September 26, 2026
@@ -110,7 +112,7 @@ Cookie & Tracking Disclosure
 
 Better Than Your Husband Services LLC
 Phone: 913-346-0205
-Email: support@betterthanyourhusbandllc.com
+Email: ${businessInfo.contact.email}
 
 Last Updated: September 26, 2026`;
 
