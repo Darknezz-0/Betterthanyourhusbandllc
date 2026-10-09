@@ -111,7 +111,7 @@ Cookie & Tracking Disclosure
 11. Contact Us
 
 Better Than Your Husband Services LLC
-Phone: 913-346-0205
+Phone: ${businessInfo.phone}
 Email: ${businessInfo.contact.email}
 
 Last Updated: September 26, 2026`;
