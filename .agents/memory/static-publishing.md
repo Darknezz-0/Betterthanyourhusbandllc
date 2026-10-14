@@ -14,3 +14,9 @@ The owner has chosen to keep this site on static publishing and remove customer-
 **Why:** They want to avoid Autoscale's usage-based charges when visitors use the site.
 
 **How to apply:** Do not switch the publishing target, add a separately hosted backend, or restore customer review submission without asking first. Static republishing is appropriate for approved site updates.
+
+Static publishing still audits dependencies elsewhere in this workspace, including the API artifact.
+
+**Why:** A publish was blocked by a critical transitive API dependency even though the frontend compiled successfully and the hosting target was static.
+
+**How to apply:** Diagnose publishing from the actual failed-build logs. If the security gate names a package, inspect the full workspace dependency tree and patch the affected dependency; changing hosting type or ignoring frontend build warnings does not address that gate.
