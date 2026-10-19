@@ -5,6 +5,12 @@ router = "application"
 deploymentTarget = "static"
 publicDir = "artifacts/better-than-your-husband-services/dist/public"
 
+# The root static publisher also needs the artifact's SPA fallback.
+# Existing files (including sitemap.xml and robots.txt) take precedence.
+[[deployment.rewrites]]
+from = "/*"
+to = "/index.html"
+
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
 env = { "CI" = "true" }

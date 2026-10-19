@@ -9,6 +9,12 @@ When troubleshooting publishing, distinguish the root publishing target from art
 
 **How to apply:** Check both the configured target and live deployment metadata before calling publishing functional. Do not presume code changes are live before republishing. Direct edits to the root Replit config are rejected here; write a full temp TOML and use its schema-validation replacement callback.
 
+Keep the SPA fallback in the root static publishing configuration as well as the website artifact.
+
+**Why:** The owner-selected root static publisher served the homepage and physical crawler files but returned 404 for real client-side routes despite a valid artifact-level fallback. An artifact-only fallback is not sufficient for this publishing setup.
+
+**How to apply:** Preserve both rules when adjusting routing. Existing files take precedence over the wildcard, so sitemap XML, robots.txt, and built assets remain directly served. Only a user-initiated republish can verify the changed rule on the live host.
+
 The owner has chosen to keep this site on static publishing and remove customer-facing review submission while retaining approved reviews.
 
 **Why:** They want to avoid Autoscale's usage-based charges when visitors use the site.
