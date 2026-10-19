@@ -8,3 +8,9 @@ Verify SEO tag counts using actual document-head elements or production-build HT
 **Why:** Replit's injected development tooling can contain a literal empty title tag inside a JavaScript string used for a sandbox document. That string is not a homepage title element, but an unrestricted source search counts it as one.
 
 **How to apply:** When checking title or meta-description uniqueness, inspect the rendered head or parse the HTML while excluding script contents. Also check the production HTML for metadata available before JavaScript runs.
+
+Keep canonical URLs route-aware in this site's shared SPA shell.
+
+**Why:** The same static HTML is served for multiple application routes. Hardcoding a homepage canonical in that shared HTML would also label other pages as homepage duplicates before JavaScript renders. The small SEO update intentionally retained client-side canonical management instead of introducing a prerendering toolchain.
+
+**How to apply:** Verify canonical URLs in the rendered head on the homepage and another route, including a tracking-query test. If adding static canonicals later, first ensure each route receives its own correct HTML rather than placing a homepage canonical in every route's shared shell.

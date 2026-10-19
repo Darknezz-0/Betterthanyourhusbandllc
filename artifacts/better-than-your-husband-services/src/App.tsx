@@ -43,6 +43,7 @@ const scopeNote = 'All work is subject to project scope, applicable licensing re
 const servicesHref = `${import.meta.env.BASE_URL}#services`;
 
 function usePageMeta(title: string, description: string, exactTitle = false) {
+  const [location] = useLocation();
   useEffect(() => {
     const pageTitle = exactTitle ? title : `${title} | ${businessInfo.displayName}`;
     document.title = pageTitle;
@@ -59,11 +60,22 @@ function usePageMeta(title: string, description: string, exactTitle = false) {
     setMeta('og:title', pageTitle);
     setMeta('og:description', description);
     setMeta('og:type', 'website');
+    const canonicalUrl = new URL(location || '/', 'https://www.betterthanyourhusbandllc.com');
+    canonicalUrl.search = '';
+    canonicalUrl.hash = '';
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    canonical.href = canonicalUrl.href;
+    setMeta('og:url', canonicalUrl.href);
     if (exactTitle) {
       setMeta('twitter:title', pageTitle);
       setMeta('twitter:description', description);
     }
-  }, [title, description, exactTitle]);
+  }, [title, description, exactTitle, location]);
 }
 
 function Logo({ footer = false }: { footer?: boolean }) {
@@ -176,7 +188,7 @@ function SectionLabel({ children, light = false }: { children: ReactNode; light?
 }
 
 function HomePage() {
-  usePageMeta('Better Than Your Husband LLC | Home Repairs & Property Services', 'Better Than Your Husband LLC provides home repairs, maintenance, outdoor projects, pressure washing, property cleanups, and other property services throughout the Kansas City metro area.', true);
+  usePageMeta('Better Than Your Husband LLC | Kansas City Handyman Services', 'Need handyman services in Kansas City? Better Than Your Husband LLC handles home repairs, maintenance, pressure washing, property cleanups, and outdoor projects.', true);
   return (
     <>
        <section className="relative flex min-h-[720px] items-end overflow-hidden bg-[#111315] text-[#eeeae0] lg:min-h-[790px]">
@@ -189,7 +201,7 @@ function HomePage() {
             <SectionLabel light>Kansas City metropolitan area · Missouri + Kansas</SectionLabel>
               <h1 className="mt-7 max-w-4xl font-display text-5xl uppercase leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]">Better{' '}<br /><span className="text-[#c2a76d]">Than</span> Your{' '}<br />Husband <span className="text-[.35em]">LLC</span></h1>
              <p className="mt-7 max-w-md font-serif text-2xl leading-snug text-[#e1dfd8] sm:text-3xl">Small Jobs. Real Relief.</p>
-              <p className="mt-5 max-w-lg text-base leading-7 text-[#c7cac9]">Professional handyman and property services for the jobs that need to get done.</p>
+              <p className="mt-5 max-w-lg text-base leading-7 text-[#c7cac9]">Handyman services in Kansas City for home repairs and property maintenance.</p>
           </div>
             <div className="mt-20 flex items-center gap-4 border-t border-[#bfc4c5]/20 pt-5 text-[10px] uppercase tracking-[0.16em] text-[#c3c7c7]">
              <span className="h-px w-10 shrink-0 bg-[#b39860]" /> Thoughtful work for the places you live and work
@@ -198,14 +210,14 @@ function HomePage() {
       </section>
        <section className="bg-[#1d2022] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.25fr] lg:gap-24">
-           <div className="stationery-corner pt-7 pl-5 sm:pl-7"><SectionLabel>The useful middle</SectionLabel><h2 className="mt-5 max-w-sm font-display text-4xl leading-tight tracking-[-.025em] text-foreground sm:text-5xl">A good home has a long list.</h2></div>
+           <div className="stationery-corner pt-7 pl-5 sm:pl-7"><SectionLabel>The useful middle</SectionLabel><h2 className="mt-5 max-w-sm font-display text-4xl leading-tight tracking-[-.025em] text-foreground sm:text-5xl">Home repairs &amp; maintenance.</h2></div>
              <div><p className="max-w-2xl font-serif text-2xl leading-snug text-[#e0ddd4] sm:text-3xl">Not every job needs a crew. Not every fix belongs on your weekend.</p><p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground">{businessInfo.displayName} exists for the practical, visible, quietly important work that keeps a property running well. We bring a steady hand, clear communication, and a finish-minded approach to the list.</p><ButtonArrow href="/about#service-philosophy" secondary>Why we work this way</ButtonArrow></div>
         </div>
       </section>
        <section id="services" className="bg-background px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
          <div className="mx-auto max-w-7xl">
-           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>What we do</SectionLabel><h2 className="mt-5 max-w-xl font-display text-4xl leading-tight sm:text-5xl">The list, handled.</h2></div></div>
-           <div className="mt-12 grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="service-surface group bg-card p-8 transition-colors hover:bg-[#262a2c]" data-testid={`card-service-${index}`}><Icon size={25} strokeWidth={1.4} className="text-primary" /><h2 className="mt-16 font-display text-2xl leading-tight">{title}</h2><p className="mt-4 text-sm leading-7 text-muted-foreground">{text}</p></article>)}</div>
+           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"><div><SectionLabel>What we do</SectionLabel><h2 className="mt-5 max-w-xl font-display text-4xl leading-tight sm:text-5xl">Handyman services.</h2></div></div>
+           <div className="mt-12 grid gap-px border border-border bg-border md:grid-cols-2 lg:grid-cols-3">{serviceCategories.map(({ title, text, icon: Icon }, index) => <article key={title} className="service-surface group bg-card p-8 transition-colors hover:bg-[#262a2c]" data-testid={`card-service-${index}`}><Icon size={25} strokeWidth={1.4} className="text-primary" /><h3 className="mt-16 font-display text-2xl leading-tight">{title}</h3><p className="mt-4 text-sm leading-7 text-muted-foreground">{text}</p></article>)}</div>
            <div className="mt-12 flex gap-4 border-l-2 border-primary bg-[#242729] p-6 text-sm leading-7 text-muted-foreground"><ShieldCheck className="mt-1 shrink-0 text-primary" size={19} /><p>{scopeNote}</p></div>
         </div>
       </section>
