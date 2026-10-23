@@ -9,7 +9,6 @@ type ProjectPhoto = PhotoPair | { image: string };
 
 // Add future approved project photos as another pair here. Images live in public/assets/projects.
 const photoPairs: ProjectPhoto[] = [
-  { before: 'covered-area-before.webp', after: 'covered-area-after.webp' },
   { image: 'house-corrected.jpg' },
   { before: 'kitchen-before.webp', after: 'kitchen-after.webp' },
   { before: 'cabinets-before.webp', after: 'cabinets-after.webp' },
@@ -109,18 +108,18 @@ export function BeforeAfterProjects() {
 
         <div className="mt-12 space-y-6" aria-label="Before and after project photos">
           {photoPairs.map((pair, index) => (
-            <figure key={'image' in pair ? pair.image : pair.before} className="border border-border bg-card p-4 sm:p-6" data-testid={`project-pair-${index + 1}`}>
+            <figure key={'image' in pair ? pair.image : pair.before} className="border border-border bg-card p-4 sm:p-6" data-testid={`project-pair-${index + 2}`}>
               {'image' in pair ? (
                 <img src={asset(pair.image)} alt="House before and after photos" loading="lazy" className="mx-auto block h-auto w-full max-w-[645px]" />
               ) : (
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
                   <div>
                     <p className="mb-3 font-mono-brand text-[10px] uppercase tracking-[.16em] text-muted-foreground">Before</p>
-                    <img src={asset(pair.before)} alt={`Before photo ${index + 1}`} loading="lazy" className="h-auto w-full border border-border" />
+                    <img src={asset(pair.before)} alt={`Before photo ${index + 2}`} loading="lazy" className="h-auto w-full border border-border" />
                   </div>
                   <div>
                     <p className="mb-3 font-mono-brand text-[10px] uppercase tracking-[.16em] text-muted-foreground">After</p>
-                    <img src={asset(pair.after)} alt={`After photo ${index + 1}`} loading="lazy" className="h-auto w-full border border-border" />
+                    <img src={asset(pair.after)} alt={`After photo ${index + 2}`} loading="lazy" className="h-auto w-full border border-border" />
                   </div>
                 </div>
               )}
@@ -129,6 +128,14 @@ export function BeforeAfterProjects() {
         </div>
         <figure className="mt-6 border border-border bg-card p-4 sm:p-6" data-testid="additional-project-photo">
           <img src={asset('shed-project.webp')} alt="Completed project photo" loading="lazy" className="block h-auto w-full max-w-5xl border border-border" />
+        </figure>
+        <figure className="mt-6 border border-primary/40 bg-card p-3 sm:p-6 lg:p-8" aria-label="Staircase and outdoor living space before and after" data-testid="staircase-project">
+          <div className="grid gap-7 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,.65fr)] lg:items-start">
+            <div className="min-w-0">
+              <ComparisonSlider before="covered-area-before.webp" after="covered-area-after.webp" />
+              <p className="px-1 pt-4 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Drag to compare · Before / After</p>
+            </div>
+          </div>
         </figure>
       </div>
     </section>
