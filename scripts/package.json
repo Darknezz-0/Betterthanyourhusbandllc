@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "hello": "tsx ./src/hello.ts",
+    "check:static-publishing": "node ./src/static-publishing.mjs",
+    "test:static-publishing": "node --test ./src/static-publishing.test.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
