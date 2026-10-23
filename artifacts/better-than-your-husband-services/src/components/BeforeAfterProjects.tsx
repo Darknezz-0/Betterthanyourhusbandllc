@@ -137,6 +137,9 @@ export function BeforeAfterProjects() {
             </div>
           </div>
         </figure>
+        <figure id="ramp-project-photo" className="mt-6 border border-border bg-card p-4 sm:p-6" data-testid="ramp-project-photo">
+          <img src={asset('ramp-before-after.jpg')} alt="Before and after views of an exterior access ramp and white lattice railing" loading="lazy" className="mx-auto block h-auto w-full max-w-[645px]" />
+        </figure>
       </div>
     </section>
   );
