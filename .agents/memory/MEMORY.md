@@ -2,3 +2,4 @@
 - [Shell runtime auto-install](shell-runtime-auto-install.md) — invoking Python can silently add a runtime module to .replit; avoid it for throwaway checks.
 - [AskMeevo CORS redirect](askmeevo-cors.md) — a visible chat launcher does not prove chat works; verify the provider's config request in the browser.
 - [Preview SEO verification](preview-seo-verification.md) — count actual head elements, not tag-shaped strings inside injected development scripts.
+- [Gallery ordering](gallery-ordering.md) — keep static Before & After examples between the opening and closing comparison sliders.

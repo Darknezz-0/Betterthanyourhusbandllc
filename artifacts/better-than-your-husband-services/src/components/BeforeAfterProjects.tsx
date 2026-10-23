@@ -129,6 +129,9 @@ export function BeforeAfterProjects() {
         <figure className="mt-6 border border-border bg-card p-4 sm:p-6" data-testid="additional-project-photo">
           <img src={asset('shed-project.webp')} alt="Completed project photo" loading="lazy" className="block h-auto w-full max-w-5xl border border-border" />
         </figure>
+        <figure id="ramp-project-photo" className="mt-6 border border-border bg-card p-4 sm:p-6" data-testid="ramp-project-photo">
+          <img src={asset('ramp-before-after.jpg')} alt="Before and after views of an exterior access ramp and white lattice railing" loading="lazy" className="mx-auto block h-auto w-full max-w-[645px]" />
+        </figure>
         <figure className="mt-6 border border-primary/40 bg-card p-3 sm:p-6 lg:p-8" aria-label="Staircase and outdoor living space before and after" data-testid="staircase-project">
           <div className="grid gap-7 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,.65fr)] lg:items-start">
             <div className="min-w-0">
@@ -136,9 +139,6 @@ export function BeforeAfterProjects() {
               <p className="px-1 pt-4 font-mono-brand text-[10px] uppercase tracking-[.16em] text-primary">Drag to compare · Before / After</p>
             </div>
           </div>
-        </figure>
-        <figure id="ramp-project-photo" className="mt-6 border border-border bg-card p-4 sm:p-6" data-testid="ramp-project-photo">
-          <img src={asset('ramp-before-after.jpg')} alt="Before and after views of an exterior access ramp and white lattice railing" loading="lazy" className="mx-auto block h-auto w-full max-w-[645px]" />
         </figure>
       </div>
     </section>
