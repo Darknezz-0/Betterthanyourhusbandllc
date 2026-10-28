@@ -128,7 +128,7 @@
 }
 
 @layer utilities {
-  .site-logo { mix-blend-mode: screen; background: transparent; border: 0; box-shadow: none; }
+  .site-logo { background: transparent; border: 0; box-shadow: none; }
   .secondary-cta {
     border: 1px solid rgb(195 168 111 / .88);
     color: #eeeae0;

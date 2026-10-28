@@ -1,6 +1,6 @@
 export const businessInfo = {
-  legalName: 'Better Than Your Husband LLC',
-  displayName: 'Better Than Your Husband',
+  legalName: 'Better Than Your Husband Handyman Services LLC',
+  displayName: 'Better Than Your Husband Handyman Services LLC',
   tagline: 'Small Jobs. Real Relief.',
   description:
     'Professional handyman and property services for the jobs that need to get done.',

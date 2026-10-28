@@ -82,7 +82,7 @@ function Logo({ footer = false }: { footer?: boolean }) {
   return (
     <Link href="/" className="group inline-flex items-center bg-transparent border-0 shadow-none" data-testid="link-logo">
       <img
-        src={`${import.meta.env.BASE_URL}assets/official-logo.png`}
+        src={`${import.meta.env.BASE_URL}assets/official-logo.png?v=handyman-services-llc`}
         alt={businessInfo.legalName}
         className={`site-logo object-contain transition-opacity group-hover:opacity-90 ${footer ? 'h-24 w-24' : 'h-16 w-16 sm:h-[68px] sm:w-[68px]'}`}
       />
@@ -156,12 +156,12 @@ function Footer() {
            <p className="font-mono-brand text-[10px] uppercase tracking-[0.18em] text-[#bba16a]">Reach us</p>
            <a href={businessInfo.phoneHref} className="mt-5 flex items-center gap-3 text-lg text-[#eeeae0] hover:text-[#c2a76d]" data-testid="link-footer-phone"><Phone size={17} /> {businessInfo.phone}</a>
             <a href={`mailto:${businessInfo.contact.email}`} className="mt-3 block break-all text-sm leading-6 text-[#c6c9c8] transition-colors hover:text-[#c2a76d]" data-testid="link-footer-email">{businessInfo.contact.email}</a>
-            <a href={businessInfo.contact.facebook} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm leading-6 text-[#c6c9c8] transition-colors hover:text-[#c2a76d]" data-testid="link-footer-facebook">Better Than Your Husband LLC on Facebook</a>
+            <a href={businessInfo.contact.facebook} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm leading-6 text-[#c6c9c8] transition-colors hover:text-[#c2a76d]" data-testid="link-footer-facebook">{businessInfo.legalName} on Facebook</a>
         </div>
       </div>
       <div className="border-t border-white/10">
           <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-5 text-xs text-[#c2c5c5] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
-           <p>© {new Date().getFullYear()} {businessInfo.displayName}</p>
+           <p className="pr-16 sm:pr-0">© {new Date().getFullYear()} {businessInfo.displayName}</p>
            <div className="flex flex-wrap gap-x-5 gap-y-2">
               <Link href="/terms" className="hover:text-white" data-testid="link-footer-terms">Terms &amp; Conditions</Link>
              <Link href="/privacy-policy" className="hover:text-white" data-testid="link-footer-privacy">Privacy Policy</Link>
@@ -188,7 +188,7 @@ function SectionLabel({ children, light = false }: { children: ReactNode; light?
 }
 
 function HomePage() {
-  usePageMeta('Better Than Your Husband LLC | Kansas City Handyman Services', 'Need handyman services in Kansas City? Better Than Your Husband LLC handles home repairs, maintenance, pressure washing, property cleanups, and outdoor projects.', true);
+  usePageMeta(`${businessInfo.legalName} | Kansas City Handyman Services`, `Need handyman services in Kansas City? ${businessInfo.legalName} handles home repairs, maintenance, pressure washing, property cleanups, and outdoor projects.`, true);
   return (
     <>
        <section className="relative flex min-h-[720px] items-end overflow-hidden bg-[#111315] text-[#eeeae0] lg:min-h-[790px]">
@@ -199,7 +199,7 @@ function HomePage() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-40 sm:px-8 lg:px-12 lg:pb-28">
            <div className="stationery-corner max-w-3xl pt-8 pl-5 animate-rise-in sm:pl-8">
             <SectionLabel light>Kansas City metropolitan area · Missouri + Kansas</SectionLabel>
-              <h1 className="mt-7 max-w-4xl font-display text-5xl uppercase leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]">Better{' '}<br /><span className="text-[#c2a76d]">Than</span> Your{' '}<br />Husband <span className="text-[.35em]">LLC</span></h1>
+              <h1 className="mt-7 max-w-4xl font-display text-5xl uppercase leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]">Better{' '}<br /><span className="text-[#c2a76d]">Than</span> Your{' '}<br />Husband <span className="block text-[.35em]">Handyman Services LLC</span></h1>
              <p className="mt-7 max-w-md font-serif text-2xl leading-snug text-[#e1dfd8] sm:text-3xl">Small Jobs. Real Relief.</p>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#c7cac9]">Handyman services in Kansas City for home repairs and property maintenance.</p>
           </div>
@@ -339,7 +339,7 @@ function ContactPage() {
             <h2 className="mt-5 font-display text-2xl">Email &amp; Facebook</h2>
             <p className="mt-3 text-sm leading-7 text-muted-foreground">Email us about a project or use the quote request form to prepare the details.</p>
             <a href={`mailto:${businessInfo.contact.email}`} className="mt-4 block break-all font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary hover:text-foreground" data-testid="link-contact-email">Email: {businessInfo.contact.email}</a>
-            <a href={businessInfo.contact.facebook} target="_blank" rel="noopener noreferrer" className="mt-2 block font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary hover:text-foreground" data-testid="link-contact-facebook">Better Than Your Husband LLC on Facebook</a>
+            <a href={businessInfo.contact.facebook} target="_blank" rel="noopener noreferrer" className="mt-2 block font-mono-brand text-[10px] uppercase tracking-[.12em] text-primary hover:text-foreground" data-testid="link-contact-facebook">{businessInfo.legalName} on Facebook</a>
           </div>
         </div>
       </div>
@@ -361,14 +361,14 @@ const legalPages: Record<string, LegalPageContent> = {
   '/terms': {
     title: 'Terms of Service',
     eyebrow: 'Before you request',
-    intro: 'These Terms of Service govern your use of the Better Than Your Husband LLC website and the services and information made available through the website.',
+    intro: 'These Terms of Service govern your use of the Better Than Your Husband Handyman Services LLC website and the services and information made available through the website.',
     effectiveDate: 'September 18, 2026',
     preamble: 'By using this website, submitting a request for an estimate or quote, or otherwise interacting with the website, you acknowledge that you have read and understood these Terms of Service.',
     sections: [
       {
         heading: 'About Our Services',
         body: [
-          'Better Than Your Husband LLC provides handyman, property maintenance, repair, improvement, cleanup, installation, and related services within the scope of work the business is legally permitted and able to perform.',
+          'Better Than Your Husband Handyman Services LLC provides handyman, property maintenance, repair, improvement, cleanup, installation, and related services within the scope of work the business is legally permitted and able to perform.',
           "Information about services shown on this website is provided for general informational purposes. Availability depends on the specific project, site conditions, applicable requirements, and the company's review.",
         ],
       },
@@ -378,7 +378,7 @@ const legalPages: Record<string, LegalPageContent> = {
           'Customers may submit project information and request an estimate or quote.',
           'Submitting a request does not automatically create a contract, guarantee acceptance, or establish a final price.',
           'Website estimates are subject to review and may change after the project, scope, measurements, materials, site conditions, and other relevant factors are evaluated.',
-          'A final price is established only after the project has been reviewed and the scope and pricing have been agreed upon by the customer and Better Than Your Husband LLC.',
+          'A final price is established only after the project has been reviewed and the scope and pricing have been agreed upon by the customer and Better Than Your Husband Handyman Services LLC.',
         ],
       },
       {
@@ -430,14 +430,14 @@ const legalPages: Record<string, LegalPageContent> = {
         heading: 'Scheduling',
         body: [
           'Submitting a request does not guarantee a particular appointment or completion date.',
-          'Scheduling is subject to project requirements, availability, scope, site conditions, and agreement between the customer and Better Than Your Husband LLC.',
+          'Scheduling is subject to project requirements, availability, scope, site conditions, and agreement between the customer and Better Than Your Husband Handyman Services LLC.',
         ],
       },
       {
         heading: 'Work Limitations',
         body: [
           'Not every requested project or service can necessarily be performed.',
-          'Work is subject to applicable laws, regulations, permit requirements, property conditions, project complexity, and the scope of services Better Than Your Husband LLC is legally permitted and able to provide.',
+          'Work is subject to applicable laws, regulations, permit requirements, property conditions, project complexity, and the scope of services Better Than Your Husband Handyman Services LLC is legally permitted and able to provide.',
           "Projects requiring work outside the company's permitted scope may be declined or limited.",
         ],
       },
@@ -453,7 +453,7 @@ const legalPages: Record<string, LegalPageContent> = {
         heading: 'Third-Party Services',
         body: [
           'The website may contain or use third-party services, tools, platforms, links, or other technology.',
-          'Third-party services may have their own terms and privacy policies. Better Than Your Husband LLC is not responsible for their independent policies or practices.',
+          'Third-party services may have their own terms and privacy policies. Better Than Your Husband Handyman Services LLC is not responsible for their independent policies or practices.',
         ],
       },
       {
@@ -463,7 +463,7 @@ const legalPages: Record<string, LegalPageContent> = {
       {
         heading: 'Intellectual Property',
         body: [
-          'The website, its original content, branding, graphics, photographs, text, design, and other materials provided by Better Than Your Husband LLC are protected by applicable intellectual property laws.',
+          'The website, its original content, branding, graphics, photographs, text, design, and other materials provided by Better Than Your Husband Handyman Services LLC are protected by applicable intellectual property laws.',
           'You may use the website for legitimate personal purposes related to obtaining information or requesting services. You may not reproduce, distribute, modify, or commercially exploit protected materials without authorization.',
         ],
       },
@@ -471,20 +471,20 @@ const legalPages: Record<string, LegalPageContent> = {
         heading: 'Disclaimer of Warranties',
         body: [
           'The website and its general information are provided on an "as available" basis.',
-          'Better Than Your Husband LLC does not guarantee that the website will always be available, uninterrupted, error-free, or free of technical issues.',
+          'Better Than Your Husband Handyman Services LLC does not guarantee that the website will always be available, uninterrupted, error-free, or free of technical issues.',
           'Website information, automated tools, estimates, and other preliminary information should not substitute for evaluation of the actual project when necessary.',
         ],
       },
       {
         heading: 'Limitation of Liability',
         body: [
-          'To the extent permitted by applicable law, Better Than Your Husband LLC will not be responsible for losses resulting solely from reliance on general website information, preliminary estimates, website availability, technical interruptions, or information that was incomplete or inaccurately supplied by a customer.',
+          'To the extent permitted by applicable law, Better Than Your Husband Handyman Services LLC will not be responsible for losses resulting solely from reliance on general website information, preliminary estimates, website availability, technical interruptions, or information that was incomplete or inaccurately supplied by a customer.',
           'Nothing in these Terms excludes or limits responsibility that cannot legally be excluded or limited.',
         ],
       },
       {
         heading: 'Changes to These Terms',
-        body: 'Better Than Your Husband LLC may update these Terms when necessary. The effective date at the beginning identifies the current version.',
+        body: 'Better Than Your Husband Handyman Services LLC may update these Terms when necessary. The effective date at the beginning identifies the current version.',
       },
       {
         heading: 'General Terms',
@@ -495,14 +495,14 @@ const legalPages: Record<string, LegalPageContent> = {
       },
       {
         heading: 'Contact',
-        body: 'Questions regarding these Terms may be directed to Better Than Your Husband LLC through the contact information provided on the website.',
+        body: 'Questions regarding these Terms may be directed to Better Than Your Husband Handyman Services LLC through the contact information provided on the website.',
       },
     ],
   },
   '/privacy-policy': {
     title: 'Privacy Policy',
     eyebrow: 'A plain-language policy',
-    intro: 'Better Than Your Husband LLC respects your privacy and is committed to handling information submitted through this website responsibly.',
+    intro: 'Better Than Your Husband Handyman Services LLC respects your privacy and is committed to handling information submitted through this website responsibly.',
     effectiveDate: 'September 18, 2026',
     preamble: 'This Privacy Policy explains what information may be collected through the website, how that information may be used, and the choices available to you.',
     sections: [
@@ -528,7 +528,7 @@ const legalPages: Record<string, LegalPageContent> = {
         heading: 'How Information Is Used',
         body: [
           'Information submitted through the website may be used to:',
-          "Better Than Your Husband LLC does not use submitted information for purposes unrelated to the customer's request unless permitted or required by law.",
+          "Better Than Your Husband Handyman Services LLC does not use submitted information for purposes unrelated to the customer's request unless permitted or required by law.",
         ],
         bullets: [
           'Respond to inquiries',
@@ -546,7 +546,7 @@ const legalPages: Record<string, LegalPageContent> = {
       {
         heading: 'Project Photographs and Other Uploaded Information',
         body: [
-          'If you submit photographs, measurements, descriptions, or other project information, that information may be reviewed by Better Than Your Husband LLC in connection with your request.',
+          'If you submit photographs, measurements, descriptions, or other project information, that information may be reviewed by Better Than Your Husband Handyman Services LLC in connection with your request.',
           'Customers are responsible for ensuring that they have the right to submit photographs or other materials they provide.',
           'Do not submit sensitive personal information that is not reasonably necessary for your project.',
         ],
@@ -557,7 +557,7 @@ const legalPages: Record<string, LegalPageContent> = {
           'When you visit a website, certain technical information may potentially be collected by the website or by services used to operate it.',
           "Depending on the website's current configuration, this may include device or browser information, general technical information, pages visited, basic usage information, and information necessary for website security and operation.",
           "The specific information collected may change as the website's technology and services change.",
-          'Better Than Your Husband LLC does not represent that the website collects information through a particular analytics, advertising, tracking, or similar service unless that service is actually configured and in use.',
+          'Better Than Your Husband Handyman Services LLC does not represent that the website collects information through a particular analytics, advertising, tracking, or similar service unless that service is actually configured and in use.',
         ],
       },
       {
@@ -571,9 +571,9 @@ const legalPages: Record<string, LegalPageContent> = {
       {
         heading: 'Sharing of Information',
         body: [
-          'Better Than Your Husband LLC may share information when reasonably necessary to operate the business, respond to a request, provide requested services, comply with legal requirements, protect the business or others, or perform other legitimate business functions.',
+          'Better Than Your Husband Handyman Services LLC may share information when reasonably necessary to operate the business, respond to a request, provide requested services, comply with legal requirements, protect the business or others, or perform other legitimate business functions.',
           'Information may also be processed by service providers or technology platforms used to operate website functionality when applicable.',
-          'Better Than Your Husband LLC does not sell customer information as a general business practice.',
+          'Better Than Your Husband Handyman Services LLC does not sell customer information as a general business practice.',
         ],
       },
       {
@@ -585,12 +585,12 @@ const legalPages: Record<string, LegalPageContent> = {
       },
       {
         heading: 'Communications',
-        body: 'Information you provide may be used to communicate with you about your inquiry, estimate, quote, scheduling, project, or other matter related to your interaction with Better Than Your Husband LLC.',
+        body: 'Information you provide may be used to communicate with you about your inquiry, estimate, quote, scheduling, project, or other matter related to your interaction with Better Than Your Husband Handyman Services LLC.',
       },
       {
         heading: 'Data Security',
         body: [
-          'Better Than Your Husband LLC takes reasonable measures appropriate to the circumstances to protect information submitted through the website.',
+          'Better Than Your Husband Handyman Services LLC takes reasonable measures appropriate to the circumstances to protect information submitted through the website.',
           'However, no website, electronic transmission, or method of storing information can be guaranteed to be completely secure.',
         ],
       },
@@ -603,14 +603,14 @@ const legalPages: Record<string, LegalPageContent> = {
         body: [
           'The website may contain links to third-party websites or may use third-party services.',
           'Third-party websites and services operate under their own terms and privacy policies.',
-          'Better Than Your Husband LLC is not responsible for the privacy practices, security practices, or content of third-party websites or services.',
+          'Better Than Your Husband Handyman Services LLC is not responsible for the privacy practices, security practices, or content of third-party websites or services.',
         ],
       },
       {
         heading: "Children's Privacy",
         body: [
           'The website is intended for general use and is not specifically directed toward children.',
-          'Better Than Your Husband LLC does not knowingly request personal information from children for purposes unrelated to the operation of the website or the provision of services.',
+          'Better Than Your Husband Handyman Services LLC does not knowingly request personal information from children for purposes unrelated to the operation of the website or the provision of services.',
         ],
       },
       {
@@ -624,21 +624,21 @@ const legalPages: Record<string, LegalPageContent> = {
       {
         heading: 'Changes to This Privacy Policy',
         body: [
-          'Better Than Your Husband LLC may update this Privacy Policy when necessary to reflect changes to the website, business practices, technology, legal requirements, or other circumstances.',
+          'Better Than Your Husband Handyman Services LLC may update this Privacy Policy when necessary to reflect changes to the website, business practices, technology, legal requirements, or other circumstances.',
           'The effective date shown at the beginning of this Privacy Policy identifies the current version.',
         ],
       },
       {
         heading: 'Contact',
-        body: 'Questions or privacy-related requests may be directed to Better Than Your Husband LLC through the contact information provided on the website.',
+        body: 'Questions or privacy-related requests may be directed to Better Than Your Husband Handyman Services LLC through the contact information provided on the website.',
       },
     ],
-    closingLines: ['Better Than Your Husband LLC', 'Effective Date: September 18, 2026'],
+    closingLines: ['Better Than Your Husband Handyman Services LLC', 'Effective Date: September 18, 2026'],
   },
   '/legal-disclaimer': {
     title: 'Legal Disclaimer',
     eyebrow: 'Important website information',
-    intro: 'The information provided on this website is intended for general informational purposes and to help customers understand the types of services that Better Than Your Husband LLC may provide.',
+    intro: 'The information provided on this website is intended for general informational purposes and to help customers understand the types of services that Better Than Your Husband Handyman Services LLC may provide.',
     effectiveDate: 'September 18, 2026',
     preamble: 'Nothing on this website should be interpreted as a guarantee that a particular service, project, material, repair, installation, or improvement will be available, appropriate, accepted, or legally permitted for a particular property or situation.',
     sections: [
@@ -663,7 +663,7 @@ const legalPages: Record<string, LegalPageContent> = {
         heading: 'Services and Legal Requirements',
         body: [
           'Not every project or requested service can necessarily be performed.',
-          'Work is subject to applicable laws, regulations, permit requirements, property conditions, safety considerations, and the scope of work Better Than Your Husband LLC is legally permitted and able to provide.',
+          'Work is subject to applicable laws, regulations, permit requirements, property conditions, safety considerations, and the scope of work Better Than Your Husband Handyman Services LLC is legally permitted and able to provide.',
           "Where a project requires a permit, licensed trade, inspection, specialized professional, or other legal requirement outside the company's permitted scope, the project may be declined, limited, or referred to an appropriately qualified provider.",
         ],
       },
@@ -677,7 +677,7 @@ const legalPages: Record<string, LegalPageContent> = {
       {
         heading: 'Customer Responsibility',
         body: [
-          'Customers are responsible for providing reasonably accurate information about the requested project and informing Better Than Your Husband LLC of known hazards, property conditions, access restrictions, previous work, or other circumstances that could affect the project.',
+          'Customers are responsible for providing reasonably accurate information about the requested project and informing Better Than Your Husband Handyman Services LLC of known hazards, property conditions, access restrictions, previous work, or other circumstances that could affect the project.',
           'Customers are also responsible for obtaining any property-owner, landlord, homeowners association, or other required permission that is their responsibility.',
         ],
       },
@@ -685,17 +685,17 @@ const legalPages: Record<string, LegalPageContent> = {
         heading: 'Third-Party Information and Links',
         body: [
           'The website may contain information, links, tools, or services provided by third parties.',
-          'Better Than Your Husband LLC does not control third-party websites or services and is not responsible for their independent content, policies, availability, or practices.',
+          'Better Than Your Husband Handyman Services LLC does not control third-party websites or services and is not responsible for their independent content, policies, availability, or practices.',
         ],
       },
       {
         heading: 'No Guarantee of Website Availability',
-        body: 'Reasonable efforts may be made to keep website information accurate and available. However, Better Than Your Husband LLC does not guarantee that the website, forms, calculators, estimates, or other online features will always be available, uninterrupted, error-free, or current.',
+        body: 'Reasonable efforts may be made to keep website information accurate and available. However, Better Than Your Husband Handyman Services LLC does not guarantee that the website, forms, calculators, estimates, or other online features will always be available, uninterrupted, error-free, or current.',
       },
       {
         heading: 'No Automatic Contract',
         body: [
-          'Submitting a website inquiry, requesting an estimate, uploading photographs, receiving preliminary pricing, or communicating through the website does not by itself create a contract or guarantee that Better Than Your Husband LLC will accept or perform the requested work.',
+          'Submitting a website inquiry, requesting an estimate, uploading photographs, receiving preliminary pricing, or communicating through the website does not by itself create a contract or guarantee that Better Than Your Husband Handyman Services LLC will accept or perform the requested work.',
           'Specific projects may be governed by a separate written agreement, estimate, invoice, work authorization, or other project documentation.',
         ],
       },
@@ -709,16 +709,16 @@ const legalPages: Record<string, LegalPageContent> = {
       {
         heading: 'Changes',
         body: [
-          'Better Than Your Husband LLC may update this Legal Disclaimer when necessary to reflect changes to the website, services, business practices, technology, or applicable requirements.',
+          'Better Than Your Husband Handyman Services LLC may update this Legal Disclaimer when necessary to reflect changes to the website, services, business practices, technology, or applicable requirements.',
           'The effective date identifies the current version.',
         ],
       },
       {
         heading: 'Contact',
-        body: 'Questions regarding this Legal Disclaimer may be directed to Better Than Your Husband LLC through the contact information provided on the website.',
+        body: 'Questions regarding this Legal Disclaimer may be directed to Better Than Your Husband Handyman Services LLC through the contact information provided on the website.',
       },
     ],
-    closingLines: ['Better Than Your Husband LLC', 'Effective Date: September 18, 2026'],
+    closingLines: ['Better Than Your Husband Handyman Services LLC', 'Effective Date: September 18, 2026'],
   },
   '/service-agreement': {
     title: 'Service Agreement',
@@ -742,7 +742,7 @@ function LegalPage({ kind }: { kind: string }) {
 }
 
 function DisclaimerPage() {
-  usePageMeta('Website Disclaimer', 'Website Disclaimer for Better Than Your Husband Services LLC.');
+  usePageMeta('Website Disclaimer', `Website Disclaimer for ${businessInfo.legalName}.`);
   return <><div className="relative h-[78px] bg-[#141618]"><Header /></div><WebsiteDisclaimer /></>;
 }
 

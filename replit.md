@@ -1,6 +1,6 @@
-# Better Than Your Husband
+# Better Than Your Husband Handyman Services LLC
 
-Premium responsive marketing website for Better Than Your Husband, a local handyman and property services company serving the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.
+Premium responsive marketing website for Better Than Your Husband Handyman Services LLC, a local handyman and property services company serving the Kansas City metropolitan area and surrounding communities in Missouri and Kansas.
 
 ## Run & Operate
 
@@ -27,7 +27,7 @@ Premium responsive marketing website for Better Than Your Husband, a local handy
 - `artifacts/better-than-your-husband-services/src/lib/pricing.ts` — portable estimator service/question definitions and inactive pricing placeholders
 - `artifacts/better-than-your-husband-services/src/lib/estimatorDraft.ts` — in-session handoff from the estimator into the quote form
 - `artifacts/better-than-your-husband-services/src/index.css` — color tokens, typography, and shared visual utilities
-- `artifacts/better-than-your-husband-services/public/assets/logo.svg` — replaceable temporary logo asset
+- `artifacts/better-than-your-husband-services/public/assets/official-logo.png` — approved official logo for Better Than Your Husband Handyman Services LLC; use the supplied artwork without cropping or recoloring
 - `artifacts/better-than-your-husband-services/public/assets/hero-craftsmanship.jpg` — self-contained hero image asset
 
 ## Architecture decisions

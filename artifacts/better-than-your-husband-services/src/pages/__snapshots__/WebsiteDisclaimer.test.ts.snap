@@ -5,13 +5,13 @@ exports[`WebsiteDisclaimer contact details > preserves the complete rendered leg
 <article class="stationery-corner mx-auto max-w-3xl pl-5 pt-7 sm:pl-7" data-testid="website-disclaimer">
 <h1 class="mb-8 font-display text-4xl leading-tight sm:text-6xl">Website Disclaimer</h1>
 <p class="mb-8 border-l-2 border-primary bg-[#242729] px-5 py-4 font-mono-brand text-[10px] uppercase tracking-[.14em] text-[#c2c5c5]">Effective Date: September 26, 2026</p>
-<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Better Than Your Husband Services LLC (“Better Than Your Husband,” “we,” “us,” or “our”) provides the information on this website, betterthanyourhusbandllc.com, for general informational purposes.</p>
+<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Better Than Your Husband Handyman Services LLC (“we,” “us,” or “our”) provides the information on this website, betterthanyourhusbandllc.com, for general informational purposes.</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">By using this website, you acknowledge the following:</p>
 <h2 class="mb-5 mt-10 border-t border-border pt-8 font-display text-2xl sm:text-3xl">1. General Information</h2>
-<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Information on this website is intended to provide general information about Better Than Your Husband Services LLC, the services we may provide, and how to contact us.</p>
+<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Information on this website is intended to provide general information about Better Than Your Husband Handyman Services LLC, the services we may provide, and how to contact us.</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Website information is not a substitute for a professional inspection, evaluation, diagnosis, engineering opinion, architectural advice, legal advice, or other specialized professional advice.</p>
 <h2 class="mb-5 mt-10 border-t border-border pt-8 font-display text-2xl sm:text-3xl">2. Services Are Not Guaranteed</h2>
-<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">The appearance of a service on this website does not guarantee that Better Than Your Husband will perform that service for every customer or property.</p>
+<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">The appearance of a service on this website does not guarantee that Better Than Your Husband Handyman Services LLC will perform that service for every customer or property.</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Whether a project can be accepted may depend on the specific circumstances, including:</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">The requested scope of work</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Property conditions</p>
@@ -36,7 +36,7 @@ We reserve the right to decline or modify a requested project when appropriate.<
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Actual results may vary depending on the property, materials, existing conditions, project requirements, and other circumstances.</p>
 <h2 class="mb-5 mt-10 border-t border-border pt-8 font-display text-2xl sm:text-3xl">6. Third-Party Websites and Services</h2>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">This website may contain links to third-party websites, including social media platforms and other services.</p>
-<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Better Than Your Husband Services LLC does not control third-party websites and is not responsible for their content, availability, security, privacy practices, or policies.</p>
+<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Better Than Your Husband Handyman Services LLC does not control third-party websites and is not responsible for their content, availability, security, privacy practices, or policies.</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">A link to a third-party website does not necessarily constitute an endorsement of that website or its services.</p>
 <h2 class="mb-5 mt-10 border-t border-border pt-8 font-display text-2xl sm:text-3xl">7. Website Availability and Accuracy</h2>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">We make reasonable efforts to keep the information on this website accurate and current.</p>
@@ -46,9 +46,9 @@ We reserve the right to decline or modify a requested project when appropriate.<
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Nothing on this website should be interpreted as professional advice specific to a customer&#x27;s property or situation.</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">When a project involves matters requiring specialized expertise, licensing, engineering, architectural services, inspections, permits, or other professional services, customers should consult an appropriately qualified professional.</p>
 <h2 class="mb-5 mt-10 border-t border-border pt-8 font-display text-2xl sm:text-3xl">9. Limitation of Responsibility</h2>
-<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">To the fullest extent permitted by applicable law, Better Than Your Husband Services LLC and its owners, employees, contractors, agents, and service providers are not responsible for losses or damages resulting solely from a person&#x27;s reliance on general information provided on this website.</p>
+<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">To the fullest extent permitted by applicable law, Better Than Your Husband Handyman Services LLC and its owners, employees, contractors, agents, and service providers are not responsible for losses or damages resulting solely from a person&#x27;s reliance on general information provided on this website.</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">This disclaimer does not exclude or limit liability that cannot legally be excluded or limited under applicable law.</p>
-<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Services actually performed by Better Than Your Husband may be governed by separate estimates, proposals, service agreements, work authorizations, warranties, and other project-specific documents.</p>
+<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Services actually performed by Better Than Your Husband Handyman Services LLC may be governed by separate estimates, proposals, service agreements, work authorizations, warranties, and other project-specific documents.</p>
 <h2 class="mb-5 mt-10 border-t border-border pt-8 font-display text-2xl sm:text-3xl">10. Related Policies</h2>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">This Website Disclaimer should be read together with the other policies governing use of this website, including:</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Privacy Policy</p>
@@ -59,7 +59,7 @@ We reserve the right to decline or modify a requested project when appropriate.<
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Cookie &amp; Tracking Disclosure</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">
 11. Contact Us</p>
-<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Better Than Your Husband Services LLC
+<p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Better Than Your Husband Handyman Services LLC
 Phone: 913-346-0205
 Email: [CONTACT_EMAIL]</p>
 <p class="mb-5 whitespace-pre-line text-sm leading-8 text-muted-foreground">Last Updated: September 26, 2026</p>

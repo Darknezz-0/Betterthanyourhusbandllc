@@ -4,19 +4,19 @@ const disclaimerText = `Website Disclaimer
 
 Effective Date: September 26, 2026
 
-Better Than Your Husband Services LLC (“Better Than Your Husband,” “we,” “us,” or “our”) provides the information on this website, betterthanyourhusbandllc.com, for general informational purposes.
+${businessInfo.legalName} (“we,” “us,” or “our”) provides the information on this website, betterthanyourhusbandllc.com, for general informational purposes.
 
 By using this website, you acknowledge the following:
 
 1. General Information
 
-Information on this website is intended to provide general information about Better Than Your Husband Services LLC, the services we may provide, and how to contact us.
+Information on this website is intended to provide general information about ${businessInfo.legalName}, the services we may provide, and how to contact us.
 
 Website information is not a substitute for a professional inspection, evaluation, diagnosis, engineering opinion, architectural advice, legal advice, or other specialized professional advice.
 
 2. Services Are Not Guaranteed
 
-The appearance of a service on this website does not guarantee that Better Than Your Husband will perform that service for every customer or property.
+The appearance of a service on this website does not guarantee that ${businessInfo.legalName} will perform that service for every customer or property.
 
 Whether a project can be accepted may depend on the specific circumstances, including:
 
@@ -65,7 +65,7 @@ Actual results may vary depending on the property, materials, existing condition
 
 This website may contain links to third-party websites, including social media platforms and other services.
 
-Better Than Your Husband Services LLC does not control third-party websites and is not responsible for their content, availability, security, privacy practices, or policies.
+${businessInfo.legalName} does not control third-party websites and is not responsible for their content, availability, security, privacy practices, or policies.
 
 A link to a third-party website does not necessarily constitute an endorsement of that website or its services.
 
@@ -85,11 +85,11 @@ When a project involves matters requiring specialized expertise, licensing, engi
 
 9. Limitation of Responsibility
 
-To the fullest extent permitted by applicable law, Better Than Your Husband Services LLC and its owners, employees, contractors, agents, and service providers are not responsible for losses or damages resulting solely from a person's reliance on general information provided on this website.
+To the fullest extent permitted by applicable law, ${businessInfo.legalName} and its owners, employees, contractors, agents, and service providers are not responsible for losses or damages resulting solely from a person's reliance on general information provided on this website.
 
 This disclaimer does not exclude or limit liability that cannot legally be excluded or limited under applicable law.
 
-Services actually performed by Better Than Your Husband may be governed by separate estimates, proposals, service agreements, work authorizations, warranties, and other project-specific documents.
+Services actually performed by ${businessInfo.legalName} may be governed by separate estimates, proposals, service agreements, work authorizations, warranties, and other project-specific documents.
 
 10. Related Policies
 
@@ -110,7 +110,7 @@ Cookie & Tracking Disclosure
 
 11. Contact Us
 
-Better Than Your Husband Services LLC
+${businessInfo.legalName}
 Phone: ${businessInfo.phone}
 Email: ${businessInfo.contact.email}
 
