@@ -199,7 +199,7 @@ function HomePage() {
         <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-20 pt-40 sm:px-8 lg:px-12 lg:pb-28">
            <div className="stationery-corner max-w-3xl pt-8 pl-5 animate-rise-in sm:pl-8">
             <SectionLabel light>Kansas City metropolitan area · Missouri + Kansas</SectionLabel>
-              <h1 className="hero-wordmark mt-7 max-w-4xl font-display text-5xl uppercase leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]"><span className="hero-wordmark__line">Better</span>{' '}<span className="hero-wordmark__line hero-wordmark__than"><span className="text-[#c2a76d]">Than</span> Your</span>{' '}<span className="hero-wordmark__line hero-wordmark__husband">Husband</span>{' '}<span className="hero-wordmark__sub"><span className="hero-wordmark__rule" aria-hidden="true" />Handyman Services LLC</span></h1>
+              <h1 className="hero-wordmark mt-7 max-w-4xl font-display text-5xl uppercase leading-[.98] tracking-[-.035em] text-[#eeeae0] sm:text-7xl lg:text-[7.5rem]"><span className="hero-wordmark__line">Better</span>{' '}<span className="hero-wordmark__line">Than Your</span>{' '}<span className="hero-wordmark__line">Husband</span>{' '}<span className="hero-wordmark__sub"><span className="hero-wordmark__rule" aria-hidden="true" />Handyman Services LLC</span></h1>
              <p className="mt-7 max-w-md font-serif text-2xl leading-snug text-[#e1dfd8] sm:text-3xl">Small Jobs. Real Relief.</p>
               <p className="mt-5 max-w-lg text-base leading-7 text-[#c7cac9]">Handyman services in Kansas City for home repairs and property maintenance.</p>
           </div>
