@@ -18,6 +18,12 @@ same-origin script, stylesheet, and module preload referenced by the homepage.
 Asset names are discovered on each run, not pinned to build hashes. Third-party
 fonts and scripts are excluded. Both normal and no-cache requests are checked;
 no-cache requests send `Cache-Control: no-cache` and `Pragma: no-cache`.
+JavaScript and CSS also receive separate `Accept-Encoding: identity`, `gzip`,
+and `br` requests using raw HTTP bytes (not fetch's automatically decoded body).
+The checker rejects unrequested/unsupported encodings, corrupt or mislabeled
+compressed streams, HTML fallbacks, and decoded content or MIME types that differ
+from the normal asset response. Valid uncompressed responses are accepted when
+the server declines compression; compression itself is not mandatory.
 It requires HTTP 200, the proper Content-Type, nonempty content, and no HTML
 fallback or unexpected redirect. Failures list the request mode and URL and exit
 nonzero. Network requests have a 20-second timeout.
