@@ -199,6 +199,31 @@
   .stationery-arc::after { width: 62px; height: 62px; right: 4px; top: 4px; }
 }
 
+.hero-wordmark__line { display: block; white-space: nowrap; }
+.hero-wordmark__than {
+  padding-left: .32em;
+  font-style: italic;
+  transform: skewX(-8deg);
+  transform-origin: left bottom;
+}
+.hero-wordmark__husband { padding-left: .1em; }
+.hero-wordmark__sub {
+  display: flex; align-items: center; gap: .6em;
+  margin-top: .45em; padding-left: .3em;
+  font-size: .35em; letter-spacing: .02em; line-height: 1.1;
+}
+.hero-wordmark__rule {
+  flex: none; width: 1.6em; height: 1px;
+  background: linear-gradient(90deg, #c2a76d, rgb(194 167 109 / .25));
+  transform: skewX(-30deg);
+}
+@media (max-width: 400px) {
+  .hero-wordmark { font-size: 2.65rem; }
+  .hero-wordmark__than { padding-left: .22em; }
+  .hero-wordmark__sub { font-size: .4em; gap: .45em; padding-left: .1em; }
+  .hero-wordmark__rule { width: 1.1em; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-rise-in, .animate-fade-in { animation: none; }
 }
