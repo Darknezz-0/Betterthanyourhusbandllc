@@ -199,13 +199,23 @@
   .stationery-arc::after { width: 62px; height: 62px; right: 4px; top: 4px; }
 }
 
+.hero-wordmark { transform: skewX(-4deg); transform-origin: left bottom; padding-right: .12em; }
 .hero-wordmark__line {
   display: block;
   white-space: nowrap;
   font-style: normal;
-  text-shadow: 0 1px 0 rgb(194 167 109 / .35), 0 3px 2px rgb(0 0 0 / .4);
+  color: #f1ece1;
+  filter: drop-shadow(0 1px 0 rgb(194 167 109 / .45)) drop-shadow(0 6px 10px rgb(0 0 0 / .45));
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .hero-wordmark__line {
+    background: linear-gradient(176deg, #f6f2e9 0%, #ece5d6 52%, #d9c69b 78%, #b8975a 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 .hero-wordmark__sub {
+  transform: skewX(4deg); transform-origin: left bottom;
   display: flex; align-items: center; gap: .6em;
   margin-top: .45em;
   font-size: .35em; letter-spacing: .02em; line-height: 1.1;
