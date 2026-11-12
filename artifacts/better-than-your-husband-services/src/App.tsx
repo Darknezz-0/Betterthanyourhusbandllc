@@ -25,7 +25,7 @@ import { QuoteForm } from '@/pages/QuoteForm';
 import { CustomerReviews } from '@/components/CustomerReviews';
 import { BeforeAfterProjects } from '@/components/BeforeAfterProjects';
 import { WebsiteDisclaimer } from '@/pages/WebsiteDisclaimer';
-
+import { FaqChatWidget } from '@/components/FaqChatWidget';
 
 const serviceCategories = [
   { title: 'Home Repairs & Maintenance', text: 'The small-to-medium repairs that keep a home feeling cared for: doors, trim, drywall touch-ups, hardware, fixtures, and the list that keeps growing.', icon: Home },
@@ -174,7 +174,7 @@ function Footer() {
 }
 
 function Layout({ children }: { children: ReactNode }) {
-  return <div className="grain min-h-[100dvh] bg-background">{children}<Footer /></div>;
+  return <div className="grain min-h-[100dvh] bg-background">{children}<Footer /><FaqChatWidget /></div;
 }
 
 function ButtonArrow({ children, href = '/request-a-quote', secondary = false }: { children: ReactNode; href?: string; secondary?: boolean }) {
