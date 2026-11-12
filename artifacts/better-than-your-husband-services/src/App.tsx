@@ -174,7 +174,7 @@ function Footer() {
 }
 
 function Layout({ children }: { children: ReactNode }) {
-  return <div className="grain min-h-[100dvh] bg-background">{children}<Footer /><FaqChatWidget /></div;
+  return <div className="grain min-h-[100dvh] bg-background">{children}<Footer /><FaqChatWidget /></div>;
 }
 
 function ButtonArrow({ children, href = '/request-a-quote', secondary = false }: { children: ReactNode; href?: string; secondary?: boolean }) {
